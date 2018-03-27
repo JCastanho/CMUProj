@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">HopOnCMU</string>
+    <string-array name="tour_locations">
+        <item>Local1</item>
+        <item>Local2</item>
+        <item>Local3</item>
+        <item>Local4</item>
+        <item>Local5</item>
+        <item>Local6</item>
+        <item>Local7</item>
+        <item>Local8</item>
+        <item>Local9</item>
+        <item>Local10</item>
+        <item>Local11</item>
+        <item>Local12</item>
+        <item>Local13</item>
+        <item>Local14</item>
+        <item>Local15</item>
+        <item>Local16</item>
+        <item>Local17</item>
+    </string-array>
+</resources>
