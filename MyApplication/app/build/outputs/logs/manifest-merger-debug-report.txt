@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
 MERGED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\e145f185dc1297e60e08c6f11e984f8d\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support.constraint:constraint-layout:1.0.2] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\constraint-layout-1.0.2.aar\0059d6655f77f0c628953099bc1c8a1d\AndroidManifest.xml:2:1-11:12
@@ -18,25 +18,25 @@ MERGED from [com.android.support:support-core-utils:26.1.0] C:\Users\X541U\.grad
 MERGED from [com.android.support:support-core-ui:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\support-core-ui-26.1.0.aar\8f303f58fd2b69afbec24778d9b7e7a6\AndroidManifest.xml:17:1-31:12
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\e54847e8cc19c4dfc5fb4d66095d965b\AndroidManifest.xml:17:1-31:12
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\c8e8f5803ab7b392f0b716f33f5f00de\AndroidManifest.xml:17:1-30:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
 	package
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:3:5-46
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:3:5-46
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 	android:versionName
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 	android:versionCode
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:1-29:12
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 	xmlns:android
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:2:11-69
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:5:5-27:19
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:5:5-27:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:25:5-29:19
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\e145f185dc1297e60e08c6f11e984f8d\AndroidManifest.xml:25:5-29:19
@@ -66,45 +66,45 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\X541U\.gradle\c
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\c8e8f5803ab7b392f0b716f33f5f00de\AndroidManifest.xml:24:5-28:19
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\c8e8f5803ab7b392f0b716f33f5f00de\AndroidManifest.xml:24:5-28:19
 	android:supportsRtl
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:10:9-35
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:10:9-35
 	android:label
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:8:9-33
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:8:9-33
 	android:roundIcon
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:9:9-54
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:9:9-54
 	android:icon
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:7:9-43
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:7:9-43
 	android:allowBackup
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:6:9-35
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:6:9-35
 	android:theme
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:11:9-40
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:11:9-40
 activity#com.example.x541u.myapplication.ListNotesActivity
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:12:9-21:20
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:12:9-21:20
 	android:label
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:14:13-39
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:14:13-39
 	android:theme
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:15:13-56
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:15:13-56
 	android:name
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:13:13-46
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:13:13-46
 intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:16:13-20:29
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:16:13-20:29
 action#android.intent.action.MAIN
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:17-69
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:17:17-69
 	android:name
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:17:25-66
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:17:25-66
 category#android.intent.category.LAUNCHER
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:19:17-77
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:19:17-77
 	android:name
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:19:27-74
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:19:27-74
 activity#com.example.x541u.myapplication.CreateNoteActivity
-ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:22:9-25:20
+ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:22:9-25:20
 	android:label
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:24:13-40
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:24:13-40
 	android:name
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml:23:13-47
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml:23:13-47
 uses-sdk
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 MERGED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:21:5-23:62
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\e145f185dc1297e60e08c6f11e984f8d\AndroidManifest.xml:21:5-23:78
@@ -133,18 +133,18 @@ MERGED from [com.android.support:support-compat:26.1.0] C:\Users\X541U\.gradle\c
 MERGED from [com.android.support:support-compat:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\support-compat-26.1.0.aar\e54847e8cc19c4dfc5fb4d66095d965b\AndroidManifest.xml:21:5-23:58
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\c8e8f5803ab7b392f0b716f33f5f00de\AndroidManifest.xml:20:5-22:41
 MERGED from [android.arch.lifecycle:runtime:1.0.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\runtime-1.0.0.aar\c8e8f5803ab7b392f0b716f33f5f00de\AndroidManifest.xml:20:5-22:41
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 	tools:overrideLibrary
 		ADDED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:23:9-59
 	android:targetSdkVersion
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		ADDED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
-		INJECTED from C:\Users\X541U\AndroidStudioProjects\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		ADDED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
+		INJECTED from C:\Users\X541U\Downloads\CMUProj\MyApplication\app\src\main\AndroidManifest.xml
 meta-data#android.support.VERSION
 ADDED from [com.android.support:design:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\design-26.1.0.aar\07aa4199f7533f35b7ec5944d2324f3c\AndroidManifest.xml:26:9-28:38
 MERGED from [com.android.support:appcompat-v7:26.1.0] C:\Users\X541U\.gradle\caches\transforms-1\files-1.1\appcompat-v7-26.1.0.aar\e145f185dc1297e60e08c6f11e984f8d\AndroidManifest.xml:26:9-28:38

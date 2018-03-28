@@ -15,7 +15,6 @@
         android:label="My Notes"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.example.x541u.myapplication.ListNotesActivity"
