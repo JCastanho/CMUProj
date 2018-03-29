@@ -287,7 +287,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void signIn(View view) {
-        //start sign in activity here!!!!!
+        Intent intent = new Intent(LoginActivity.this, signupActivity.class);
+        startActivity(intent);
     }
 
     /**
