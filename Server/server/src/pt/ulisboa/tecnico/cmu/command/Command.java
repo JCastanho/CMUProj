@@ -5,5 +5,5 @@ import java.io.Serializable;
 import pt.ulisboa.tecnico.cmu.response.Response;
 
 public interface Command extends Serializable {
-	Response handle(CommandHandler ch);
+    Response handle(CommandHandler ch);
 }
