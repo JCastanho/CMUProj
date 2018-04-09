@@ -5,7 +5,9 @@
  */
 package pt.ulisboa.tecnico.cmu.authentication;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -14,31 +16,34 @@ import java.util.Map;
  */
 public class Session {
     
-    private Map<String,String> users;
-    User u;
+    private List<User> users;
+    private Map<String, String> login;
     
     public Session(){
-        users=new HashMap<>();
-        u = new User();
+        users=new ArrayList<>();
+        login=new HashMap<>();
+        User nu = new User("olaola", "", "", "", 23);
+        login.put(nu.getUsername(),nu.getPassword());
     }
 
-    public Map<String, String> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Map<String, String> users) {
-        this.users = users;
-    }
-    
-    public Boolean createUser(){
-    }
-    
-    public Boolean verifyUser(String user, String pass){
-        if(users.containsKey(user)){
-            if(users.get(user).equals(pass)){
-                return true;
+    public Boolean createUser(String username, String password, String name, String country, int age){
+        for(User u: users){
+            if(u.getUsername().equals(username)){
+                return false;
             }
         }
+        User nu = new User(username, password, name, country, age);
+        login.put(username,password);
+        return users.add(nu);
+    }
+    
+    public Boolean verifyUser(String username, String password){
+        if(login.containsKey(username)){
+            System.out.println("entrei verifyUser");
+            //if(login.get(username).equals(password)){
+            return true;
+        }
+            //return false;
         return false;
     }
 }

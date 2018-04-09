@@ -3,16 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/authentication/User.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/command/ResponseCommand.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/server/CommandHandlerImpl.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/response/Response.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/authentication/Login.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/command/Command.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/authentication/Session.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/server/Server.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/pt/ulisboa/tecnico/cmu/response/CommandResponse.java</file>
-            <file>file:/C:/Users/josea/Documents/NetBeansProjects/server/src/quiz/Quiz.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmu/authentication/User.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmu/authentication/Session.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmu/response/CommandResponse.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmu/server/Server.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmu/server/CommandHandlerImpl.java</file>
         </group>
     </open-files>
 </project-private>

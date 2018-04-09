@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import pt.ulisboa.tecnico.cmu.dummyclient.asynctask.DummyTask;
+import pt.ulisboa.tecnico.cmu.dummyclient.asynctask.VerifyUserTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.editText);
-                new DummyTask(MainActivity.this).execute(et.getText().toString());
+                new VerifyUserTask(MainActivity.this).execute(et.getText().toString());
             }
         });
     }
