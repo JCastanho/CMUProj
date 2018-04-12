@@ -23,7 +23,7 @@ public class VerifyUserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String[] params) {
         Socket server = null;
         boolean reply = false;
-        ResponseCommand hc = new ResponseCommand(0, params[1]);
+        ResponseCommand hc = new ResponseCommand(0, params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
