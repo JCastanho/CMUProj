@@ -11,11 +11,11 @@ import pt.ulisboa.tecnico.cmu.command.ResponseCommand;
 import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
 import pt.ulisboa.tecnico.cmu.response.CommandResponse;
 
-public class DummyTask extends AsyncTask<String, Void, String> {
+public class GetQuizzTask extends AsyncTask<String, Void, String> {
 
     private MainActivity mainActivity;
 
-    public DummyTask(MainActivity mainActivity) {
+    public GetQuizzTask(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
@@ -23,7 +23,7 @@ public class DummyTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         Socket server = null;
         String reply = null;
-        ResponseCommand hc = new ResponseCommand(9999,params[0]);
+        ResponseCommand hc = new ResponseCommand(2,params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 

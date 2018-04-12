@@ -4,21 +4,21 @@ public class CommandResponse implements Response {
 
 	private static final long serialVersionUID = 734457624276534179L;
 	private String message;
-	private boolean login;
+	private boolean loginOrCreate;
 	
 	public CommandResponse(String message) {
 		this.message = message;
 	}
 
-	public CommandResponse(boolean login) {
-		this.login=login;
+	public CommandResponse(boolean loginOrCreate) {
+		this.loginOrCreate = loginOrCreate;
 	}
 	
 	public String getMessage() {
 		return this.message;
 	}
 
-	public boolean getLogin() {
-	    return login;
+	public boolean getLoginOrCreate() {
+	    return loginOrCreate;
     }
 }

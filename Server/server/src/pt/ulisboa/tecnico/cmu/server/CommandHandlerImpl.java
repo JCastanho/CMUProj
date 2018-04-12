@@ -12,14 +12,20 @@ public class CommandHandlerImpl implements CommandHandler {
     
     @Override
     public Response handle(ResponseCommand hc) {
-        String[] resp = hc.getMessage().split("/");
+        int id = hc.getId();
+        CommandResponse resp=null;
         
-        if(resp[0].equals("login")){
-            return new CommandResponse(s.verifyUser(resp[1], ""));
+        switch(id){
+            case 0:
+                resp = new CommandResponse(s.verifyUser(hc.getUsername(), ""));
+                break;
+            case 1:
+                resp = new CommandResponse(s.createUser(hc.getUsername(), hc.getCode()));
+                break;
+            case 2:
+                resp = new CommandResponse(s.getQuizz(hc.getMonument()));
         }
-        else if(resp[0].equals("signin")){
-            return new CommandResponse(s.createUser(resp[1], resp[2], resp[3], resp[4], Integer.parseInt(resp[5])));
-        }
-        return new CommandResponse("nothing");
+        
+        return new CommandResponse(hc.getMessage());
     }
 }

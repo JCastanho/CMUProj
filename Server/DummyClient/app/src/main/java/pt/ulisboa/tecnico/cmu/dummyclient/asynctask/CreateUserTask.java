@@ -11,19 +11,19 @@ import pt.ulisboa.tecnico.cmu.command.ResponseCommand;
 import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
 import pt.ulisboa.tecnico.cmu.response.CommandResponse;
 
-public class DummyTask extends AsyncTask<String, Void, String> {
+public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
 
     private MainActivity mainActivity;
 
-    public DummyTask(MainActivity mainActivity) {
+    public CreateUserTask(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected Boolean doInBackground(String[] params) {
         Socket server = null;
-        String reply = null;
-        ResponseCommand hc = new ResponseCommand(9999,params[0]);
+        boolean reply = false;
+        ResponseCommand hc = new ResponseCommand(1,params[0], params[1]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -32,7 +32,7 @@ public class DummyTask extends AsyncTask<String, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             CommandResponse hr = (CommandResponse) ois.readObject();
-            reply = hr.getMessage();
+            reply = hr.getLoginOrCreate();
 
             oos.close();
             ois.close();
@@ -51,9 +51,9 @@ public class DummyTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String o) {
+    protected void onPostExecute(Boolean o) {
         if (o != null) {
-            mainActivity.updateInterface(o);
+            mainActivity.updateInterface("" + o);
         }
     }
 }

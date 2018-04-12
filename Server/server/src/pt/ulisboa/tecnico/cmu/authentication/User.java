@@ -15,65 +15,26 @@ import java.util.Map;
 public class User {
     
     private String username;
-    private String password;
-    private String name;
-    private int score;
-    private String country;
-    private int age;
+    private String code;
     
-    public User(String username, String password, String name, String country, int age){
+    public User(String username, String code){
         this.username=username;
-        this.password=password;
-        this.name = name;
-        this.country=country;
-        this.age=age;
+        this.code=code;
     }
     
     public String getUsername() {
-        return username;
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
+    public String getCode(){
+        return this.code;
     }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getScore() {
-        return score;
-    }
-
-    public void setScore(int score) {
-        this.score = score;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-
-    public void setCountry(String country) {
-        this.country = country;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
+    
+    public void setCode(String code){
+        this.code=code;
     }
 }

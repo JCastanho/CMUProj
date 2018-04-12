@@ -5,10 +5,20 @@ import pt.ulisboa.tecnico.cmu.response.Response;
 public class ResponseCommand implements Command {
 	
 	private static final long serialVersionUID = -8807331723807741905L;
+	private int id;
 	private String message;
+	private String username;
+	private String code;
 
-	public ResponseCommand(String message) {
+	public ResponseCommand(int id, String message) {
+		this.id=id;
 		this.message = message;
+	}
+
+	public ResponseCommand(int id, String username, String code){
+		this.id=id;
+		this.username=username;
+		this.code=code;
 	}
 	
 	@Override

@@ -23,7 +23,7 @@ public class VerifyUserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String[] params) {
         Socket server = null;
         boolean reply = false;
-        ResponseCommand hc = new ResponseCommand("login/" + params[0]);
+        ResponseCommand hc = new ResponseCommand(0, params[1]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -32,7 +32,7 @@ public class VerifyUserTask extends AsyncTask<String, Void, Boolean> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             CommandResponse hr = (CommandResponse) ois.readObject();
-            reply = hr.getLogin();
+            reply = hr.getLoginOrCreate();
 
             oos.close();
             ois.close();
