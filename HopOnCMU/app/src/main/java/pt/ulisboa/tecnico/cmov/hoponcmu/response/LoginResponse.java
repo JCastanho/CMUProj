@@ -3,22 +3,13 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 public class LoginResponse implements Response {
 
 	private static final long serialVersionUID = 734457624276534179L;
-	private String message;
-	private boolean loginOrCreate;
-	
-	public LoginResponse(String message) {
-		this.message = message;
+	private int id;
+
+	public LoginResponse(int id){
+		this.id = id;
 	}
 
-	public LoginResponse(boolean loginOrCreate) {
-		this.loginOrCreate = loginOrCreate;
+	public int getID() {
+		return this.id;
 	}
-	
-	public String getMessage() {
-		return this.message;
-	}
-
-	public boolean getLoginOrCreate() {
-	    return loginOrCreate;
-    }
 }

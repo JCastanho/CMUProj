@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmu.response;
+package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 import java.io.Serializable;
 

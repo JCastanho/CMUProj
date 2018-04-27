@@ -9,23 +9,22 @@ import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class LoginTask extends AsyncTask<String, Void, Boolean> {
+public class LoginTask extends AsyncTask<String, Void, Integer> {
 
     private LoginActivity activity;
 
     public LoginTask(LoginActivity activity) {
-
         this.activity = activity;
     }
 
     @Override
-    protected Boolean doInBackground(String[] params) {
+    protected Integer doInBackground(String[] params) {
         Socket server = null;
-        boolean reply = false;
-        LoginCommand command = new LoginCommand(0, params[0], params[1]);
+        int reply = -1;
+        LoginCommand command = new LoginCommand(params[0], params[1]);
+
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -34,14 +33,14 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             LoginResponse response = (LoginResponse) ois.readObject();
-            reply = response.getLoginOrCreate();
+            reply = response.getID();
 
             oos.close();
             ois.close();
             Log.d("DummyClient", "Hi there!!");
         }
         catch (Exception e) {
-            Log.d("DummyClient", "DummyTask failed..." + e.getMessage());
+            Log.d("DummyClient", "LoginTask failed..." + e.getMessage());
             e.printStackTrace();
         } finally {
             if (server != null) {
@@ -53,9 +52,7 @@ public class LoginTask extends AsyncTask<String, Void, Boolean> {
     }
 
     @Override
-    protected void onPostExecute(Boolean o) {
-        if (o != null) {
-            //mainActivity.updateInterface("" + o);
-        }
+    protected void onPostExecute(Integer id) {
+        activity.updateInterface(id);
     }
 }

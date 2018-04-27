@@ -23,7 +23,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         Socket server = null;
         String reply = null;
-        LoginCommand hc = new LoginCommand(2,params[0]);
+        /*LoginCommand hc = new LoginCommand(2,params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -39,14 +39,14 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
             Log.d("DummyClient", "Hi there!!");
         }
         catch (Exception e) {
-            Log.d("DummyClient", "DummyTask failed..." + e.getMessage());
+            Log.d("DummyClient", "GetQuizzTask failed..." + e.getMessage());
             e.printStackTrace();
         } finally {
             if (server != null) {
                 try { server.close(); }
                 catch (Exception e) { }
             }
-        }
+        }*/
         return reply;
     }
 
