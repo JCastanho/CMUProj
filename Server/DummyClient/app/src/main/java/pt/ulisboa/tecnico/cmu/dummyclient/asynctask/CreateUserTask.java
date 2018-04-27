@@ -7,9 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmu.command.ResponseCommand;
+import pt.ulisboa.tecnico.cmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
-import pt.ulisboa.tecnico.cmu.response.CommandResponse;
+import pt.ulisboa.tecnico.cmu.response.LoginResponse;
 
 public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
 
@@ -23,7 +23,7 @@ public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String[] params) {
         Socket server = null;
         boolean reply = false;
-        ResponseCommand hc = new ResponseCommand(1,params[0], params[1]);
+        LoginCommand hc = new LoginCommand(1,params[0], params[1]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -31,7 +31,7 @@ public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
             oos.writeObject(hc);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            CommandResponse hr = (CommandResponse) ois.readObject();
+            LoginResponse hr = (LoginResponse) ois.readObject();
             reply = hr.getLoginOrCreate();
 
             oos.close();

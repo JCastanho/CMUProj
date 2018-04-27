@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmu.dummyclient.asynctask;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,32 +7,34 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmu.command.ResponseCommand;
-import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
-import pt.ulisboa.tecnico.cmu.response.CommandResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class VerifyUserTask extends AsyncTask<String, Void, Boolean> {
+public class LoginTask extends AsyncTask<String, Void, Boolean> {
 
-    private MainActivity mainActivity;
+    private LoginActivity activity;
 
-    public VerifyUserTask(MainActivity mainActivity) {
-        this.mainActivity = mainActivity;
+    public LoginTask(LoginActivity activity) {
+
+        this.activity = activity;
     }
 
     @Override
     protected Boolean doInBackground(String[] params) {
         Socket server = null;
         boolean reply = false;
-        ResponseCommand hc = new ResponseCommand(0, params[0]);
+        LoginCommand command = new LoginCommand(0, params[0], params[1]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
-            oos.writeObject(hc);
+            oos.writeObject(command);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            CommandResponse hr = (CommandResponse) ois.readObject();
-            reply = hr.getLoginOrCreate();
+            LoginResponse response = (LoginResponse) ois.readObject();
+            reply = response.getLoginOrCreate();
 
             oos.close();
             ois.close();
@@ -53,7 +55,7 @@ public class VerifyUserTask extends AsyncTask<String, Void, Boolean> {
     @Override
     protected void onPostExecute(Boolean o) {
         if (o != null) {
-            mainActivity.updateInterface("" + o);
+            //mainActivity.updateInterface("" + o);
         }
     }
 }

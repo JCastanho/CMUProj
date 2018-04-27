@@ -6,8 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import pt.ulisboa.tecnico.cmu.dummyclient.asynctask.DummyTask;
-import pt.ulisboa.tecnico.cmu.dummyclient.asynctask.VerifyUserTask;
+import pt.ulisboa.tecnico.cmu.dummyclient.asynctask.LoginTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText et = (EditText) findViewById(R.id.editText);
-                new VerifyUserTask(MainActivity.this).execute(et.getText().toString());
+                new LoginTask(MainActivity.this).execute(et.getText().toString());
             }
         });
     }

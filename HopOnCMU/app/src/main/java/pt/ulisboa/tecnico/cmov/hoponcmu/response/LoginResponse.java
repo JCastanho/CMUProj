@@ -1,16 +1,16 @@
-package pt.ulisboa.tecnico.cmu.response;
+package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
-public class CommandResponse implements Response {
+public class LoginResponse implements Response {
 
 	private static final long serialVersionUID = 734457624276534179L;
 	private String message;
 	private boolean loginOrCreate;
 	
-	public CommandResponse(String message) {
+	public LoginResponse(String message) {
 		this.message = message;
 	}
 
-	public CommandResponse(boolean loginOrCreate) {
+	public LoginResponse(boolean loginOrCreate) {
 		this.loginOrCreate = loginOrCreate;
 	}
 	

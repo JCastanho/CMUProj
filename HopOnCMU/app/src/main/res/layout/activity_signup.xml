@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".signupActivity">
+    tools:context=".client.signupActivity">
 
 
     <ScrollView
@@ -44,11 +44,11 @@
                     android:id="@+id/txt_code"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Code"
+                    android:hint="Authentication Code"
+                    android:inputType="textPassword"
                     tools:layout_editor_absoluteX="16dp"
                     tools:layout_editor_absoluteY="87dp" />
             </android.support.design.widget.TextInputLayout>
-
 
             <Button
                 android:id="@+id/btn_signup"

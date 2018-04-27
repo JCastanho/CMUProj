@@ -2,7 +2,7 @@ package pt.ulisboa.tecnico.cmu.command;
 
 import pt.ulisboa.tecnico.cmu.response.Response;
 
-public class ResponseCommand implements Command {
+public class LoginCommand implements Command {
 	
 	private static final long serialVersionUID = -8807331723807741905L;
 	private int id;
@@ -10,12 +10,12 @@ public class ResponseCommand implements Command {
 	private String username;
 	private String code;
 
-	public ResponseCommand(int id, String message) {
+	public LoginCommand(int id, String message) {
 		this.id=id;
 		this.message = message;
 	}
 
-	public ResponseCommand(int id, String username, String code){
+	public LoginCommand(int id, String username, String code){
 		this.id=id;
 		this.username=username;
 		this.code=code;

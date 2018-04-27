@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class QuizActivity extends AppCompatActivity {
 

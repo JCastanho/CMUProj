@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmu.response;
+package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 public interface ResponseHandler {
 	public void handle(LoginResponse hr);

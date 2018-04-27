@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +9,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class MainActivity extends AppCompatActivity {
 

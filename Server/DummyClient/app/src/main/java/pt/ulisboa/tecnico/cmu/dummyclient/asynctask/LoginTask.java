@@ -11,28 +11,28 @@ import pt.ulisboa.tecnico.cmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
 import pt.ulisboa.tecnico.cmu.response.LoginResponse;
 
-public class GetQuizzTask extends AsyncTask<String, Void, String> {
+public class LoginTask extends AsyncTask<String, Void, Boolean> {
 
     private MainActivity mainActivity;
 
-    public GetQuizzTask(MainActivity mainActivity) {
+    public LoginTask(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected Boolean doInBackground(String[] params) {
         Socket server = null;
-        String reply = null;
-        LoginCommand hc = new LoginCommand(2,params[0]);
+        boolean reply = false;
+        LoginCommand command = new LoginCommand(0, params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
-            oos.writeObject(hc);
+            oos.writeObject(command);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            LoginResponse hr = (LoginResponse) ois.readObject();
-            reply = hr.getMessage();
+            LoginResponse response = (LoginResponse) ois.readObject();
+            reply = response.getLoginOrCreate();
 
             oos.close();
             ois.close();
@@ -51,9 +51,9 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String o) {
+    protected void onPostExecute(Boolean o) {
         if (o != null) {
-            mainActivity.updateInterface(o);
+            mainActivity.updateInterface("" + o);
         }
     }
 }

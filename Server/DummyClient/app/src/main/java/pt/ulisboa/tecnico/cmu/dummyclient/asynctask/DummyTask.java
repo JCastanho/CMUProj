@@ -7,9 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmu.command.ResponseCommand;
+import pt.ulisboa.tecnico.cmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
-import pt.ulisboa.tecnico.cmu.response.CommandResponse;
+import pt.ulisboa.tecnico.cmu.response.LoginResponse;
 
 public class DummyTask extends AsyncTask<String, Void, String> {
 
@@ -23,7 +23,7 @@ public class DummyTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         Socket server = null;
         String reply = null;
-        ResponseCommand hc = new ResponseCommand(9999,params[0]);
+        LoginCommand hc = new LoginCommand(9999,params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -31,7 +31,7 @@ public class DummyTask extends AsyncTask<String, Void, String> {
             oos.writeObject(hc);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            CommandResponse hr = (CommandResponse) ois.readObject();
+            LoginResponse hr = (LoginResponse) ois.readObject();
             reply = hr.getMessage();
 
             oos.close();

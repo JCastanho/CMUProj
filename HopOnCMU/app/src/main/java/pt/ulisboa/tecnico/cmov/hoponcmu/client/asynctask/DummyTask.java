@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmu.dummyclient.asynctask;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,15 +7,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
-import pt.ulisboa.tecnico.cmu.response.LoginResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class GetQuizzTask extends AsyncTask<String, Void, String> {
+public class DummyTask extends AsyncTask<String, Void, String> {
 
     private MainActivity mainActivity;
 
-    public GetQuizzTask(MainActivity mainActivity) {
+    public DummyTask(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
@@ -23,7 +23,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     protected String doInBackground(String[] params) {
         Socket server = null;
         String reply = null;
-        LoginCommand hc = new LoginCommand(2,params[0]);
+        LoginCommand hc = new LoginCommand(9999,params[0]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -53,7 +53,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String o) {
         if (o != null) {
-            mainActivity.updateInterface(o);
+           // mainActivity.updateInterface(o);
         }
     }
 }

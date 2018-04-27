@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmu.dummyclient.asynctask;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -7,23 +7,23 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmu.dummyclient.MainActivity;
-import pt.ulisboa.tecnico.cmu.response.LoginResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class GetQuizzTask extends AsyncTask<String, Void, String> {
+public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
 
     private MainActivity mainActivity;
 
-    public GetQuizzTask(MainActivity mainActivity) {
+    public CreateUserTask(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected Boolean doInBackground(String[] params) {
         Socket server = null;
-        String reply = null;
-        LoginCommand hc = new LoginCommand(2,params[0]);
+        boolean reply = false;
+        LoginCommand hc = new LoginCommand(1,params[0], params[1]);
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -32,7 +32,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             LoginResponse hr = (LoginResponse) ois.readObject();
-            reply = hr.getMessage();
+            reply = hr.getLoginOrCreate();
 
             oos.close();
             ois.close();
@@ -51,9 +51,9 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String o) {
+    protected void onPostExecute(Boolean o) {
         if (o != null) {
-            mainActivity.updateInterface(o);
+           // mainActivity.updateInterface("" + o);
         }
     }
 }
