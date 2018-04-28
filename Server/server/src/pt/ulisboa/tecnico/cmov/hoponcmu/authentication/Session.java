@@ -35,6 +35,7 @@ public class Session {
                 return false;
             }
         }
+
         User nu = new User(username, code);
 
         return users.add(nu);

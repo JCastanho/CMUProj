@@ -2,9 +2,9 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
-public class CreateUserCommand /*implements Command*/ {
+public class CreateUserCommand implements Command {
 
-	/*private static final long serialVersionUID = -8807331723807741905L;
+	private static final long serialVersionUID = -8807331723807741905L;
 	private String username;
 	private String code;
 
@@ -22,5 +22,5 @@ public class CreateUserCommand /*implements Command*/ {
 		return this.username;
 	}
 
-	public String getCode() { return this.code;	}*/
+	public String getCode() { return this.code;	}
 }

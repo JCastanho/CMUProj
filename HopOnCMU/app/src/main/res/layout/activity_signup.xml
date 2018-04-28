@@ -56,8 +56,7 @@
                 android:layout_height="wrap_content"
                 android:text="Sign up"
                 tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="131dp"
-                android:onClick="onSignup"/>
+                tools:layout_editor_absoluteY="131dp"/>
         </LinearLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>

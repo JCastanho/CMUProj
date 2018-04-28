@@ -7,40 +7,40 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.signupActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
 
-public class LoginTask extends AsyncTask<String, Void, Integer> {
+public class SignupTask extends AsyncTask<String, Void, Boolean> {
 
-    private LoginActivity activity;
+    private signupActivity activity;
 
-    public LoginTask(LoginActivity activity) {
+    public SignupTask(signupActivity activity) {
         this.activity = activity;
     }
 
     @Override
-    protected Integer doInBackground(String[] params) {
+    protected Boolean doInBackground(String[] params) {
         Socket server = null;
-        int reply = -1;
-        LoginCommand cmd = new LoginCommand(params[0], params[1]);
+        Boolean reply = false;
+        CreateUserCommand cmd = new CreateUserCommand(params[0],params[1]);
 
-        try {
+        try {b
             server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            LoginResponse response = (LoginResponse) ois.readObject();
-            reply = response.getID();
+            SignupResponse sr = (SignupResponse) ois.readObject();
+            reply = sr.getAuthorization();
 
             oos.close();
             ois.close();
             Log.d("Client", "Hi there!!");
         }
         catch (Exception e) {
-            Log.d("Client", "Login Task failed..." + e.getMessage());
+            Log.d("Client", "Signup Task failed..." + e.getMessage());
             e.printStackTrace();
         } finally {
             if (server != null) {
@@ -52,7 +52,5 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer o) {
-        activity.updateInterface(o);
-    }
+    protected void onPostExecute(Boolean o) { activity.updateInterface(o); }
 }

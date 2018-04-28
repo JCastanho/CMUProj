@@ -114,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     public void updateInterface(Integer id){
+        authTask = null;
         showProgress(false);
 
         if(id != -1){
@@ -211,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+            // attempt authentication against a network service.
 
             try {
                 // Simulate network access.
@@ -223,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
             // Account exists, return true if the password matches.
 
-            // TODO: register the new account here.
+            //  register the new account here.
             return true;
         }
 
