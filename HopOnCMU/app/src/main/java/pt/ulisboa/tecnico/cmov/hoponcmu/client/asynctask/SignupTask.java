@@ -25,7 +25,7 @@ public class SignupTask extends AsyncTask<String, Void, Boolean> {
         Boolean reply = false;
         CreateUserCommand cmd = new CreateUserCommand(params[0],params[1]);
 
-        try {b
+        try {
             server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
