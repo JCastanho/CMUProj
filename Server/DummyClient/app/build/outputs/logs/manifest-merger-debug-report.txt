@@ -1,0 +1,114 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+MERGED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.1.1.aar/14aeb31da2d950bc71185c94ef812d09/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.1.1.aar/b38e210afbcf9ce14f2164d96f8d509c/AndroidManifest.xml:17:1-25:12
+MERGED from [com.android.support:support-v4:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-v4-25.1.1.aar/0f1a4aac57e44bdbf8d538ffd76544af/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-fragment:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-fragment-25.1.1.aar/f7951dbf3e943c1a91f925a4f6ed62cc/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-media-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.1.1.aar/fd7f84a7ab95d006b143b0ae14ea6644/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-utils:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.1.1.aar/91f95e5a52eed7b456d1a9dfbeddf0a6/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-core-ui:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.1.1.aar/d4609cb9988cd048b0de65ea9842e94e/AndroidManifest.xml:17:1-27:12
+MERGED from [com.android.support:support-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-compat-25.1.1.aar/a39050f5068c729e4b0ed603da414f74/AndroidManifest.xml:17:1-27:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+	package
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:3:5-49
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:1-16:12
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:2:11-69
+application
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:5:5-14:19
+MERGED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.1.1.aar/14aeb31da2d950bc71185c94ef812d09/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.1.1.aar/14aeb31da2d950bc71185c94ef812d09/AndroidManifest.xml:22:5-20
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.1.1.aar/b38e210afbcf9ce14f2164d96f8d509c/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.1.1.aar/b38e210afbcf9ce14f2164d96f8d509c/AndroidManifest.xml:23:5-20
+MERGED from [com.android.support:support-v4:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-v4-25.1.1.aar/0f1a4aac57e44bdbf8d538ffd76544af/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-v4:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-v4-25.1.1.aar/0f1a4aac57e44bdbf8d538ffd76544af/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-fragment-25.1.1.aar/f7951dbf3e943c1a91f925a4f6ed62cc/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-fragment:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-fragment-25.1.1.aar/f7951dbf3e943c1a91f925a4f6ed62cc/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.1.1.aar/fd7f84a7ab95d006b143b0ae14ea6644/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-media-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.1.1.aar/fd7f84a7ab95d006b143b0ae14ea6644/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.1.1.aar/91f95e5a52eed7b456d1a9dfbeddf0a6/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-utils:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.1.1.aar/91f95e5a52eed7b456d1a9dfbeddf0a6/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.1.1.aar/d4609cb9988cd048b0de65ea9842e94e/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-core-ui:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.1.1.aar/d4609cb9988cd048b0de65ea9842e94e/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-compat-25.1.1.aar/a39050f5068c729e4b0ed603da414f74/AndroidManifest.xml:25:5-20
+MERGED from [com.android.support:support-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-compat-25.1.1.aar/a39050f5068c729e4b0ed603da414f74/AndroidManifest.xml:25:5-20
+	android:supportsRtl
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:6:42-68
+	android:label
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:6:9-41
+	android:icon
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:5:45-79
+	android:allowBackup
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:5:18-44
+	android:theme
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:6:69-100
+activity#pt.ulisboa.tecnico.cmu.dummyclient.MainActivity
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:7:9-13:20
+	android:name
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:7:19-47
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:8:13-12:29
+action#android.intent.action.MAIN
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:9:17-69
+	android:name
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:9:25-66
+category#android.intent.category.LAUNCHER
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:11:17-77
+	android:name
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:11:27-74
+uses-permission#android.permission.INTERNET
+ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:15:5-67
+	android:name
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml:15:22-64
+uses-sdk
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:21:5-23:78
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.1.1.aar/14aeb31da2d950bc71185c94ef812d09/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-25.1.1.aar/14aeb31da2d950bc71185c94ef812d09/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.1.1.aar/b38e210afbcf9ce14f2164d96f8d509c/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-vector-drawable:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-25.1.1.aar/b38e210afbcf9ce14f2164d96f8d509c/AndroidManifest.xml:21:5-43
+MERGED from [com.android.support:support-v4:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-v4-25.1.1.aar/0f1a4aac57e44bdbf8d538ffd76544af/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-v4-25.1.1.aar/0f1a4aac57e44bdbf8d538ffd76544af/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-fragment:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-fragment-25.1.1.aar/f7951dbf3e943c1a91f925a4f6ed62cc/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-fragment:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-fragment-25.1.1.aar/f7951dbf3e943c1a91f925a4f6ed62cc/AndroidManifest.xml:21:5-23:60
+MERGED from [com.android.support:support-media-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.1.1.aar/fd7f84a7ab95d006b143b0ae14ea6644/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-media-compat-25.1.1.aar/fd7f84a7ab95d006b143b0ae14ea6644/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-core-utils:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.1.1.aar/91f95e5a52eed7b456d1a9dfbeddf0a6/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-utils:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-utils-25.1.1.aar/91f95e5a52eed7b456d1a9dfbeddf0a6/AndroidManifest.xml:21:5-23:61
+MERGED from [com.android.support:support-core-ui:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.1.1.aar/d4609cb9988cd048b0de65ea9842e94e/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-core-ui:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-core-ui-25.1.1.aar/d4609cb9988cd048b0de65ea9842e94e/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-compat-25.1.1.aar/a39050f5068c729e4b0ed603da414f74/AndroidManifest.xml:21:5-23:58
+MERGED from [com.android.support:support-compat:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/support-compat-25.1.1.aar/a39050f5068c729e4b0ed603da414f74/AndroidManifest.xml:21:5-23:58
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:appcompat-v7:25.1.1] /home/josesa/.gradle/caches/transforms-1/files-1.1/appcompat-v7-25.1.1.aar/6b20eae04293e7617e7aba4f4caf1f47/AndroidManifest.xml:23:9-75
+	android:targetSdkVersion
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		ADDED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml
+		INJECTED from /home/josesa/Documents/IST/CMU/CMUProj/Server/DummyClient/app/src/main/AndroidManifest.xml

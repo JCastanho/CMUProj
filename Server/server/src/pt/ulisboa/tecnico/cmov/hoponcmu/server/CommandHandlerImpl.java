@@ -4,8 +4,10 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.authentication.Session;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CommandHandler;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
 
 public class CommandHandlerImpl implements CommandHandler {
@@ -33,5 +35,11 @@ public class CommandHandlerImpl implements CommandHandler {
         return new SignupResponse(rsp);
     }
 
+    @Override
+    public Response handle(SendLocationCommand cmd){
+        SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getV()));
+        
+        return rsp;
+    }
     //Adicionar aqui handle para outros comandos
 }
