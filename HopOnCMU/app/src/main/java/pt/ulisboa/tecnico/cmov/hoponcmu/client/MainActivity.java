@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ListTourLocal.class));
+                startActivity(new Intent(MainActivity.this, ListLocalsActivity.class));
             }
         });
     }

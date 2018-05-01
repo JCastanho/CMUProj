@@ -2,7 +2,7 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity"
@@ -10,17 +10,20 @@
 
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="398dp"
+        android:layout_width="fill_parent"
         android:layout_height="610dp"
         android:layout_marginEnd="5dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="5dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_editor_absoluteX="5dp"
-        app:layout_editor_absoluteY="5dp"
-        android:layout_marginRight="5dp">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!--app:layout_editor_absoluteX="5dp"-->
+        <!--app:layout_editor_absoluteY="5dp">-->
+
 
         <Button
             android:id="@+id/list_btn"

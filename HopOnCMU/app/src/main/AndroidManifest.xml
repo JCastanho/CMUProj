@@ -23,7 +23,7 @@
             android:name=".client.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".client.ListTourLocal" />
+        <activity android:name=".client.ListLocalsActivity" />
         <activity android:name=".client.signupActivity" />
         <activity android:name=".client.QuizActivity"></activity>
     </application>
