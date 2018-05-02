@@ -16,7 +16,7 @@ import android.widget.Toast;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 
-public class ListTourLocal extends AppCompatActivity {
+public class ListLocalsActivity extends AppCompatActivity {
 
     private GetQuizzTask task = null;
     private String title = "";
@@ -35,7 +35,7 @@ public class ListTourLocal extends AppCompatActivity {
 
                 String text = (String) listview.getItemAtPosition(position);
 
-                Toast.makeText(ListTourLocal.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
+                Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
 
                 //Intent intent = new Intent(ListTourLocal.this, QuizActivity.class);
 
@@ -43,7 +43,7 @@ public class ListTourLocal extends AppCompatActivity {
 
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.
-                task = new GetQuizzTask(ListTourLocal.this);
+                task = new GetQuizzTask(ListLocalsActivity.this);
                 task.execute(text);
 
                 //Bundle bundle = new Bundle();
@@ -60,8 +60,7 @@ public class ListTourLocal extends AppCompatActivity {
     public void updateInterface(String quizzes){
         Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
 
-
-        Intent intent = new Intent(ListTourLocal.this, QuizActivity.class);
+        Intent intent = new Intent(ListLocalsActivity.this, QuizActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("Title", this.title);

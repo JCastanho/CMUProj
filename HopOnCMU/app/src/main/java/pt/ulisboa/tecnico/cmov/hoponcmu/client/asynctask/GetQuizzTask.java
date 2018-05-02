@@ -7,7 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListTourLocal;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetQuizzesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
@@ -16,9 +16,9 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
 public class GetQuizzTask extends AsyncTask<String, Void, String> {
 
-    private ListTourLocal activity;
+    private ListLocalsActivity activity;
 
-    public GetQuizzTask(ListTourLocal activity) {
+    public GetQuizzTask(ListLocalsActivity activity) {
         this.activity = activity;
     }
 

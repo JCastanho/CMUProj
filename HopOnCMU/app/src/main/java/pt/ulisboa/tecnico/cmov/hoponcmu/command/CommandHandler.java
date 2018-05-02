@@ -8,4 +8,7 @@ public interface CommandHandler {
 	public Response handle(CreateUserCommand hc);
 
 	public Response handle(GetQuizzesCommand hc);
+
+	public Response handle(ListLocalsCommand hc);
+
 }
