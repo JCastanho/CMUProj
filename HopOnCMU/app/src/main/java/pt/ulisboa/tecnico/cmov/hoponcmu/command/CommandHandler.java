@@ -7,5 +7,5 @@ public interface CommandHandler {
 
 	public Response handle(CreateUserCommand hc);
 
-	public Response handle(ListLocalsCommand hc);
+	public Response handle(SendLocationCommand hc);
 }
