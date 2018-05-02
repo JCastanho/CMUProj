@@ -25,6 +25,9 @@ public class QuizActivity extends AppCompatActivity {
 
         view.setText(bundle.getString("Title"));
 
+        //Get Quizzes, see next line
+        //bundle.getString("Quizzes");
+
 
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);

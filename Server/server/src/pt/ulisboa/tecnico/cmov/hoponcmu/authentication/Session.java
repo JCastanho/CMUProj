@@ -59,6 +59,8 @@ public class Session {
     }
 
     public void populateQuizzes(){
+    	String[] Numbers = {"One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten"};
+    	
         String a = "[{\"quizz\":{\"1\":{\"pergunta\":\"pergunta1\",\"respostas\":"
                 + "{\"primeira\":\"resposta11\",\"segunda\":\"resposta12\",\"terceira\":\"resposta13\",\"quatro\":\"resposta14\"}},"
                 + "\"2\":{\"pergunta\":\"pergunta2\",\"respostas\":{\"primeira\":\"resposta21\",\"segunda\":\"resposta22\","
@@ -67,6 +69,9 @@ public class Session {
                 + "\"4\":{\"pergunta\":\"pergunta4\",\"respostas\":{\"primeira\":\"resposta41\",\"segunda\":\"resposta42\",\"terceira"
                 + "\":\"resposta43\",\"quatro\":\"resposta44\"}}}}]";
 
-        quizzes.put("Monument One", a);
+        
+        for(int i = 0; i < Numbers.length; i++) {
+        	quizzes.put("Monument " + Numbers[i], a);
+        }
     }
 }

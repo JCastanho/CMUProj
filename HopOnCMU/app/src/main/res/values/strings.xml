@@ -16,22 +16,22 @@
 
     <!-- Strings related to listing tour locations -->
     <string-array name="tour_locations">
-        <item>Local1</item>
-        <item>Local2</item>
-        <item>Local3</item>
-        <item>Local4</item>
-        <item>Local5</item>
-        <item>Local6</item>
-        <item>Local7</item>
-        <item>Local8</item>
-        <item>Local9</item>
-        <item>Local10</item>
-        <item>Local11</item>
-        <item>Local12</item>
-        <item>Local13</item>
-        <item>Local14</item>
-        <item>Local15</item>
-        <item>Local16</item>
-        <item>Local17</item>
+        <item>Monument One</item>
+        <item>Monument Two</item>
+        <item>Monument Three</item>
+        <item>Monument Four</item>
+        <item>Monument Five</item>
+        <item>Monument Six</item>
+        <item>Monument Seven</item>
+        <item>Monument Eight</item>
+        <item>Monument Nine</item>
+        <item>Monument Ten</item>
+        <item>Monument Eleven</item>
+        <item>Monument Twelve</item>
+        <item>Monument Thirteen</item>
+        <item>Monument Fourteen</item>
+        <item>Monument Fifteen</item>
+        <item>Monument Sixteen</item>
+        <item>Monument Eighteen</item>
     </string-array>
 </resources>
