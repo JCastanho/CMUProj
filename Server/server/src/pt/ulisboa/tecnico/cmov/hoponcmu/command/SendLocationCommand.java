@@ -6,17 +6,13 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
 public class SendLocationCommand implements Command{
     
+    private static final long serialVersionUID = -8807331723807741905L;
     private List<String> locations;
-    private final String location = "location";
-    private String v;
+    private final String locationVariable="location";
+    private String location;
     
-    public SendLocationCommand(String v){
-        locations = new ArrayList<>();
-        locations.add("Terreiro do Paço");
-        locations.add("Chiado");
-        locations.add("Castelo de São Jorge");
-        locations.add("Praça da Figueira");
-        this.v=v;
+    public SendLocationCommand(String location){
+        this.location=location;
     }
     
     @Override
@@ -24,14 +20,23 @@ public class SendLocationCommand implements Command{
         return chi.handle(this);
     }
     
-    public List<String> verifyString(String v){
-        if(v.equals(location)){
+    public List<String> verifyString(String location){
+        if(location.equals(locationVariable)){
+            populateList();
             return locations;
         }
         return null;
     }
     
-    public String getV(){
-        return v;
+    public void populateList(){
+        locations = new ArrayList<>();
+        locations.add("Terreiro do Paço");
+        locations.add("Chiado");
+        locations.add("Castelo de São Jorge");
+        locations.add("Praça da Figueira");
+    }
+    
+    public String getLocation(){
+        return location;
     }
 }

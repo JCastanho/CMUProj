@@ -37,8 +37,8 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(SendLocationCommand cmd){
-        SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getV()));
-        
+        SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
+        System.out.println(rsp.getLocations().get(0));
         return rsp;
     }
     //Adicionar aqui handle para outros comandos

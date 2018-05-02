@@ -6,12 +6,13 @@ import android.util.Log;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.ListLocalsCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetLocalsResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
 
-public class GetLocalsTask extends AsyncTask<String, Void, String> {
+public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
     private ListLocalsActivity activity;
 
@@ -20,21 +21,24 @@ public class GetLocalsTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected List<String> doInBackground(String[] params) {
         Socket server = null;
-        String reply = null;
-
-        ListLocalsCommand cmd = new ListLocalsCommand(params[0]);
+        List<String> reply = null;
+        SendLocationCommand cmd = new SendLocationCommand(params[0]);
 
         try {
             server = new Socket("10.0.2.2", 9090);
+
+            Log.d("COMMAND",cmd.getLocation());
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            GetLocalsResponse response = (GetLocalsResponse) ois.readObject();
-            reply = response.getLocation();
+            SendLocationResponse response = (SendLocationResponse) ois.readObject();
+            reply = response.getLocations();
+            Log.d("REPLY",reply.get(0));
+
 
             oos.close();
             ois.close();
@@ -43,13 +47,18 @@ public class GetLocalsTask extends AsyncTask<String, Void, String> {
         catch (Exception e) {
             Log.d("Client", "Get Locals Task failed..." + e.getMessage());
             e.printStackTrace();
+        } finally {
+            if (server != null) {
+                try { server.close(); }
+                catch (Exception e) { }
+            }
         }
 
         return reply;
     }
 
-
-//    protected void onPostExecute(Boolean o) {
-//        activity.updateInterface(o);
-//    }
+    @Override
+    protected void onPostExecute(List<String> o) {
+        activity.updateInterface(o);
+    }
 }

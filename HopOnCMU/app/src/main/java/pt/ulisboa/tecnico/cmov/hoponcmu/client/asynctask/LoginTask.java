@@ -28,6 +28,8 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
         try {
             server = new Socket("10.0.2.2", 9090);
 
+            Log.d("COMMAND",cmd.toString());
+
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 

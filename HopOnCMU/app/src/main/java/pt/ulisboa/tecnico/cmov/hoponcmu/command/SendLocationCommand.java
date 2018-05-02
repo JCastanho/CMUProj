@@ -2,12 +2,12 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
-public class ListLocalsCommand implements Command {
+public class SendLocationCommand implements Command {
 
     private static final long serialVersionUID = -8807331723807741905L;
     private String location;
 
-    public ListLocalsCommand(String location) {
+    public SendLocationCommand(String location) {
         this.location = location;
     }
 
