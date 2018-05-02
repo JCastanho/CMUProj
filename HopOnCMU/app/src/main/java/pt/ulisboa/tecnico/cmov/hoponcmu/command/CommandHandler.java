@@ -9,6 +9,5 @@ public interface CommandHandler {
 
 	public Response handle(GetQuizzesCommand hc);
 
-	public Response handle(ListLocalsCommand hc);
-
+	public Response handle(SendLocationCommand hc);
 }
