@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.server;
 
+import java.util.ArrayList;
+
 import pt.ulisboa.tecnico.cmov.hoponcmu.authentication.Session;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CommandHandler;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
@@ -46,7 +48,12 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(GetQuizzesCommand cmd){
-        GetQuizzesResponse rsp = new GetQuizzesResponse(s.getQuizz(cmd.getLocation()));
+    	
+    	String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
+    	ArrayList<String> answers = s.getQuizzAnswers(cmd.getLocation(), cmd.getPage());
+    	int size = s.getQuizzSize(cmd.getLocation());
+    	
+        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
         return rsp;
     }
     //Adicionar aqui handle para outros comandos
