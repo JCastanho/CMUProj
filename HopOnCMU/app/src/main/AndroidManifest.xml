@@ -26,6 +26,8 @@
         <activity android:name=".client.ListLocalsActivity" />
         <activity android:name=".client.signupActivity" />
         <activity android:name=".client.QuizActivity"></activity>
+        <activity android:name=".client.ShareResultsActivity"></activity>
+
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />
