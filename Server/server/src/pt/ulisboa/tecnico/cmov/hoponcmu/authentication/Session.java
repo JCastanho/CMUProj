@@ -41,13 +41,17 @@ public class Session {
         return users.add(nu);
     }
 
-    public Boolean verifyUser(String username, String password){
+    public int verifyUser(String username, String password){
+        int identifier = -1;
+
         for(User u: users){
-            if(u.getUsername().equals(username) && u.getCode().equals(password))
-                return true;
+            if(u.getUsername().equals(username) && u.getCode().equals(password)){
+                identifier = generateID();
+                login.put(identifier,u);
+            }
         }
 
-        return false;
+        return identifier;
     }
 
     public Integer generateID(){
@@ -59,7 +63,7 @@ public class Session {
     }
 
     public void populateQuizzes(){
-    	String[] Names = {"Terreiro do Paço", "Chiado", "Castelo de São Jorge", "Praça da Figueira"};
+    	String[] Names = {"Terreiro do PaÃ§o", "Chiado", "Castelo de SÃ£o Jorge", "PraÃ§a da Figueira"};
     	
         String a = "[{\"quizz\":{\"1\":{\"pergunta\":\"pergunta1\",\"respostas\":"
                 + "{\"primeira\":\"resposta11\",\"segunda\":\"resposta12\",\"terceira\":\"resposta13\",\"quatro\":\"resposta14\"}},"
@@ -73,5 +77,22 @@ public class Session {
         for(int i = 0; i < Names.length; i++) {
         	quizzes.put(Names[i], a);
         }
+    }
+
+    public List<String> getActiveUsers(int identifier) {
+        List<String> usersToList = new ArrayList<>();
+        String currentUser = login.get(identifier).getUsername();
+
+        for(User u: users){
+            if(!u.getUsername().equals(currentUser))
+                usersToList.add(u.getUsername());
+        }
+
+        return usersToList;
+    }
+
+    public Boolean verifyLogin(int identifier){
+        if(login.containsKey(identifier)) return true;
+        else return false;
     }
 }

@@ -1,16 +1,11 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.server;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.authentication.Session;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.CommandHandler;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetQuizzesCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetQuizzesResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.*;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CommandHandlerImpl implements CommandHandler {
 
@@ -18,16 +13,9 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(LoginCommand cmd) {
-        LoginResponse rsp = null;
+        int identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
 
-        if(s.verifyUser(cmd.getUsername(), cmd.getCode())){
-            //Decidir onde por gerador do id
-            rsp = new LoginResponse(s.generateID());
-        } else {
-            rsp = new LoginResponse(-1);
-        }
-
-        return rsp;
+        return new LoginResponse(identifier);
     }
 
     @Override
@@ -49,5 +37,27 @@ public class CommandHandlerImpl implements CommandHandler {
         GetQuizzesResponse rsp = new GetQuizzesResponse(s.getQuizz(cmd.getLocation()));
         return rsp;
     }
-    //Adicionar aqui handle para outros comandos
+
+    @Override
+    public Response handle(ShareRsltCommand cmd) {
+        Boolean success = false;
+
+        if(s.verifyLogin(cmd.getId())) {
+            int friend = cmd.getFriend();
+
+            //WIFI direct shits
+            success = true;
+        }
+
+        return new ShareRsltResponse(success);
+    }
+
+    @Override
+    public Response handle(GetUsersCommand cmd){
+        //verify id from command?
+        List<String> users = s.getActiveUsers(cmd.getID());
+
+        GetUsersResponse rsp = new GetUsersResponse(users);
+        return rsp;
+    }
 }
