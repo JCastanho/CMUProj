@@ -1,16 +1,8 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.server;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.authentication.Session;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.CommandHandler;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetQuizzesCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetQuizzesResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.*;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.*;
 
 public class CommandHandlerImpl implements CommandHandler {
 
@@ -47,6 +39,12 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetQuizzesCommand cmd){
         GetQuizzesResponse rsp = new GetQuizzesResponse(s.getQuizz(cmd.getLocation()));
+        return rsp;
+    }
+
+    @Override
+    public Response handle(GetQuizzesAnswersCommand cmd) {
+        GetQuizzesAnswersResponse rsp = new GetQuizzesAnswersResponse(cmd.getQuizzAnswers());
         return rsp;
     }
     //Adicionar aqui handle para outros comandos

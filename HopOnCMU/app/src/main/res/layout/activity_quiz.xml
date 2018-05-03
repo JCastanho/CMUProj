@@ -30,7 +30,7 @@
             android:lineSpacingExtra="10sp"
             android:text="Question"
             android:textAlignment="center"
-            android:textSize="30sp"
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <RadioGroup

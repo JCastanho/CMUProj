@@ -2,7 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="pt.ulisboa.tecnico.cmov.hoponcmu">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
+        android:name=".client.ApplicationContextProvider"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -18,17 +21,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".client.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".client.ListLocalsActivity" />
         <activity android:name=".client.signupActivity" />
-        <activity android:name=".client.QuizActivity"></activity>
+        <activity android:name=".client.QuizActivity" />
+        <activity
+            android:name=".client.ReadQuizzAnswersActivity"
+            android:label="@string/title_activity_read_quizz_answers"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
-
-    <uses-permission android:name="android.permission.INTERNET" />
-
 
 </manifest>

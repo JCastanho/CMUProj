@@ -28,6 +28,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ListLocalsActivity.class));
             }
         });
+
+        Button readQuizz_btn = (Button) findViewById(R.id.readRslt_btn);
+        readQuizz_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, ReadQuizzAnswersActivity.class));
+            }
+        });
     }
 
     @Override

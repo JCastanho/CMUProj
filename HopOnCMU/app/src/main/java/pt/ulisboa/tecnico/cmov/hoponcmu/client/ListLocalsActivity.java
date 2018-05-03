@@ -30,6 +30,7 @@ public class ListLocalsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tour_local);
+
         final ListView listView = (ListView) findViewById(R.id.list_tours);
         new GetLocalsTask(ListLocalsActivity.this).execute("location");
 
@@ -58,6 +59,7 @@ public class ListLocalsActivity extends AppCompatActivity {
                 //startActivity(intent);
             }
         });
+
     }
 
     public void startQuizz(String quizzes) {
@@ -74,6 +76,8 @@ public class ListLocalsActivity extends AppCompatActivity {
     }
 
     public void updateInterface(List<String> sucess){
+
+        ApplicationContextProvider.setContext(sucess);
         ListView listView = (ListView) findViewById(R.id.list_tours);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sucess);
         listView.setAdapter(adapter);

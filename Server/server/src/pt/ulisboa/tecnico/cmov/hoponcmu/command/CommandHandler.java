@@ -7,6 +7,7 @@ public interface CommandHandler {
 	public Response handle(CreateUserCommand cmd);
     public Response handle(SendLocationCommand cmd);
     public Response handle(GetQuizzesCommand cmd);
+    public Response handle(GetQuizzesAnswersCommand cmd);
 
 	//Adicionar aqui handle para outros comandos
 }

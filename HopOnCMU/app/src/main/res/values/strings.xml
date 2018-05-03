@@ -34,4 +34,5 @@
         <item>Monument Sixteen</item>
         <item>Monument Eighteen</item>
     </string-array>
+    <string name="title_activity_read_quizz_answers">ReadQuizzAnswersActivity</string>
 </resources>
