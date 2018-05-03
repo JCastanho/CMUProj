@@ -8,13 +8,14 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetQuizzesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetQuizzesResponse;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class GetQuizzTask extends AsyncTask<String, Void, String> {
+public class GetQuizzTask extends AsyncTask<String, Void, Question> {
 
     private ListLocalsActivity activity;
 
@@ -23,10 +24,10 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected Question doInBackground(String[] params) {
         Socket server = null;
-        String reply = null;
-        GetQuizzesCommand hc = new GetQuizzesCommand(2,params[0]);
+        Question reply = null;
+        GetQuizzesCommand hc = new GetQuizzesCommand(2,params[0], Integer.parseInt(params[1]));
         try {
             server = new Socket("10.0.2.2", 9090);
 
@@ -35,7 +36,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetQuizzesResponse hr = (GetQuizzesResponse) ois.readObject();
-            reply = hr.getQuizzes();
+            reply = new Question(hr.getQuestion(), hr.getAnswers(), hr.getPage(), hr.getSize());
 
             oos.close();
             ois.close();
@@ -54,9 +55,9 @@ public class GetQuizzTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected void onPostExecute(String o) {
+    protected void onPostExecute(Question o) {
         if (o != null) {
-            activity.startQuizz(o);
+            activity.jumpToQuestion(o.getQuestion(), o.getAnswers(), o.getPage(), o.getSize());
         }
     }
 }

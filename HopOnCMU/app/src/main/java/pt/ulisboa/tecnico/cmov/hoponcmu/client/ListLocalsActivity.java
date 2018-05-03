@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
@@ -49,7 +50,7 @@ public class ListLocalsActivity extends AppCompatActivity {
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.
                 task = new GetQuizzTask(ListLocalsActivity.this);
-                task.execute(text);
+                task.execute(text,"0");
                 //Bundle bundle = new Bundle();
                 //bundle.putString("Title", text);
                 //bundle.putString("Quizzes", quizzes);
@@ -60,14 +61,17 @@ public class ListLocalsActivity extends AppCompatActivity {
         });
     }
 
-    public void startQuizz(String quizzes) {
+    public void jumpToQuestion(String question, ArrayList<String> answers, int page, int size) {
         Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(ListLocalsActivity.this, QuizActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("Title", this.title);
-        bundle.putString("Quizzes", quizzes);
+        bundle.putString("Question", question);
+        bundle.putStringArrayList("Answers", answers);
+        bundle.putInt("Page", page);
+        bundle.putInt("Size", size);
 
         intent.putExtras(bundle);
         startActivity(intent);

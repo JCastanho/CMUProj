@@ -26,7 +26,7 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
-        view.setText(bundle.getString("Title"));
+        view.setText(bundle.getString("Question"));
 
         //Get Quizzes, see next line
         //bundle.getString("Quizzes");
