@@ -27,11 +27,13 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".client.ListLocalsActivity" />
         <activity android:name=".client.signupActivity" />
-        <activity android:name=".client.QuizActivity" />
         <activity
             android:name=".client.ReadQuizzAnswersActivity"
             android:label="@string/title_activity_read_quizz_answers"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".client.QuizActivity"></activity>
+        <activity android:name=".client.ShareResultsActivity"></activity>
+
     </application>
 
 </manifest>

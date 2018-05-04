@@ -6,6 +6,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ public class Session {
 
     private List<User> users;
     private Map<Integer, User> login;
-    private Map<String, String> quizzes;
+    private Map<String, ArrayList<Quizz>> quizzes;
     private Integer idSequence = 0;
 
     public Session(){
@@ -41,37 +42,79 @@ public class Session {
         return users.add(nu);
     }
 
-    public Boolean verifyUser(String username, String password){
+    public int verifyUser(String username, String password){
+        int identifier = -1;
+
         for(User u: users){
-            if(u.getUsername().equals(username) && u.getCode().equals(password))
-                return true;
+            if(u.getUsername().equals(username) && u.getCode().equals(password)){
+                identifier = generateID();
+                login.put(identifier,u);
+            }
         }
 
-        return false;
+        return identifier;
     }
 
     public Integer generateID(){
         return idSequence++;
     }
 
-    public String getQuizz(String monument){
-        return quizzes.get(monument);
+    public ArrayList<String> getQuizzAnswers(String monument, int page){
+        return quizzes.get(monument).get(page).getAnswers();
+    }
+
+    public String getQuizzQuestion(String monument, int page){
+        return quizzes.get(monument).get(page).getQuestion();
+    }
+
+    public int getQuizzSize(String monument){
+        return quizzes.get(monument).size();
     }
 
     public void populateQuizzes(){
-    	String[] Names = {"Terreiro do Paço", "Chiado", "Castelo de São Jorge", "Praça da Figueira"};
     	
-        String a = "[{\"quizz\":{\"1\":{\"pergunta\":\"pergunta1\",\"respostas\":"
-                + "{\"primeira\":\"resposta11\",\"segunda\":\"resposta12\",\"terceira\":\"resposta13\",\"quatro\":\"resposta14\"}},"
-                + "\"2\":{\"pergunta\":\"pergunta2\",\"respostas\":{\"primeira\":\"resposta21\",\"segunda\":\"resposta22\","
-                + "\"terceira\":\"resposta23\",\"quatro\":\"resposta24\"}},\"3\":{\"pergunta\":\"pergunta3\",\"respostas\":{"
-                + "\"primeira\":\"resposta31\",\"segunda\":\"resposta32\",\"terceira\":\"resposta33\",\"quatro\":\"resposta34\"}},"
-                + "\"4\":{\"pergunta\":\"pergunta4\",\"respostas\":{\"primeira\":\"resposta41\",\"segunda\":\"resposta42\",\"terceira"
-                + "\":\"resposta43\",\"quatro\":\"resposta44\"}}}}]";
+    	ArrayList<Quizz> TdP = new ArrayList<Quizz>(Arrays.asList(
+    			new Quizz("Aonde estï¿½ situado o Terreiro do Paï¿½o?",new ArrayList<String>(Arrays.asList("Entrecampos","Marquï¿½s de Pombal","Martim de Moniz")),"Baixa Pombalina"),
+    			new Quizz("Que rio passa ao lado?",new ArrayList<String>(Arrays.asList("Rio Douro","Rio Mondego","Rio Vouga")),"Rio Tejo"),
+    			new Quizz("Que Rei estï¿½ representado na estï¿½tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. Inï¿½s")),"D. Josï¿½ I"),
+    			new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Praï¿½a da Figueira","Praï¿½a do Chile","Avenida de Roma")),"Praï¿½a do Comï¿½rcio")
+    	));
+    	
+    	ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
+    			new Quizz("Em que ano se deu o incï¿½ndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
+    			new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Basï¿½lica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
+    			new Quizz("Que praï¿½a aqui se encontra?",new ArrayList<String>(Arrays.asList("Praï¿½a do Comï¿½rcio","Preï¿½a do Chile","Praï¿½a de Espanha")),"Praï¿½a Luï¿½s de Camï¿½es"),
+    			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
+    	));
+    	
+    	ArrayList<Quizz> fake = new ArrayList<Quizz>(Arrays.asList(
+    			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+    			new Quizz("Pergunta 2",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+    			new Quizz("Pergunta 3",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+    			new Quizz("Pergunta 4",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
+	    	));
 
-        
-        for(int i = 0; i < Names.length; i++) {
-        	quizzes.put(Names[i], a);
+    	quizzes.put("Terreiro do Paï¿½o", TdP);
+    	quizzes.put("Chiado", C);
+    	quizzes.put("Castelo de Sï¿½o Jorge", fake);
+    	quizzes.put("Praï¿½a da Figueira", fake);
+    	
+    }
+
+    public List<String> getActiveUsers(int identifier) {
+        List<String> usersToList = new ArrayList<>();
+        String currentUser = login.get(identifier).getUsername();
+
+        for(User u: users){
+            if(!u.getUsername().equals(currentUser))
+                usersToList.add(u.getUsername());
         }
+
+        return usersToList;
+    }
+
+    public Boolean verifyLogin(int identifier){
+        if(login.containsKey(identifier)) return true;
+        else return false;
     }
 }

@@ -14,12 +14,16 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Integer userID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        userID = getIntent().getExtras().getInt("id",-1);
 
         Button list_btn = (Button) findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {
@@ -34,6 +38,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this, ReadQuizzAnswersActivity.class));
+            }
+        });
+
+
+        Button share_btn = (Button) findViewById(R.id.share_btn);
+        share_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ShareResultsActivity.class);
+                intent.putExtra("id",userID);
+                startActivity(intent);
             }
         });
     }

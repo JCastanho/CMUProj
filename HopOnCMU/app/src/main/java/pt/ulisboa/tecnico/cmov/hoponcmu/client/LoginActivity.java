@@ -119,6 +119,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         if(id != -1){
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+            //return the id to the next activity so the user can perform the tasks
+            mainActivity.putExtra("id",id);
             startActivity(mainActivity);
             finish();
         } else{
