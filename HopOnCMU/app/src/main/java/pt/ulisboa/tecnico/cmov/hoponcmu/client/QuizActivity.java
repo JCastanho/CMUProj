@@ -67,8 +67,8 @@ public class QuizActivity extends AppCompatActivity {
             Button btnPrev = (Button) findViewById(R.id.btnPrev);
             btnPrev.setEnabled(true);
 
-            Context context = ApplicationContextProvider.getContext();
-            context.
+//            Context context = ApplicationContextProvider.getContext();
+//            context.
 
 
             q += 1;
