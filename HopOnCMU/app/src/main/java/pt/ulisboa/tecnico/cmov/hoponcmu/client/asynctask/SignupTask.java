@@ -7,15 +7,15 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.signupActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.SignUpActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
 
 public class SignupTask extends AsyncTask<String, Void, Boolean> {
 
-    private signupActivity activity;
+    private SignUpActivity activity;
 
-    public SignupTask(signupActivity activity) {
+    public SignupTask(SignUpActivity activity) {
         this.activity = activity;
     }
 

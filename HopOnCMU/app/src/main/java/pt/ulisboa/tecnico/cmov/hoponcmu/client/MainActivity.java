@@ -9,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,14 +51,18 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        if(item.getItemId() == R.id.turnon_wifi){
+            Intent intent = new Intent(MainActivity.this,WifiActivity.class);
+            startActivity(intent);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //inflate Log Out on settings menu
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu,menu);
+        inflater.inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 }
