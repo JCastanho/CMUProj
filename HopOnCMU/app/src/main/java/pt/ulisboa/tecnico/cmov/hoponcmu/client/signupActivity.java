@@ -11,7 +11,7 @@ import android.widget.Toast;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SignupTask;
 
-public class signupActivity extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     private SignupTask signupTask = null;
     private EditText usernameView;
@@ -58,7 +58,7 @@ public class signupActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            signupTask = new SignupTask(signupActivity.this);
+            signupTask = new SignupTask(SignUpActivity.this);
             signupTask.execute(username, password);
         }
     }
@@ -66,7 +66,7 @@ public class signupActivity extends AppCompatActivity {
     public void updateInterface(Boolean success){
         if(success) {
             Toast.makeText(this, "Sucessfully registered!", Toast.LENGTH_SHORT).show();
-            signupActivity.this.finish();
+            SignUpActivity.this.finish();
         } else {
             Toast.makeText(this, "Registration Failed", Toast.LENGTH_SHORT).show();
         }

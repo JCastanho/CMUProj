@@ -1,23 +1,16 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.signupActivity;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.SignUpActivity;
 
 public class CreateUserTask extends AsyncTask<String, Void, Boolean> {
 
-    private signupActivity activity;
+    private SignUpActivity activity;
 
-    public CreateUserTask(signupActivity activity) {
+    public CreateUserTask(SignUpActivity activity) {
         this.activity = activity;
     }
 
