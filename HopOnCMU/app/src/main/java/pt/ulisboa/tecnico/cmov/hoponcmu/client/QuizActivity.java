@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,7 +13,10 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -29,24 +33,26 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
-        view.setText(bundle.getString("Question"));
+        view.setText(bundle.getString("Title"));
 
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         //Get Quizzes, see next line
-        String quizzes =  bundle.getString("Quizzes");
-
-
-
+        String quizzes =  bundle.getString("Question");
         viewQst.setText(quizzes);
+
+//        int quizzes =  bundle.getInt("Page");
+//        viewQst.setText(Integer.toString(quizzes));
 
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
 
+        ArrayList<String> answers = bundle.getStringArrayList("Answers");
+
         RadioButton btn;
-        for(int i = 1; i <= 4; i++){
+        for(int i = 0; i < 4; i++){
             btn = new RadioButton(this);
-            btn.setText("Response " + i);
+            btn.setText(answers.get(i));
             group.addView(btn);
         }
 
@@ -61,9 +67,10 @@ public class QuizActivity extends AppCompatActivity {
             Button btnPrev = (Button) findViewById(R.id.btnPrev);
             btnPrev.setEnabled(true);
 
-//            TextView textView = (TextView) findViewById(R.id.txtQst);
-//
-//            textView.setText("Question " + q);
+            Context context = ApplicationContextProvider.getContext();
+            context.
+
+
             q += 1;
 
             Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
@@ -71,11 +78,6 @@ public class QuizActivity extends AppCompatActivity {
         }
         else {
 
-//            TextView textView = (TextView) findViewById(R.id.txtQst);
-//
-//            textView.setText("Question " + q);
-
-//            q += 1;
             Button btn = (Button) findViewById(R.id.btnNext);
             btn.setEnabled(false);
         }
@@ -88,9 +90,6 @@ public class QuizActivity extends AppCompatActivity {
             Button btnNext = (Button) findViewById(R.id.btnNext);
             btnNext.setEnabled(true);
 
-//            TextView textView = (TextView) findViewById(R.id.txtQst);
-//
-//            textView.setText("Question " + q);
             q -= 1;
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
@@ -98,11 +97,6 @@ public class QuizActivity extends AppCompatActivity {
         }
         else {
 
-//            TextView textView = (TextView) findViewById(R.id.txtQst);
-//
-//            textView.setText("Question " + q);
-
-//            q -= 1;
             Button btnPrev = (Button) findViewById(R.id.btnPrev);
             btnPrev.setEnabled(false);
         }

@@ -5,15 +5,23 @@ import android.content.Context;
 
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
+
 public class ApplicationContextProvider extends Application {
 
-    private List<String> sContext;
+    private static Application sApplication;
 
-    public List<String> getsContext() {
-        return sContext;
+    public static Application getApplication() {
+        return sApplication;
     }
 
-    public static void setContext(List<String> sContext) {
-        sContext = sContext;
+    public static Context getContext() {
+        return getApplication().getApplicationContext();
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        sApplication = this;
     }
 }
