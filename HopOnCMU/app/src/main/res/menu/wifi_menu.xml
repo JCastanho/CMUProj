@@ -3,12 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/wifiSwitch"
+        android:id="@+id/switchitem_actionbar"
         android:actionLayout="@layout/switch_button"
         android:title=""
         app:showAsAction="always" />
 
-    <item
-        android:id="@+id/wifiDirect"
-        android:title="@string/wifiDirect"></item>
 </menu>

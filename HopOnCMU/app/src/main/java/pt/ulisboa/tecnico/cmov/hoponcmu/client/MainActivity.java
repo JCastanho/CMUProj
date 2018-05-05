@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Integer userID;
+    private Integer tokenID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        userID = getIntent().getExtras().getInt("id",-1);
+        tokenID = getIntent().getExtras().getInt("id",-1);
 
         Button list_btn = (Button) findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ShareResultsActivity.class);
-                intent.putExtra("id",userID);
+                intent.putExtra("id",tokenID);
                 startActivity(intent);
             }
         });
@@ -58,11 +58,6 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
             finish();
-        }
-
-        if(item.getItemId() == R.id.turnon_wifi){
-            Intent intent = new Intent(MainActivity.this,WifiActivity.class);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

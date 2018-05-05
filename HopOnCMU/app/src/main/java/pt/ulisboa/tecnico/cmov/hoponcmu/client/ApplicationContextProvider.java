@@ -2,10 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.app.Application;
 import android.content.Context;
-
-import java.util.List;
-
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
+import android.net.wifi.WifiManager;
 
 public class ApplicationContextProvider extends Application {
 
@@ -23,5 +20,11 @@ public class ApplicationContextProvider extends Application {
     public void onCreate() {
         super.onCreate();
         sApplication = this;
+    }
+
+    public Boolean getWifiState() {
+        WifiManager wifi = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+
+        return wifi.isWifiEnabled();
     }
 }

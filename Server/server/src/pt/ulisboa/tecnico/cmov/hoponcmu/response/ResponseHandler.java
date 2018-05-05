@@ -5,6 +5,4 @@ public interface ResponseHandler {
 	public void handle(SignupResponse rsp);
 	public void handle(GetQuizzesResponse rsp);
 	public void handle(GetUsersResponse rsp);
-	public void handle(ShareRsltResponse rsp);
-
 }

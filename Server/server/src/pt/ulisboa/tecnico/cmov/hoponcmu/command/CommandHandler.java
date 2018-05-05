@@ -9,8 +9,4 @@ public interface CommandHandler {
     public Response handle(SendLocationCommand cmd);
     public Response handle(GetQuizzesCommand cmd);
     public Response handle(GetQuizzesAnswersCommand cmd);
-    public Response handle(ShareRsltCommand cmd);
-	//Adicionar aqui handle para outros comandos
-
-
 }
