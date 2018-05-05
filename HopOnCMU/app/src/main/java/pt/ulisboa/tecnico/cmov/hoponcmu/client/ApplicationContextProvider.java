@@ -11,6 +11,26 @@ public class ApplicationContextProvider extends Application {
 
     private static Application sApplication;
 
+    public static ListLocalsActivity getActivity() {
+        return activity;
+    }
+
+    public static void setActivity(ListLocalsActivity activity) {
+        ApplicationContextProvider.activity = activity;
+    }
+
+    private static ListLocalsActivity activity;
+
+    public static GetQuizzTask getTask() {
+        return task;
+    }
+
+    public static void setTask(GetQuizzTask task) {
+        ApplicationContextProvider.task = task;
+    }
+
+    private static GetQuizzTask task;
+
     public static Application getApplication() {
         return sApplication;
     }

@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetQuizzesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
@@ -18,6 +19,11 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 public class GetQuizzTask extends AsyncTask<String, Void, Question> {
 
     private ListLocalsActivity activity;
+    private QuizActivity quizActivity;
+
+    public GetQuizzTask(QuizActivity activity){
+        this.quizActivity = activity;
+    }
 
     public GetQuizzTask(ListLocalsActivity activity) {
         this.activity = activity;
@@ -57,7 +63,19 @@ public class GetQuizzTask extends AsyncTask<String, Void, Question> {
     @Override
     protected void onPostExecute(Question o) {
         if (o != null) {
-            activity.jumpToQuestion(o.getQuestion(), o.getAnswers(), o.getPage(), o.getSize());
+            try {
+                activity.jumpToQuestion(o.getQuestion(), o.getAnswers(), o.getPage(), o.getSize());
+            }
+            catch (Exception e){
+                Log.d("Get Quizz List Tour", "Invalid Activity");
+            }
+
+            try{
+                quizActivity.updateQuestion(o.getQuestion(), o.getAnswers());
+            }
+            catch (Exception e){
+                Log.d("Update Question", "Invalid Activity");
+            }
         }
     }
 }

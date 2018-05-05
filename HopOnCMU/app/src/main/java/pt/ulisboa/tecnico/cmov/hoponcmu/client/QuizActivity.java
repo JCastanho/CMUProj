@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -20,7 +21,15 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 
 public class QuizActivity extends AppCompatActivity {
 
-    private int q = 1;
+    private int q = 0;
+    private String question;
+    private ArrayList<String> answers;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,7 @@ public class QuizActivity extends AppCompatActivity {
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
         view.setText(bundle.getString("Title"));
+        setTitle(bundle.getString("Title"));
 
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
@@ -62,48 +72,69 @@ public class QuizActivity extends AppCompatActivity {
 
     public void onNext(View view){
 
-        if(q < 4) {
+        if(q < 3) {
 
-            Button btnPrev = (Button) findViewById(R.id.btnPrev);
-            btnPrev.setEnabled(true);
-
-//            Context context = ApplicationContextProvider.getContext();
-//            context.
-
+//            Button btnPrev = (Button) findViewById(R.id.btnPrev);
+//            btnPrev.setEnabled(true);
 
             q += 1;
+
+            GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
+            task.execute(title, Integer.toString(q));
+
+
 
             Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
 
         }
+        if (q == 3){
+//            Button btnSend = (Button) findViewById(R.id.btnSend);
+//            btnSend.setEnabled(true);
+        }
         else {
 
-            Button btn = (Button) findViewById(R.id.btnNext);
-            btn.setEnabled(false);
+//            Button btn = (Button) findViewById(R.id.btnNext);
+//            btn.setEnabled(false);
         }
 
     }
 
     public void onPrev(View view){
-        if(q > 1) {
+        if(q > 0) {
 
-            Button btnNext = (Button) findViewById(R.id.btnNext);
-            btnNext.setEnabled(true);
+//            Button btnNext = (Button) findViewById(R.id.btnNext);
+//            btnNext.setEnabled(true);
 
             q -= 1;
+
+            GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
+            task.execute(title, Integer.toString(q));
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
 
         }
         else {
 
-            Button btnPrev = (Button) findViewById(R.id.btnPrev);
-            btnPrev.setEnabled(false);
+//            Button btnPrev = (Button) findViewById(R.id.btnPrev);
+//            btnPrev.setEnabled(false);
         }
     }
 
     public void onSend(View view){
         QuizActivity.this.finish();
         Toast.makeText(this, "Answer Sent!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void updateQuestion(String question, ArrayList<String> answers){
+        this.question = question;
+        this.answers = answers;
+
+        TextView viewQst = (TextView) findViewById(R.id.txtQst);
+        viewQst.setText(question);
+
+        RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
+        for(int i = 0; i < 4; i++){
+            ((RadioButton) group.getChildAt(i)).setText(answers.get(i));
+        }
     }
 }
