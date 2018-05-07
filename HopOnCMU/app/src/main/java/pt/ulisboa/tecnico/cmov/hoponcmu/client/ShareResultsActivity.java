@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Messenger;
@@ -14,6 +15,10 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
@@ -23,6 +28,7 @@ import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager.Channel;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager.PeerListListener;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
+import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class ShareResultsActivity extends AppCompatActivity implements
@@ -129,6 +135,7 @@ public class ShareResultsActivity extends AppCompatActivity implements
 		}
 	};
 
+
 	/*
 	 * Termite listeners
 	 */
@@ -146,4 +153,5 @@ public class ShareResultsActivity extends AppCompatActivity implements
 
 		adapter.notifyDataSetChanged();
 	}
+
 }

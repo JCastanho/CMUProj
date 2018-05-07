@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CheckedTextView;
 import android.widget.CompoundButton;
 
 import java.util.ArrayList;
@@ -18,8 +19,10 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class ResultAdapter extends ArrayAdapter<String> {
 
+
     private ArrayList<String> array;
     private Context context;
+    private ArrayList<String> checkedResults = new ArrayList<>();
 
     public ResultAdapter(Context c_context, ArrayList<String> a_array) {
         super(c_context, R.layout.checkbox, a_array);
@@ -35,23 +38,29 @@ public class ResultAdapter extends ArrayAdapter<String> {
             listItem = LayoutInflater.from(context).inflate(R.layout.checkbox, parent, false);
         }
 
-        String currentResult = array.get(position);
+        final String currentResult = array.get(position);
 
         if(currentResult != null) {
             CheckBox result = listItem.findViewById(R.id.checkBox);
-
             result.setText(currentResult);
+
+            result.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if(isChecked)
+                        checkedResults.add(currentResult);
+                    else
+                        checkedResults.remove(currentResult);
+                }
+            });
         }
 
         return listItem;
     }
 
-    public String getCheckedItems(){
-        String results = "";
-
-
-
-        return results;
+    public ArrayList<String> getCheckedResults(){
+        return checkedResults;
     }
+
 
 }
