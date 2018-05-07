@@ -50,6 +50,16 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Button share_btn2 = (Button) findViewById(R.id.share_btn2);
+        share_btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MsgSenderActivity.class);
+                intent.putExtra("id",tokenID);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

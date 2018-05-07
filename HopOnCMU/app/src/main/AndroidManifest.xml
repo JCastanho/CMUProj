@@ -30,7 +30,7 @@
         <activity android:name=".client.ListLocalsActivity" />
         <activity
             android:name=".client.SignUpActivity"
-            android:label="@string/action_sign_in_short"/>
+            android:label="@string/action_sign_up"/>
         <activity
             android:name=".client.ReadQuizzAnswersActivity"
             android:label="@string/title_activity_read_quizz_answers"
@@ -42,6 +42,10 @@
         </activity>
         <activity
             android:name=".client.ListResultsActivity"
+            android:label="@string/title_list_results">
+        </activity>
+        <activity
+            android:name=".client.MsgSenderActivity"
             android:label="@string/title_list_results">
         </activity>
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />

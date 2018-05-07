@@ -14,28 +14,6 @@
             android:id="@+id/linearLayout3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
-            <!--<Button
-                android:id="@+id/idWifiOnButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="listenerWifiOnButton"
-                android:text="on" />
-
-            <Button
-                android:id="@+id/idWifiOffButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="listenerWifiOffButton"
-                android:text="off" />
-
-            <Button
-                android:id="@+id/idInRangeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:onClick="listenerInRangeButton"
-                android:text="in range" />-->
-
     	</LinearLayout>
 
     </LinearLayout>
@@ -45,4 +23,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <TextView
+        android:id="@+id/empty_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="50dp"
+        android:text="@string/empty_list"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </LinearLayout>

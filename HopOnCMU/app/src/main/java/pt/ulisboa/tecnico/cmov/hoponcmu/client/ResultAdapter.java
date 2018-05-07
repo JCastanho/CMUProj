@@ -46,4 +46,12 @@ public class ResultAdapter extends ArrayAdapter<String> {
         return listItem;
     }
 
+    public String getCheckedItems(){
+        String results = "";
+
+
+
+        return results;
+    }
+
 }

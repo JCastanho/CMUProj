@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,7 @@ public class ShareResultsActivity extends AppCompatActivity implements
         PeerListListener {
 
     public static final String TAG = "beaconsfinder";
+	static final int PICK_CONTACT_REQUEST = 1;
 
     private SimWifiP2pManager mManager = null;
     private Channel mChannel = null;
@@ -40,17 +43,36 @@ public class ShareResultsActivity extends AppCompatActivity implements
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sharerslt);
 
-		//final Integer identifier = getIntent().getExtras().getInt("id",-1);
-
-		// Register broadcast receiver
-		IntentFilter filter = new IntentFilter();
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION);
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION);
-		mReceiver = new SimWifiP2pBroadcastReceiver(this);
-		registerReceiver(mReceiver, filter);
+		registerBroadcastReceiver();
 
 		// Set adapter for user list
 		if (adapter == null) { setAdapter(); }
+
+		wifiOn();
+	}
+
+    @Override
+    public void onPause() {
+		unregisterReceiver(mReceiver);
+		super.onPause();
+    }
+
+	@Override
+	protected void onRestart() {
+		wifiOn();
+		registerBroadcastReceiver();
+		super.onRestart();
+	}
+
+	public void registerBroadcastReceiver(){
+		IntentFilter filter = new IntentFilter();
+
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION);
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION);
+
+		mReceiver = new SimWifiP2pBroadcastReceiver(this);
+
+		registerReceiver(mReceiver, filter);
 	}
 
 	private void setAdapter() {
@@ -58,31 +80,9 @@ public class ShareResultsActivity extends AppCompatActivity implements
 		adapter = new UserAdapter(this,array);
 
 		ListView listView = findViewById(R.id.list_users);
+
 		listView.setAdapter(adapter);
-	}
-
-	public void shareResult(View view) {
-		Intent intent = new Intent(ShareResultsActivity.this, ListResultsActivity.class);
-		startActivity(intent);
-	}
-
-	@Override
-	protected void onResume() {
-		super.onResume();
-		wifiOn();
-	}
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        unregisterReceiver(mReceiver);
-    }
-
-	@Override
-	protected void onDestroy() {
-		unregisterReceiver(mReceiver);
-
-		super.onDestroy();
+		listView.setEmptyView(findViewById(R.id.empty_list));
 	}
 
 	public void wifiOn(){
@@ -91,6 +91,20 @@ public class ShareResultsActivity extends AppCompatActivity implements
 		mBound = true;
 	}
 
+	public void showResultsToShare(View view) {
+		Intent intent = new Intent(ShareResultsActivity.this, ListResultsActivity.class);
+		startActivityForResult(intent,PICK_CONTACT_REQUEST);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == PICK_CONTACT_REQUEST) {
+			if (resultCode == RESULT_OK) {
+				String results = data.getStringExtra("Results");
+				Toast.makeText(getBaseContext(),results,Toast.LENGTH_SHORT).show();
+			}
+		}
+	}
 	public void showPeers(){
 		if(mBound) {
 			mManager.requestPeers(mChannel, ShareResultsActivity.this);
@@ -122,10 +136,12 @@ public class ShareResultsActivity extends AppCompatActivity implements
 	@Override
 	public void onPeersAvailable(SimWifiP2pDeviceList peers) {
 		array.clear();
-		
+
 		for (SimWifiP2pDevice device : peers.getDeviceList()) {
-			//Verify that we're not adding beacon devices
-			array.add(device.deviceName);
+
+			//Verify that we're not adding beacons to the list
+			if(!device.deviceName.matches("M[0-9]+"))
+				array.add(device.deviceName);
 		}
 
 		adapter.notifyDataSetChanged();
