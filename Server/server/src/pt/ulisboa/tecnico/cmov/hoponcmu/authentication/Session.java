@@ -28,6 +28,7 @@ public class Session {
         quizzes = new HashMap<>();
         populateQuizzes();
         users.add(new User("a","a"));
+        users.add(new User("b","b"));
     }
 
     public Boolean createUser(String username, String code){
@@ -46,6 +47,7 @@ public class Session {
         int identifier = -1;
 
         for(User u: users){
+            // && !login.containsValue(u)
             if(u.getUsername().equals(username) && u.getCode().equals(password)){
                 identifier = generateID();
                 login.put(identifier,u);
@@ -117,4 +119,6 @@ public class Session {
         if(login.containsKey(identifier)) return true;
         else return false;
     }
+
+    //TODO remove from login list when logging out
 }

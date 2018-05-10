@@ -1,7 +1,0 @@
-#Create devices for each monument beacon
-newdevice M1
-newdevice M2
-newdevice M3
-newdevice M4
-
-list devices

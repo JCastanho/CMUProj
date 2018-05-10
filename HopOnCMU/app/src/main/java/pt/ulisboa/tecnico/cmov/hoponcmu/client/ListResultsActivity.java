@@ -1,47 +1,62 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
-import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
+import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 
 public class ListResultsActivity extends AppCompatActivity {
 
 	private ResultAdapter adapter;
 	private ArrayList<String> array;
+	private String userAddress;
+	private SimWifiP2pSocket mCliSocket = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listrslt);
 
-		ListView lResults = (ListView) findViewById(R.id.list_results);
+		SimWifiP2pSocketManager.Init(getApplicationContext());
 
-		if (adapter == null) { setAdapter(lResults); }
+		Bundle extras = getIntent().getExtras();
+		userAddress = extras.getString("UserAddr");
+
+		if (adapter == null) {
+			ListView lResults = (ListView) findViewById(R.id.list_results);
+			setAdapter(lResults);
+		}
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.sendResults){
-
-			Intent intent = new Intent(ListResultsActivity.this, ShareResultsActivity.class);
 			String results = "";
 
 			for(String rslt: adapter.getCheckedResults()){
 				results += rslt;
 			}
 
-			intent.putExtra("Results",results);
-			setResult(RESULT_OK,intent);
-			finish();
+			Toast.makeText(getBaseContext(),userAddress,Toast.LENGTH_SHORT).show();
+
+			new sendMessageTask().executeOnExecutor(
+					AsyncTask.THREAD_POOL_EXECUTOR,
+					userAddress,results);
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -67,4 +82,46 @@ public class ListResultsActivity extends AppCompatActivity {
 		listView.setAdapter(adapter);
 	}
 
+	/*
+     * Asynctask implementing message exchange
+     */
+
+	public class sendMessageTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected void onPreExecute() {
+			Toast.makeText(getBaseContext(),"Connecting...",Toast.LENGTH_SHORT).show();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				mCliSocket = new SimWifiP2pSocket(params[0],
+						Integer.parseInt(getString(R.string.port)));
+
+				mCliSocket.getOutputStream().write((params[1] + "\n").getBytes());
+				BufferedReader sockIn = new BufferedReader(
+						new InputStreamReader(mCliSocket.getInputStream()));
+				sockIn.readLine();
+				mCliSocket.close();
+			} catch (UnknownHostException e) {
+				return "Unknown Host:" + e.getMessage();
+			} catch (IOException e) {
+				return "IO error:" + e.getMessage();
+			}
+			mCliSocket = null;
+
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			if (result != null) {
+				Toast.makeText(getBaseContext(),result,Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getBaseContext(),"Results Sent!",Toast.LENGTH_SHORT).show();
+				finish();
+			}
+		}
+	}
 }

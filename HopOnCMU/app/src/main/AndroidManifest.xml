@@ -4,6 +4,7 @@
     package="pt.ulisboa.tecnico.cmov.hoponcmu">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name=".client.ApplicationContextProvider"
@@ -30,25 +31,22 @@
         <activity android:name=".client.ListLocalsActivity" />
         <activity
             android:name=".client.SignUpActivity"
-            android:label="@string/action_sign_up"/>
+            android:label="@string/action_sign_up" />
         <activity
             android:name=".client.ReadQuizzAnswersActivity"
             android:label="@string/title_activity_read_quizz_answers"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".client.QuizActivity"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".client.QuizActivity" />
         <activity
             android:name=".client.ShareResultsActivity"
-            android:label="@string/title_share_results">
-        </activity>
+            android:label="@string/title_share_results"></activity>
         <activity
             android:name=".client.ListResultsActivity"
-            android:label="@string/title_list_results">
-        </activity>
-        <activity
-            android:name=".client.MsgSenderActivity"
-            android:label="@string/title_list_results">
-        </activity>
+            android:label="@string/title_list_results"></activity>
+
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
 
+        <activity android:name=".client.SeeSharedResultsActivity"></activity>
     </application>
+
 </manifest>

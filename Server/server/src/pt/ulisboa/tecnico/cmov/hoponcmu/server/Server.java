@@ -33,7 +33,6 @@ public class Server {
 				client = socket.accept();
 
 				ObjectInputStream ois = new ObjectInputStream(client.getInputStream());
-                                System.out.println(ois.toString());
 				Command cmd = (Command) ois.readObject();
 				Response rsp = cmd.handle(chi);
 
