@@ -2,15 +2,16 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
-public class GetQuizzesAnswersCommand implements Command {
+public class GetCorrectAnswersCommand implements Command {
 
     private static final long serialVersionUID = -8807331723807741905L;
-    private int id;
-    private String quizzAnswers;
 
-    public GetQuizzesAnswersCommand(int id, String quizzAnswers){
+    private int id;
+    private String quizzTitle;
+
+    public GetCorrectAnswersCommand(int id ,String quizzTitle){
         this.id = id;
-        this.quizzAnswers = quizzAnswers;
+        this.quizzTitle = quizzTitle;
     }
 
     @Override
@@ -18,11 +19,11 @@ public class GetQuizzesAnswersCommand implements Command {
         return ch.handle(this);
     }
 
-    public int getId() {
-        return id;
+    public String getQuizzTitle() {
+        return quizzTitle;
     }
 
-    public String getQuizzAnswers() {
-        return quizzAnswers;
+    public int getId(){
+        return id;
     }
 }

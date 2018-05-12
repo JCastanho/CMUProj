@@ -15,4 +15,6 @@ public interface CommandHandler {
 
 	public Response handle(CreateUserCommand createUserCommand);
 
+	public Response handle(GetCorrectAnswersCommand hc);
+
 }
