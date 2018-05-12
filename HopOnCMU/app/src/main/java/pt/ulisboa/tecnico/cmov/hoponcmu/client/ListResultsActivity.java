@@ -1,7 +1,13 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,6 +22,8 @@ import java.io.InputStreamReader;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
+import pt.inesc.termite.wifidirect.SimWifiP2pManager;
+import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
@@ -25,6 +33,7 @@ public class ListResultsActivity extends AppCompatActivity {
 	private ResultAdapter adapter;
 	private ArrayList<String> array;
 	private String userAddress;
+	private String username;
 	private SimWifiP2pSocket mCliSocket = null;
 
 	@Override
@@ -36,6 +45,7 @@ public class ListResultsActivity extends AppCompatActivity {
 
 		Bundle extras = getIntent().getExtras();
 		userAddress = extras.getString("UserAddr");
+		username = extras.getString("Username");
 
 		if (adapter == null) {
 			ListView lResults = (ListView) findViewById(R.id.list_results);
@@ -52,11 +62,9 @@ public class ListResultsActivity extends AppCompatActivity {
 				results += rslt;
 			}
 
-			Toast.makeText(getBaseContext(),userAddress,Toast.LENGTH_SHORT).show();
-
 			new sendMessageTask().executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR,
-					userAddress,results);
+					userAddress, username, results);
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -99,7 +107,7 @@ public class ListResultsActivity extends AppCompatActivity {
 				mCliSocket = new SimWifiP2pSocket(params[0],
 						Integer.parseInt(getString(R.string.port)));
 
-				mCliSocket.getOutputStream().write((params[1] + "\n").getBytes());
+				mCliSocket.getOutputStream().write((params[1] + "|" + params[2] + "\n").getBytes());
 				BufferedReader sockIn = new BufferedReader(
 						new InputStreamReader(mCliSocket.getInputStream()));
 				sockIn.readLine();

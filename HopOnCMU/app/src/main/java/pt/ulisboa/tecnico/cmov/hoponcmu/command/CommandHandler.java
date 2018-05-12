@@ -5,6 +5,8 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 public interface CommandHandler {
 	public Response handle(LoginCommand hc);
 
+	public Response handle(LogoutCommand hc);
+
 	public Response handle(GetQuizzesCommand hc);
 
 	public Response handle(SendLocationCommand hc);

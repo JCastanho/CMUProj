@@ -1,12 +1,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
-import android.content.ServiceConnection;
+
 import android.os.AsyncTask;
-import android.os.IBinder;
-import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,8 +11,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import pt.inesc.termite.wifidirect.SimWifiP2pManager;
-import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketServer;
@@ -60,12 +53,11 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             while (!Thread.currentThread().isInterrupted()) {
-                Log.d("See Shared Results","A espera1.........");
 
                 try {
                     SimWifiP2pSocket sock = mSrvSocket.accept();
+                    Log.d("See Shared Results","Accepting socketspera1.........");
                     try {
-                        Log.d("See Shared Results","A espera2.........");
                         BufferedReader sockIn = new BufferedReader(
                                 new InputStreamReader(sock.getInputStream()));
                         String st = sockIn.readLine();

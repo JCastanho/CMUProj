@@ -29,7 +29,7 @@
             android:id="@+id/list_btn"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:text="List Tour Locations"
+            android:text="Quizzes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.444"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -38,22 +38,10 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <Button
-            android:id="@+id/dwnldQuizz_btn"
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:text="Download Quizz"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.129" />
-
-        <Button
             android:id="@+id/readRslt_btn"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:text="Read Quizz Results"
+            android:text="Quizz Results"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -65,7 +53,7 @@
             android:id="@+id/prizes_btn"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:text="See Prizes"
+            android:text="Prizes"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -77,7 +65,7 @@
             android:id="@+id/share_btn"
             android:layout_width="match_parent"
             android:layout_height="65dp"
-            android:text="Share Results"
+            android:text="@string/title_share_results"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.19"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -86,10 +74,10 @@
             app:layout_constraintVertical_bias="0.682" />
 
         <Button
-            android:id="@+id/share_btn2"
+            android:id="@+id/see_share_rslt_btn"
             android:layout_width="match_parent"
             android:layout_height="63dp"
-            android:text="Share Results2" />
+            android:text="@string/title_see_shared_results" />
 
     </LinearLayout>
 

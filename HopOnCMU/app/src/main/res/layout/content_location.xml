@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/neighborUser"
+        android:id="@+id/location"
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageButton
-        android:id="@+id/shareResult_btn"
+        android:id="@+id/dwnldQuizz_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -32,6 +32,6 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:srcCompat="?attr/actionModeShareDrawable" />
+        app:srcCompat="@android:drawable/stat_sys_download" />
 
 </android.support.constraint.ConstraintLayout>

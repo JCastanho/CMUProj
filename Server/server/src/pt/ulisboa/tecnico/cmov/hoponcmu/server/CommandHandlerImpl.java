@@ -27,6 +27,15 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
+    public Response handle(LogoutCommand cmd) {
+        Integer token = cmd.getToken();
+
+        s.logOutUser(token);
+
+        return null;
+    }
+
+    @Override
     public Response handle(SendLocationCommand cmd){
         SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
         System.out.println(rsp.getLocations().get(0));
@@ -45,6 +54,7 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
+<<<<<<< HEAD
     public Response handle(GetUsersCommand cmd){
         //verify id from command?
         List<String> users = s.getActiveUsers(cmd.getID());
@@ -64,6 +74,10 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(GetCorrectAnswersCommand cmd) {
         int correctAnswers = s.correctAnswers(cmd.getQuizzTitle());
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+=======
+    public Response handle(GetQuizzesAnswersCommand cmd) {
+        GetQuizzesAnswersResponse rsp = new GetQuizzesAnswersResponse(cmd.getQuizzAnswers());
+>>>>>>> Daniela
         return rsp;
     }
     //Adicionar aqui handle para outros comandos

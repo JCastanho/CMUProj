@@ -5,9 +5,13 @@
  */
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
+<<<<<<< HEAD
 import quiz.Quiz;
 
 import java.lang.reflect.Array;
+=======
+import javax.sound.midi.SysexMessage;
+>>>>>>> Daniela
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -23,12 +27,17 @@ public class Session {
     private List<User> users;
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
+<<<<<<< HEAD
     private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
     private Integer idSequence = 0;
+=======
+    private Integer idSequence;
+>>>>>>> Daniela
 
     public Session(){
-        users=new ArrayList<>();
-        login=new HashMap<>();
+        idSequence = 0;
+        users = new ArrayList<>();
+        login = new HashMap<>();
         quizzes = new HashMap<>();
         quizzAnswers = new HashMap<>();
         populateQuizzes();
@@ -51,19 +60,51 @@ public class Session {
     public int verifyUser(String username, String password){
         int identifier = -1;
 
-        for(User u: users){
-            // && !login.containsValue(u)
-            if(u.getUsername().equals(username) && u.getCode().equals(password)){
+        if(verifyCredentials(username, password)){
+            if(!isUserLogged(username)) {
                 identifier = generateID();
-                login.put(identifier,u);
+                login.put(identifier, getUser(username));
             }
         }
 
         return identifier;
     }
 
-    public Integer generateID(){
-        return idSequence++;
+    private User getUser(String username){
+        for(User u: users){
+            if(u.getUsername().equals(username))
+                return u;
+        }
+        return null;
+    }
+
+    private Boolean isUserLogged(String username){
+        for(User loggedUser: login.values()){
+            if(loggedUser.getUsername().equals(username)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Boolean verifyCredentials(String username, String password){
+        for(User u: users){
+            if(u.getUsername().equals(username) && u.getCode().equals(password))
+                return true;
+        }
+
+        return false;
+    }
+
+    private Integer generateID(){
+        //Change eventually
+        return login.size();
+    }
+
+    public void logOutUser(Integer token) {
+        login.remove(token);
+        System.out.println(login.size());
     }
 
     public ArrayList<String> getQuizzAnswers(String monument, int page){
@@ -101,29 +142,18 @@ public class Session {
     			new Quizz("Pergunta 4",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
 	    	));
 
-    	quizzes.put("Terreiro do Pa�o", TdP);
+    	quizzes.put("Terreiro do Paço", TdP);
     	quizzes.put("Chiado", C);
-    	quizzes.put("Castelo de S�o Jorge", fake);
-    	quizzes.put("Pra�a da Figueira", fake);
+    	quizzes.put("Castelo de São Jorge", fake);
+    	quizzes.put("Praça da Figueira", fake);
     	
-    }
-
-    public List<String> getActiveUsers(int identifier) {
-        List<String> usersToList = new ArrayList<>();
-        String currentUser = login.get(identifier).getUsername();
-
-        for(User u: users){
-            if(!u.getUsername().equals(currentUser))
-                usersToList.add(u.getUsername());
-        }
-
-        return usersToList;
     }
 
     public Boolean verifyLogin(int identifier){
         if(login.containsKey(identifier)) return true;
         else return false;
     }
+<<<<<<< HEAD
 
     public void quizzAnswers(String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
@@ -154,4 +184,6 @@ public class Session {
     }
     //TODO remove from login list when logging out
 
+=======
+>>>>>>> Daniela
 }
