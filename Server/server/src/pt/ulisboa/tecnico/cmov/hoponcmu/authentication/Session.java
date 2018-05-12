@@ -33,6 +33,7 @@ public class Session {
         quizzAnswers = new HashMap<>();
         populateQuizzes();
         users.add(new User("a","a"));
+        users.add(new User("b","b"));
     }
 
     public Boolean createUser(String username, String code){
@@ -51,6 +52,7 @@ public class Session {
         int identifier = -1;
 
         for(User u: users){
+            // && !login.containsValue(u)
             if(u.getUsername().equals(username) && u.getCode().equals(password)){
                 identifier = generateID();
                 login.put(identifier,u);
@@ -150,4 +152,6 @@ public class Session {
 
         return counter;
     }
+    //TODO remove from login list when logging out
+
 }

@@ -1,40 +1,27 @@
 <resources>
     <string name="app_name">HopOnCMU</string>
-
-    <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Authentication code</string>
     <string name="action_sign_up">Sign up</string>
     <string name="action_sign_in_short">Log in</string>
     <string name="error_field_required">This field is required</string>
     <string name="error_credentials">Authentication failed</string>
-
-    <string name="title_activity_main">MainActivity</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="log_out">Log Out</string>
-    <string name="wifi">Wi-Fi</string>
-    <string name="wifiDirect">Wi-Fi Direct</string>
+    <string name="title_share_results">Share Results</string>
+    <string name="title_list_results">Select the results to share</string>
+    <string name="empty_list">No users available</string>
+    <string name="title_activity_read_quizz_answers">Read Quizz Answers</string>
 
-    <!-- Strings related to listing tour locations -->
-    <string-array name="tour_locations">
-        <item>Monument One</item>
-        <item>Monument Two</item>
-        <item>Monument Three</item>
-        <item>Monument Four</item>
-        <item>Monument Five</item>
-        <item>Monument Six</item>
-        <item>Monument Seven</item>
-        <item>Monument Eight</item>
-        <item>Monument Nine</item>
-        <item>Monument Ten</item>
-        <item>Monument Eleven</item>
-        <item>Monument Twelve</item>
-        <item>Monument Thirteen</item>
-        <item>Monument Fourteen</item>
-        <item>Monument Fifteen</item>
-        <item>Monument Sixteen</item>
-        <item>Monument Eighteen</item>
-    </string-array>
-    <string name="title_activity_read_quizz_answers">ReadQuizzAnswersActivity</string>
+    <!--Termite-->
+    <string name="port">10001</string>
+
+    <string name="hello">Hello World, MsgSenderActivity!</string>
+
+    <string name="sendButton">Send</string>
+    <string name="connectButton">Connect</string>
+    <string name="disconnectButton">Disconnect</string>
+    <string name="serviceButton">WiFi On</string>
+    <string name="cancelButton">WiFi Off</string>
+    <string name="inRangeButton">In Range</string>
+    <string name="inGroupButton">In Network</string>
 </resources>

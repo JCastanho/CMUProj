@@ -1,52 +1,120 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.util.List;
+import java.lang.reflect.Array;
+import java.nio.channels.OverlappingFileLockException;
+import java.util.ArrayList;
 
+import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
+import pt.inesc.termite.wifidirect.SimWifiP2pDevice;
+import pt.inesc.termite.wifidirect.SimWifiP2pDeviceList;
+import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
+import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetUsersTask;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.ShareResultsTask;
 
+public class ShareResultsActivity extends AppCompatActivity implements
+		SimWifiP2pManager.PeerListListener, SimWifiP2pManager.GroupInfoListener {
 
-public class ShareResultsActivity extends AppCompatActivity {
-    private ListView listView;
+	private ArrayList<User> array;
+	private UserAdapter adapter;
+	private ListView listView;
+	private SimWifiP2pBroadcastReceiver mReceiver;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_share_rslts);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_sharerslt);
 
-        final Integer identifier = getIntent().getExtras().getInt("id",-1);
-        listView = (ListView) findViewById(R.id.list_users);
+		setAdapter();
+		//Log.d("RESULTS SHARE INFO","Adapter is not null");
+	}
 
-        new GetUsersTask(ShareResultsActivity.this).execute(identifier);
+	@Override
+	protected void onResume() {
+		super.onResume();
+		registerBroadcastReceiver();
+	}
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                new ShareResultsTask(ShareResultsActivity.this).execute(identifier,position);
-            }
-        });
+	@Override
+	public void onPause() {
+		super.onPause();
+		unregisterReceiver(mReceiver);
+		ApplicationContextProvider.setGroupPeers(array);
+	}
 
-    }
+	private void registerBroadcastReceiver() {
+		IntentFilter filter = new IntentFilter();
 
-    public void updateUserList(List<String> users) {
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, users);
-        listView.setAdapter(adapter);
-    }
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION);
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION);
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION);
+		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION);
 
-    public void updateInterface(Boolean success) {
-        if (success) {
-            Toast.makeText(this, "The results were successfully shared", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "It was results couldn't be shared", Toast.LENGTH_SHORT).show();
-        }
-    }
+		mReceiver = new SimWifiP2pBroadcastReceiver(this);
+
+		registerReceiver(mReceiver, filter);
+	}
+
+	private void setAdapter() {
+		listView = findViewById(R.id.list_users);
+
+		array = ApplicationContextProvider.groupPeersList();
+		adapter = new UserAdapter(ShareResultsActivity.this,array);
+
+		listView.setAdapter(adapter);
+
+		checkEmptyList();
+	}
+
+	public String getUserAddress(String name){
+		for(User u: array){
+			if(u.getName().equals(name))
+				return u.getAddress();
+		}
+
+		return "";
+	}
+
+	private void checkEmptyList(){
+		if(array.size() == 0)
+			listView.setEmptyView(findViewById(R.id.empty_list));
+	}
+
+	public void updatePeers() {
+		ApplicationContextProvider.getManager().requestPeers(ApplicationContextProvider.getChannel(), ShareResultsActivity.this);
+	}
+
+	public void updateGroupPeers() {
+		ApplicationContextProvider.getManager().requestGroupInfo(ApplicationContextProvider.getChannel(), ShareResultsActivity.this);
+	}
+
+	@Override
+	public void onGroupInfoAvailable(SimWifiP2pDeviceList devices, SimWifiP2pInfo groupInfo) {
+		array.clear();
+
+		for (String deviceName : groupInfo.getDevicesInNetwork()) {
+			SimWifiP2pDevice device = devices.getByName(deviceName);
+
+			//Verify that we're not adding beacons to the list
+			if(!device.deviceName.matches("M[0-9]+")) {
+				array.add(new User("" + deviceName + " (" +
+						((device == null) ? "??" : device.getVirtIp()) + ")", device.getVirtIp()));
+			} else {
+				//verify if i'm close
+			}
+		}
+
+		adapter.notifyDataSetChanged();
+		checkEmptyList();
+	}
+
+	@Override
+	public void onPeersAvailable(SimWifiP2pDeviceList peers) {
+		//verify if i'm close
+	}
 }

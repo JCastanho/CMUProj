@@ -45,20 +45,6 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
-    public Response handle(ShareRsltCommand cmd) {
-        Boolean success = false;
-
-        if(s.verifyLogin(cmd.getId())) {
-            int friend = cmd.getFriend();
-
-            //WIFI direct shits
-            success = true;
-        }
-
-        return new ShareRsltResponse(success);
-    }
-
-    @Override
     public Response handle(GetUsersCommand cmd){
         //verify id from command?
         List<String> users = s.getActiveUsers(cmd.getID());

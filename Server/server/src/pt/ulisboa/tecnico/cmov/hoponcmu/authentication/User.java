@@ -37,4 +37,6 @@ public class User {
     public void setCode(String code){
         this.code=code;
     }
+
+    //TODO add getPoints, n shit
 }
