@@ -28,9 +28,14 @@
             android:name=".client.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
+<<<<<<< HEAD
+        <activity android:name=".client.ListLocalsActivity" />
+
+=======
         <activity
             android:name=".client.ListLocalsActivity"
             android:label="@string/title_quizz"/>
+>>>>>>> Daniela
         <activity
             android:name=".client.SignUpActivity"
             android:label="@string/action_sign_up" />
