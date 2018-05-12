@@ -18,18 +18,68 @@ import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
 
 public class QuizActivity extends AppCompatActivity {
 
     private int q = 0;
+
+    private SendQuizzAnswersTask task = null;
+    private String monumento;
     private String question;
     private ArrayList<String> answers;
 
-    public void setTitle(String title) {
-        this.title = title;
+    private ArrayList<String> questionSend = new ArrayList<String>();
+    private ArrayList<String> answersSend = new ArrayList<String>();
+
+    public int getQ() {
+        return q;
     }
 
-    private String title;
+    public void setQ(int q) {
+        this.q = q;
+    }
+
+    public String getMonumento() {
+        return monumento;
+    }
+
+    public void setMonumento(String monumento) {
+        this.monumento = monumento;
+    }
+
+    public String getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(String question) {
+        this.question = question;
+    }
+
+    public ArrayList<String> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(ArrayList<String> answers) {
+        this.answers = answers;
+    }
+
+    public ArrayList<String> getQuestionSend() {
+        return questionSend;
+    }
+
+    public void setQuestionSend(ArrayList<String> questionSend) {
+        this.questionSend = questionSend;
+    }
+
+    public ArrayList<String> getAnswersSend() {
+        return answersSend;
+    }
+
+    public void setAnswersSend(ArrayList<String> answersSend) {
+        this.answersSend = answersSend;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,14 +92,15 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
-        view.setText(bundle.getString("Title"));
-        setTitle(bundle.getString("Title"));
+
+        setMonumento(bundle.getString("Title"));
+        view.setText(monumento);
 
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         //Get Quizzes, see next line
-        String quizzes =  bundle.getString("Question");
-        viewQst.setText(quizzes);
+        setQuestion(bundle.getString("Question"));
+        viewQst.setText(question);
 
 //        int quizzes =  bundle.getInt("Page");
 //        viewQst.setText(Integer.toString(quizzes));
@@ -57,7 +108,7 @@ public class QuizActivity extends AppCompatActivity {
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
 
-        ArrayList<String> answers = bundle.getStringArrayList("Answers");
+        setAnswers(bundle.getStringArrayList("Answers"));
 
         RadioButton btn;
         for(int i = 0; i < 4; i++){
@@ -77,20 +128,30 @@ public class QuizActivity extends AppCompatActivity {
 //            Button btnPrev = (Button) findViewById(R.id.btnPrev);
 //            btnPrev.setEnabled(true);
 
-            q += 1;
+            getQuestionSend().add(question);
+            RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
+            int selectedId = group.getCheckedRadioButtonId();
+            if(selectedId != -1){
 
-            GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-            task.execute(title, Integer.toString(q));
+                q += 1;
+
+                RadioButton button = (RadioButton) findViewById(selectedId);
+                getAnswersSend().add(button.getText().toString());
+
+
+                GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
+                task.execute(monumento, Integer.toString(q));
 
 
 
-            Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
+            }
+            else{
+                Toast.makeText(this, "Please select answer", Toast.LENGTH_SHORT).show();
+            }
 
         }
-        if (q == 3){
-//            Button btnSend = (Button) findViewById(R.id.btnSend);
-//            btnSend.setEnabled(true);
-        }
+
         else {
 
 //            Button btn = (Button) findViewById(R.id.btnNext);
@@ -107,8 +168,11 @@ public class QuizActivity extends AppCompatActivity {
 
             q -= 1;
 
+            getQuestionSend().remove(questionSend.size() -1);
+            getAnswersSend().remove(answersSend.size() -1);
+
             GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-            task.execute(title, Integer.toString(q));
+            task.execute(monumento, Integer.toString(q));
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
 
@@ -121,13 +185,15 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void onSend(View view){
+
+        task = new SendQuizzAnswersTask(QuizActivity.this);
+        task.execute(getMonumento());
         QuizActivity.this.finish();
-        Toast.makeText(this, "Answer Sent!", Toast.LENGTH_SHORT).show();
     }
 
     public void updateQuestion(String question, ArrayList<String> answers){
-        this.question = question;
-        this.answers = answers;
+        setQuestion(question);
+        setAnswers(answers);
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         viewQst.setText(question);
@@ -135,6 +201,14 @@ public class QuizActivity extends AppCompatActivity {
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
         for(int i = 0; i < 4; i++){
             ((RadioButton) group.getChildAt(i)).setText(answers.get(i));
+        }
+    }
+
+    public void updateInterface(Integer id) {
+        if( id != -1) {
+            Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Answer failed, try again!", Toast.LENGTH_SHORT).show();
         }
     }
 }

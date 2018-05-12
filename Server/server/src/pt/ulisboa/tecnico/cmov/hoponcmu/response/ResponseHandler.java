@@ -6,5 +6,6 @@ public interface ResponseHandler {
 	public void handle(GetQuizzesResponse rsp);
 	public void handle(GetUsersResponse rsp);
 	public void handle(ShareRsltResponse rsp);
+	public void handle(SendQuizzesAnswersResponse rsp);
 
 }

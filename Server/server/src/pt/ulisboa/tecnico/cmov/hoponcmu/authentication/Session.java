@@ -5,6 +5,7 @@
  */
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,12 +21,14 @@ public class Session {
     private List<User> users;
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
+    private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
     private Integer idSequence = 0;
 
     public Session(){
         users=new ArrayList<>();
         login=new HashMap<>();
         quizzes = new HashMap<>();
+        quizzAnswers = new HashMap<>();
         populateQuizzes();
         users.add(new User("a","a"));
     }
@@ -116,5 +119,14 @@ public class Session {
     public Boolean verifyLogin(int identifier){
         if(login.containsKey(identifier)) return true;
         else return false;
+    }
+
+    public void quizzAnswers(String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
+        ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
+                new QuizzAnswers(quizzQuestions, answers)
+        ));
+
+        quizzAnswers.put(quizzTitle, list);
+
     }
 }
