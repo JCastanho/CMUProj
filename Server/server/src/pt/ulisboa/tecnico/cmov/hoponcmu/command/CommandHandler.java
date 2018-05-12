@@ -10,7 +10,6 @@ public interface CommandHandler {
     public Response handle(GetQuizzesCommand cmd);
     public Response handle(SendQuizzesAnswersCommand cmd);
     public Response handle(GetCorrectAnswersCommand cmd);
-    public Response handle(GetQuizzesAnswersCommand cmd);
 	//Adicionar aqui handle para outros comandos
 
 }
