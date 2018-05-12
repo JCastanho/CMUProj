@@ -9,19 +9,11 @@
     <string name="log_out">Log Out</string>
     <string name="title_share_results">Share Results</string>
     <string name="title_list_results">Select the results to share</string>
+    <string name="title_quizz">Quizzes</string>
+    <string name="title_see_shared_results">Shared Results</string>
     <string name="empty_list">No users available</string>
-    <string name="title_activity_read_quizz_answers">Read Quizz Answers</string>
+    <string name="title_activity_read_quizz_answers">Quizzes Results</string>
 
     <!--Termite-->
     <string name="port">10001</string>
-
-    <string name="hello">Hello World, MsgSenderActivity!</string>
-
-    <string name="sendButton">Send</string>
-    <string name="connectButton">Connect</string>
-    <string name="disconnectButton">Disconnect</string>
-    <string name="serviceButton">WiFi On</string>
-    <string name="cancelButton">WiFi Off</string>
-    <string name="inRangeButton">In Range</string>
-    <string name="inGroupButton">In Network</string>
 </resources>

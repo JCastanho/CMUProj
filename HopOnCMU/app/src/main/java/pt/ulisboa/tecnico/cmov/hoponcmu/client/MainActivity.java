@@ -18,6 +18,7 @@ import android.widget.Button;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.LogoutTask;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        Button share_btn2 = (Button) findViewById(R.id.share_btn2);
-        share_btn2.setOnClickListener(new View.OnClickListener() {
+        Button see_shared_rslt_btn = (Button) findViewById(R.id.see_share_rslt_btn);
+        see_shared_rslt_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SeeSharedResultsActivity.class);
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         Intent intent = new Intent(MainActivity.this, SimWifiP2pService.class);
         stopService(intent);
+
+        new LogoutTask(MainActivity.this).execute(tokenID);
     }
 
     @Override
@@ -114,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
             mChannel = mManager.initialize(getApplication(), getMainLooper(), null);
             ApplicationContextProvider.setChannel(mChannel);
             ApplicationContextProvider.setManager(mManager);
-
         }
 
         @Override

@@ -27,6 +27,15 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
+    public Response handle(LogoutCommand cmd) {
+        Integer token = cmd.getToken();
+
+        s.logOutUser(token);
+
+        return null;
+    }
+
+    @Override
     public Response handle(SendLocationCommand cmd){
         SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
         System.out.println(rsp.getLocations().get(0));
@@ -41,15 +50,6 @@ public class CommandHandlerImpl implements CommandHandler {
     	int size = s.getQuizzSize(cmd.getLocation());
     	
         GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
-        return rsp;
-    }
-
-    @Override
-    public Response handle(GetUsersCommand cmd){
-        //verify id from command?
-        List<String> users = s.getActiveUsers(cmd.getID());
-
-        GetUsersResponse rsp = new GetUsersResponse(users);
         return rsp;
     }
 
