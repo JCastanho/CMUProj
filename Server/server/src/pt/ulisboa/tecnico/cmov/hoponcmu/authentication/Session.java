@@ -5,6 +5,8 @@
  */
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
+import quiz.Quiz;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -128,5 +130,24 @@ public class Session {
 
         quizzAnswers.put(quizzTitle, list);
 
+    }
+
+    public int correctAnswers(String quizzTitle){
+        ArrayList<QuizzAnswers> quizzAnswersArrayList = quizzAnswers.get(quizzTitle);
+        ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
+        int counter = 0;
+
+        try {
+            for (int i = 0; i < quizzAnswersArrayList.size(); i++) {
+                if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(i).getQuizzAnswers().get(i))) {
+                    counter += 1;
+                }
+            }
+        }
+        catch (Exception e){
+            return -1;
+        }
+
+        return counter;
     }
 }

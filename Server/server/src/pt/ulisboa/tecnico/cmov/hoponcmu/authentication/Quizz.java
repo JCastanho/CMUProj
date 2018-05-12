@@ -26,6 +26,10 @@ public class Quizz {
 	{
 		return Question;
 	}
+
+	public String getCorrect() {
+		return Correct;
+	}
 	
 	public boolean validateAnswer(String answer){
 		return answer.equals(Correct);

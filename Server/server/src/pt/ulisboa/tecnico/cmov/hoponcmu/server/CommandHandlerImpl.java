@@ -73,6 +73,13 @@ public class CommandHandlerImpl implements CommandHandler {
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }
+
+    @Override
+    public Response handle(GetCorrectAnswersCommand cmd) {
+        int correctAnswers = s.correctAnswers(cmd.getQuizzTitle());
+        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+        return rsp;
+    }
     //Adicionar aqui handle para outros comandos
 
 }

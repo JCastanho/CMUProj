@@ -23,7 +23,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(2, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(3, params[0], activity.getQuestionSend(), activity.getAnswersSend());
 
         try{
             server = new Socket("10.0.2.2", 9090);

@@ -5,6 +5,8 @@ public interface ResponseHandler {
 	public void handle(SignupResponse hr);
 	public void handle(GetQuizzesResponse hr);
 	public void handle(ShareRsltResponse hr);
+	public void handle(GetCorrectAnswersResponse hr);
+	public void handle(SendQuizzesAnswersResponse hr);
 
 
 }

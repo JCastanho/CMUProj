@@ -12,10 +12,12 @@ import android.widget.Toast;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetLocalsTask;
 
 public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
+    private int correctAnswers = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,23 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
                 Toast.makeText(ReadQuizzAnswersActivity.this, "Getting Quizz answers for: " + text, Toast.LENGTH_SHORT).show();
 
+                GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this);
+                task.execute(text);
+
             }
         });
     }
+
+    public void correctAnswers(int answers){
+        if (answers != -1){
+            this.correctAnswers = answers;
+            Toast.makeText(ReadQuizzAnswersActivity.this, Integer.toString(answers) + " of 4", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(ReadQuizzAnswersActivity.this, "You didn't answer this Quizz", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     public void updateInterface(List<String> sucess){
 

@@ -53,7 +53,7 @@ public class ListLocalsActivity extends AppCompatActivity {
                 task = new GetQuizzTask(ListLocalsActivity.this);
                 task.execute(text,"0");
 //                ApplicationContextProvider.setTask(task);
-                ApplicationContextProvider.setActivity(ListLocalsActivity.this);
+               // ApplicationContextProvider.setActivity(ListLocalsActivity.this);
 
                 //Bundle bundle = new Bundle();
                 //bundle.putString("Title", text);
