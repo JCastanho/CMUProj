@@ -54,16 +54,6 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
-<<<<<<< HEAD
-    public Response handle(GetUsersCommand cmd){
-        //verify id from command?
-        List<String> users = s.getActiveUsers(cmd.getID());
-
-        GetUsersResponse rsp = new GetUsersResponse(users);
-        return rsp;
-    }
-
-    @Override
     public Response handle(SendQuizzesAnswersCommand cmd) {
         s.quizzAnswers(cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
@@ -74,12 +64,7 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(GetCorrectAnswersCommand cmd) {
         int correctAnswers = s.correctAnswers(cmd.getQuizzTitle());
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
-=======
-    public Response handle(GetQuizzesAnswersCommand cmd) {
-        GetQuizzesAnswersResponse rsp = new GetQuizzesAnswersResponse(cmd.getQuizzAnswers());
->>>>>>> Daniela
         return rsp;
     }
     //Adicionar aqui handle para outros comandos
-
 }

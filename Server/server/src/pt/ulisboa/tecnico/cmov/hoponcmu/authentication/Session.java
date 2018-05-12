@@ -5,13 +5,6 @@
  */
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
-<<<<<<< HEAD
-import quiz.Quiz;
-
-import java.lang.reflect.Array;
-=======
-import javax.sound.midi.SysexMessage;
->>>>>>> Daniela
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -27,12 +20,9 @@ public class Session {
     private List<User> users;
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
-<<<<<<< HEAD
     private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
-    private Integer idSequence = 0;
-=======
     private Integer idSequence;
->>>>>>> Daniela
+
 
     public Session(){
         idSequence = 0;
@@ -122,16 +112,16 @@ public class Session {
     public void populateQuizzes(){
     	
     	ArrayList<Quizz> TdP = new ArrayList<Quizz>(Arrays.asList(
-    			new Quizz("Aonde est� situado o Terreiro do Pa�o?",new ArrayList<String>(Arrays.asList("Entrecampos","Marqu�s de Pombal","Martim de Moniz")),"Baixa Pombalina"),
+    			new Quizz("Aonde está situado o Terreiro do Paço?",new ArrayList<String>(Arrays.asList("Entrecampos","Marquês de Pombal","Martim de Moniz")),"Baixa Pombalina"),
     			new Quizz("Que rio passa ao lado?",new ArrayList<String>(Arrays.asList("Rio Douro","Rio Mondego","Rio Vouga")),"Rio Tejo"),
-    			new Quizz("Que Rei est� representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. Jos� I"),
+    			new Quizz("Que Rei está representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. José I"),
     			new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Pra�a da Figueira","Pra�a do Chile","Avenida de Roma")),"Pra�a do Com�rcio")
     	));
     	
     	ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
     			new Quizz("Em que ano se deu o inc�ndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
     			new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Bas�lica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
-    			new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Pra�a do Com�rcio","Pre�a do Chile","Pra�a de Espanha")),"Pra�a Lu�s de Cam�es"),
+    			new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Praça do Comércio","Pre�a do Chile","Praça de Espanha")),"Praça Lu�s de Cam�es"),
     			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
     	));
     	
@@ -153,7 +143,6 @@ public class Session {
         if(login.containsKey(identifier)) return true;
         else return false;
     }
-<<<<<<< HEAD
 
     public void quizzAnswers(String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
@@ -182,8 +171,4 @@ public class Session {
 
         return counter;
     }
-    //TODO remove from login list when logging out
-
-=======
->>>>>>> Daniela
 }

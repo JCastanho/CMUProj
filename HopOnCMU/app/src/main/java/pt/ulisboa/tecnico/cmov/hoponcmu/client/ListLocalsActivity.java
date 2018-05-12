@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -47,6 +48,7 @@ public class ListLocalsActivity extends AppCompatActivity {
                 //Intent intent = new Intent(ListTourLocal.this, QuizActivity.class);
 
                 title = text;
+                Log.d("List Tour info", text);
 
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.

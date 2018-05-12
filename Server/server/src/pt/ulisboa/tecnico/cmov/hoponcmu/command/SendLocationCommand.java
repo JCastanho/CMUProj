@@ -30,10 +30,10 @@ public class SendLocationCommand implements Command{
     
     public void populateList(){
         locations = new ArrayList<>();
-        locations.add("Terreiro do Paço");
+        locations.add("Terreiro do PaÃ§o");
         locations.add("Chiado");
-        locations.add("Castelo de São Jorge");
-        locations.add("Praça da Figueira");
+        locations.add("Castelo de SÃ£o Jorge");
+        locations.add("PraÃ§a da Figueira");
     }
     
     public String getLocation(){
