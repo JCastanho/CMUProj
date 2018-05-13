@@ -22,16 +22,16 @@ public class Quizz {
 		return answers;
 	}
 	
-	public String getQuestion()
-	{
-		return Question;
+	public String getQuestion(){
+            return Question;
 	}
 
 	public String getCorrect() {
-		return Correct;
+            return Correct;
 	}
 	
 	public boolean validateAnswer(String answer){
-		return answer.equals(Correct);
+            System.out.println(Correct);
+            return answer.equals(Correct);
 	}
 }

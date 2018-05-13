@@ -94,7 +94,7 @@ public class Session {
 
     public void logOutUser(Integer token) {
         login.remove(token);
-        System.out.println(login.size());
+        //System.out.println(login.size());
     }
 
     public ArrayList<String> getQuizzAnswers(String monument, int page){
@@ -148,19 +148,18 @@ public class Session {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
                 new QuizzAnswers(quizzQuestions, answers)
         ));
-
         quizzAnswers.put(quizzTitle, list);
-
     }
 
     public int correctAnswers(String quizzTitle){
         ArrayList<QuizzAnswers> quizzAnswersArrayList = quizzAnswers.get(quizzTitle);
         ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
+        
         int counter = 0;
 
         try {
-            for (int i = 0; i < quizzAnswersArrayList.size(); i++) {
-                if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(i).getQuizzAnswers().get(i))) {
+            for (int i = 0; i < quizzAnswersArrayList.get(0).getQuizzAnswers().size(); i++) {
+                if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(0).getQuizzAnswers().get(i))) {
                     counter += 1;
                 }
             }
@@ -168,7 +167,6 @@ public class Session {
         catch (Exception e){
             return -1;
         }
-
         return counter;
     }
 }

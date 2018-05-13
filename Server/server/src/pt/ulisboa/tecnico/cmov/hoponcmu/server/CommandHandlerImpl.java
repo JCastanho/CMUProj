@@ -38,7 +38,6 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(SendLocationCommand cmd){
         SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
-        System.out.println(rsp.getLocations().get(0));
         return rsp;
     }
 
@@ -56,6 +55,8 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(SendQuizzesAnswersCommand cmd) {
         s.quizzAnswers(cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+        s.correctAnswers(cmd.getQuizzTitle());
+        
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }
