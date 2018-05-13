@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
 
 import android.content.Context;
 import android.view.LayoutInflater;

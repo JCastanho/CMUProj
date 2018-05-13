@@ -11,7 +11,8 @@
     <string name="title_list_results">Select the results to share</string>
     <string name="title_quizz">Quizzes</string>
     <string name="title_see_shared_results">Shared Results</string>
-    <string name="empty_list">No users available</string>
+    <string name="no_near_users">No users available</string>
+    <string name="no_results_shared">No results were shared with you</string>
     <string name="title_activity_read_quizz_answers">Quizzes Results</string>
 
     <!--Termite-->

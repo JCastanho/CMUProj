@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
 
 /**
  * Created by Daniela on 08/05/2018.

@@ -5,8 +5,10 @@ import android.content.Context;
 import android.content.ServiceConnection;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.User;
 
 public class ApplicationContextProvider extends Application {
 

@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, SimWifiP2pService.class);
         startService(intent);
 		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+
+		startService(new Intent(this, MyService.class));
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {

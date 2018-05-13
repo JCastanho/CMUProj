@@ -52,15 +52,16 @@
             android:label="@string/title_see_shared_results"/>
 
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
+        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.MyService" android:enabled="true" />
 
-        <!--<receiver android:name=".client.SimWifiP2pBroadcastReceiver" >
+        <receiver android:name=".client.SimWifiP2pBroadcastReceiver2" >
             <intent-filter>
                 <action android:name="SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION" />
                 <action android:name="SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION" />
                 <action android:name="SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION" />
                 <action android:name="SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION" />
             </intent-filter>
-        </receiver>-->
+        </receiver>
     </application>
 
 </manifest>

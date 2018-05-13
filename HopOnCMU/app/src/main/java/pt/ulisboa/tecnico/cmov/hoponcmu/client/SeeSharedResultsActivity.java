@@ -5,22 +5,34 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ExpandableListView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketServer;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.SharedResultAdapter;
 
 public class SeeSharedResultsActivity extends AppCompatActivity {
 
-    public static final String TAG = "MSG_RECEIVER";
-    private TextView mTextOutput;
+    public static final String TAG = "RESULT_RECEIVER";
+    //private TextView mTextOutput;
+    private ExpandableListView listView;
     private SimWifiP2pSocketServer mSrvSocket = null;
+    private static SharedResultAdapter adapter;
+    private static List<String> array;
+    private static HashMap<String,List<String>> expandableItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,10 +41,39 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
         SimWifiP2pSocketManager.Init(getApplicationContext());
 
-        mTextOutput = (TextView) findViewById(R.id.outputText);
+        //mTextOutput = (TextView) findViewById(R.id.outputText);
+        listView = (ExpandableListView) findViewById(R.id.sharedResults_list);
+
+        if(adapter == null) { setAdapter(listView); }
+
+        //TODO Get results from server
+        //new GetCorrectAnswersCommand().execute(
 
         new IncommingCommTask().executeOnExecutor(
                 AsyncTask.THREAD_POOL_EXECUTOR);
+    }
+
+    private void setAdapter(ExpandableListView listView) {
+        array = new ArrayList<>();
+        expandableItems = new HashMap<>();
+        // TODO: Get shared results in server??
+
+        adapter = new SharedResultAdapter(this, this.array, this.expandableItems);
+
+        listView.setAdapter(adapter);
+    }
+
+    private void parseResult(String results) {
+        List<String> items = new ArrayList<>();
+
+        String[] parsed = results.split(":");
+        String[] parsedResults = parsed[1].split(",");
+
+        array.add(parsed[0]);
+        expandableItems.put(parsed[0], Arrays.asList(parsedResults));
+
+        adapter.notifyDataSetChanged();
+        listView.setEmptyView(findViewById(R.id.no_results_shared));
     }
 
     /*
@@ -56,7 +97,6 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
                 try {
                     SimWifiP2pSocket sock = mSrvSocket.accept();
-                    Log.d("See Shared Results","Accepting socketspera1.........");
                     try {
                         BufferedReader sockIn = new BufferedReader(
                                 new InputStreamReader(sock.getInputStream()));
@@ -79,7 +119,7 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            mTextOutput.append(values[0] + "\n");
+            parseResult(values[0]);
         }
     }
 }
