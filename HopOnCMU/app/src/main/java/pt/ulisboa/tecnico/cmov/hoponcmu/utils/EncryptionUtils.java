@@ -262,16 +262,7 @@ public class EncryptionUtils {
 
     // Encode data do base64
     public byte[] base64Encoder(byte[] toEncode){
-        byte[] result = Base64.encode(toEncode, Base64.NO_WRAP);
-
-        try {
-            Log.d("Test", new String(result,"UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-
-        return result;
-
+        return Base64.encode(toEncode, Base64.NO_WRAP);
     }
     // Decode data from base64
     public byte[] base64Decoder(byte[] toDecode){
