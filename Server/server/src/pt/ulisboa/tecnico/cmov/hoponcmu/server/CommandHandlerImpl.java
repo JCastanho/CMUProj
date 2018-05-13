@@ -18,7 +18,8 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(LoginCommand cmd) {
         int identifier = -1;
 		try {
-			identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
+	        if(cmd.securityCheck())
+	        	identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -52,9 +53,18 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(SendLocationCommand cmd){
-        SendLocationResponse rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
-        System.out.println(rsp.getLocations().get(0));
-        return rsp;
+        SendLocationResponse rsp = null;
+		try {
+			if(cmd.securityCheck()) {
+				rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
+		        System.out.println(rsp.getLocations().get(0));
+		        return rsp;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return rsp;
     }
 
     @Override

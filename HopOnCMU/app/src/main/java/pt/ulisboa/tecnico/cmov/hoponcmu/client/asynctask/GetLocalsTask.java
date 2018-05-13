@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
@@ -24,7 +26,12 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
     protected List<String> doInBackground(String[] params) {
         Socket server = null;
         List<String> reply = null;
-        SendLocationCommand cmd = new SendLocationCommand(params[0]);
+        SendLocationCommand cmd = null;
+        try {
+            cmd = new SendLocationCommand(params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             //If you're using geny emulator use 10.0.3.2
@@ -37,9 +44,11 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendLocationResponse response = (SendLocationResponse) ois.readObject();
-            reply = response.getLocations();
-            Log.d("REPLY",reply.get(0));
 
+            if(response.securityCheck()) {
+                reply = response.getLocations();
+                Log.d("REPLY", reply.get(0));
+            }
 
             oos.close();
             ois.close();
