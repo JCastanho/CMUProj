@@ -44,7 +44,6 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendLocationResponse response = (SendLocationResponse) ois.readObject();
             reply = response.getLocations();
-            Log.d("REPLY",reply.get(0));
 
 
             oos.close();

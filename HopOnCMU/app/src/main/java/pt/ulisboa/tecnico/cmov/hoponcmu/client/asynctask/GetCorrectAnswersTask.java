@@ -37,12 +37,12 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
             reply = response.getCorrect();
+            Log.d("ASDASDASDASDASDASDASD",""+reply);
 
             Log.d("Teste" ,"Respostas: " + Integer.toString(reply));
 
             oos.close();
             ois.close();
-            Log.d("Client", "Hello friend!");
         }catch (Exception e){
             Log.d("Client", "Get Correct Answers failed " + e.getMessage());
             e.printStackTrace();

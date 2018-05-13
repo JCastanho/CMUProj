@@ -11,7 +11,6 @@ public class SendQuizzesAnswersResponse implements Response {
         this.id= id;
     }
 
-
     public int getId() {
         return id;
     }
