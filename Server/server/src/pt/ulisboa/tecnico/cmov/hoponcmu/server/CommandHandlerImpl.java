@@ -61,9 +61,7 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(GetCorrectAnswersCommand cmd) {
-        System.out.println(cmd.getQuizzTitle());
         int correctAnswers = s.correctAnswers(cmd.getQuizzTitle());
-        System.out.println(correctAnswers);
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
         return rsp;
     }

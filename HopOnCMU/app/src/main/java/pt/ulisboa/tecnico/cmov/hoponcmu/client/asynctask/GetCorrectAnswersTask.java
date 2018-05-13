@@ -37,7 +37,6 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
 
             oos.close();
             ois.close();
-            Log.d("Client", "Hello friend!");
         }catch (Exception e){
             Log.d("Client", "Get Correct Answers failed " + e.getMessage());
             e.printStackTrace();
