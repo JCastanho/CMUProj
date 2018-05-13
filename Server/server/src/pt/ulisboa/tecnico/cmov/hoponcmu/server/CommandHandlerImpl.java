@@ -16,9 +16,19 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(LoginCommand cmd) {
-        int identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
+        int identifier = -1;
+		try {
+			identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return new LoginResponse(identifier);
+        try {
+			return new LoginResponse(identifier);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        return null;
     }
 
     @Override
@@ -35,8 +45,9 @@ public class CommandHandlerImpl implements CommandHandler {
         try {
 			return new SignupResponse(rsp);
 		} catch (Exception e) {
-			return null;
+			e.printStackTrace();
 		}
+		return null;
     }
 
     @Override

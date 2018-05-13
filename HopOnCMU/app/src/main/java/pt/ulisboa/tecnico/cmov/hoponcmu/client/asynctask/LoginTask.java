@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
@@ -23,7 +25,14 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        LoginCommand cmd = new LoginCommand(params[0], params[1]);
+        LoginCommand cmd = null;
+        try {
+            cmd = new LoginCommand(params[0], params[1]);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }
 
         try {
             //If you're using geny emulator use 10.0.3.2
@@ -36,7 +45,10 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             LoginResponse response = (LoginResponse) ois.readObject();
-            reply = response.getID();
+
+
+            if(response.securityCheck())
+                reply = response.getID();
 
             oos.close();
             ois.close();
