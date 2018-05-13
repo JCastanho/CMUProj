@@ -24,7 +24,7 @@ public class SendLocationCommand implements Command{
     private byte[] signature;
 
     public SendLocationCommand(String location) throws UnsupportedEncodingException, SignatureException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         this.location= encryption.encrypt(location.getBytes("UTF-8"));
 
@@ -42,13 +42,13 @@ public class SendLocationCommand implements Command{
     }
 
     public String getLocation() throws UnsupportedEncodingException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return new String(encryption.decrypt(this.location),"UTF-8");
     }
     
     public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
 

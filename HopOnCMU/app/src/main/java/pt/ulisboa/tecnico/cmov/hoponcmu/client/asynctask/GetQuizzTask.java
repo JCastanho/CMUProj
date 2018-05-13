@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
@@ -27,7 +29,12 @@ public class GetQuizzTask extends AsyncTask<String, Void, Question> {
     protected Question doInBackground(String[] params) {
         Socket server = null;
         Question reply = null;
-        GetQuizzesCommand hc = new GetQuizzesCommand(2,params[0], Integer.parseInt(params[1]));
+        GetQuizzesCommand hc = null;
+        try {
+            hc = new GetQuizzesCommand(2,params[0], Integer.parseInt(params[1]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             //If you're using geny emulator use 10.0.3.2
             server = new Socket("10.0.2.2", 9090);
@@ -37,7 +44,9 @@ public class GetQuizzTask extends AsyncTask<String, Void, Question> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetQuizzesResponse hr = (GetQuizzesResponse) ois.readObject();
-            reply = new Question(hr.getQuestion(), hr.getAnswers(), hr.getPage(), hr.getSize());
+
+            if(hr.securityCheck())
+                reply = new Question(hr.getQuestion(), hr.getAnswers(), hr.getPage(), hr.getSize());
 
             oos.close();
             ois.close();

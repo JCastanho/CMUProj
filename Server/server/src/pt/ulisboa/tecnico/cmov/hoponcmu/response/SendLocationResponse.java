@@ -23,7 +23,7 @@ public class SendLocationResponse implements Response {
     public SendLocationResponse(List<String> locations) throws UnsupportedEncodingException, SignatureException {
         List<byte[]> finalLocations = new ArrayList<byte[]>();
 
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
 
         for (String location: locations) {
@@ -43,7 +43,7 @@ public class SendLocationResponse implements Response {
     public List<String> getLocations() throws UnsupportedEncodingException {
         List<String> pureLocations = new ArrayList<String>();
 
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         for (byte[] location: this.locations) {
             pureLocations.add(new String(encryption.decrypt(location),"UTF-8"));
@@ -54,7 +54,7 @@ public class SendLocationResponse implements Response {
 
 
     public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
 
