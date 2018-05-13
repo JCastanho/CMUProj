@@ -167,6 +167,8 @@ public class Session {
         catch (Exception e){
             return -1;
         }
+        
+        //TODO ADICIONAR O COUNTER AO HASHMAP DE RESPOSTAS CERTAS DO USER
         return counter;
     }
 }

@@ -1,6 +1,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.RequestPrizesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
 
 public class QuizActivity extends AppCompatActivity {
@@ -25,6 +27,7 @@ public class QuizActivity extends AppCompatActivity {
     private int q = 0;
 
     private SendQuizzAnswersTask task = null;
+    private RequestPrizesTask taskPrizzes = null;
     private String monumento;
     private String question;
     private ArrayList<String> answers;
@@ -138,11 +141,8 @@ public class QuizActivity extends AppCompatActivity {
                 RadioButton button = (RadioButton) findViewById(selectedId);
                 getAnswersSend().add(button.getText().toString());
 
-
                 GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
                 task.execute(monumento, Integer.toString(q));
-
-
 
                 Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
             }
@@ -154,8 +154,8 @@ public class QuizActivity extends AppCompatActivity {
 
         else {
 
-//            Button btn = (Button) findViewById(R.id.btnNext);
-//            btn.setEnabled(false);
+            //Button btn = (Button) findViewById(R.id.btnNext);
+            //btn.setEnabled(false);
         }
 
     }
@@ -186,9 +186,19 @@ public class QuizActivity extends AppCompatActivity {
 
     public void onSend(View view){
 
-        task = new SendQuizzAnswersTask(QuizActivity.this);
-        task.execute(getMonumento());
-        QuizActivity.this.finish();
+        if(getMonumento().equals("Praça da Figueira")) {
+            task = new SendQuizzAnswersTask(QuizActivity.this);
+            task.execute(getMonumento());
+            //taskPrizzes = new RequestPrizesTask(QuizActivity.this);
+            //taskPrizzes.execute("prize");
+            QuizActivity.this.finish();
+        }
+
+        else {
+            task = new SendQuizzAnswersTask(QuizActivity.this);
+            task.execute(getMonumento());
+            QuizActivity.this.finish();
+        }
     }
 
     public void updateQuestion(String question, ArrayList<String> answers){
