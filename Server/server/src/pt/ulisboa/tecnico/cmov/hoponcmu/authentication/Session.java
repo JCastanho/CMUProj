@@ -21,6 +21,7 @@ public class Session {
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
     private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
+    private Map<Integer, Map<String, ArrayList<QuizzAnswers>>> userAnswers;
     private Integer idSequence;
 
 
@@ -30,6 +31,7 @@ public class Session {
         login = new HashMap<>();
         quizzes = new HashMap<>();
         quizzAnswers = new HashMap<>();
+        userAnswers = new HashMap<>();
         populateQuizzes();
         users.add(new User("a","a"));
         users.add(new User("b","b"));
@@ -144,15 +146,17 @@ public class Session {
         else return false;
     }
 
-    public void quizzAnswers(String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
+    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
                 new QuizzAnswers(quizzQuestions, answers)
         ));
         quizzAnswers.put(quizzTitle, list);
+        userAnswers.put(id, quizzAnswers);
     }
 
-    public int correctAnswers(String quizzTitle){
-        ArrayList<QuizzAnswers> quizzAnswersArrayList = quizzAnswers.get(quizzTitle);
+    public int correctAnswers(int id, String quizzTitle){
+
+        ArrayList<QuizzAnswers> quizzAnswersArrayList = userAnswers.get(id).get(quizzTitle);
         ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
         
         int counter = 0;
@@ -161,6 +165,7 @@ public class Session {
             for (int i = 0; i < quizzAnswersArrayList.get(0).getQuizzAnswers().size(); i++) {
                 if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(0).getQuizzAnswers().get(i))) {
                     counter += 1;
+                    System.out.println("teste -> " + Integer.toString(counter));
                 }
             }
         }

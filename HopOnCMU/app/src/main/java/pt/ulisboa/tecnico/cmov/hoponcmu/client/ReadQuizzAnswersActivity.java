@@ -17,7 +17,8 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetLocalsTask;
 
 public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
-    private int correctAnswers = 0;
+    private int correctAnswers;
+    private int userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,9 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read_quizz_answers);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        Bundle bundle = getIntent().getExtras();
+        this.userId = bundle.getInt("id");
 
         final ListView listView = (ListView) findViewById(R.id.list_tours_answers);
         new GetLocalsTask(ReadQuizzAnswersActivity.this).execute("location");
@@ -38,7 +42,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
                 Toast.makeText(ReadQuizzAnswersActivity.this, "Getting Quizz answers for: " + text, Toast.LENGTH_SHORT).show();
 
-                GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this);
+                GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this, userId);
                 task.execute(text);
 
             }

@@ -14,25 +14,31 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
 public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
 
     private ReadQuizzAnswersActivity activity;
+    private int id;
 
-    public GetCorrectAnswersTask(ReadQuizzAnswersActivity activity) {
+    public GetCorrectAnswersTask(ReadQuizzAnswersActivity activity, int id) {
         this.activity = activity;
+        this.id = id;
     }
 
     @Override
     protected Integer doInBackground(String[] params){
         Socket server = null;
         int reply = -1;
-        GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(4 ,params[0]);
+        GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(id ,params[0]);
 
         try{
             server = new Socket("10.0.2.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
+            Log.d("Teste" ,"Reply: " + Integer.toString(reply));
+
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
             reply = response.getCorrect();
+
+            Log.d("Teste" ,"Respostas: " + Integer.toString(reply));
 
             oos.close();
             ois.close();
