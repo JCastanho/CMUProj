@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.server;
 
+import java.io.UnsupportedEncodingException;
+import java.security.SignatureException;
 import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.authentication.Session;
@@ -20,10 +22,21 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
-    public Response handle(CreateUserCommand cmd) {
-        Boolean rsp = s.createUser(cmd.getUsername(), cmd.getCode());
+    public Response handle(CreateUserCommand cmd){
+        String rsp = "NOK";
+		try {
+			if(cmd.securityCheck()) {
+				rsp = s.createUser(cmd.getUsername(), cmd.getCode())? "OK": "NOK";	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-        return new SignupResponse(rsp);
+        try {
+			return new SignupResponse(rsp);
+		} catch (Exception e) {
+			return null;
+		}
     }
 
     @Override

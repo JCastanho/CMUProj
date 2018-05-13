@@ -7,13 +7,33 @@ import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.Command;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
+import pt.ulisboa.tecnico.cmov.hoponcmu.utils.EncryptionUtils;
 
 public class Server {
 
 	private static final int PORT = 9090;
 
 	public static void main(String[] args) throws Exception {
-
+		
+//		EncryptionUtils eu = new EncryptionUtils();
+//
+//		eu.generateKeys("client");
+//		eu.generateKeys("server");
+//		
+//		System.out.println("Keys generated!");
+		
+//		EncryptionUtils eu = new EncryptionUtils("server");
+//		
+//		String text = "hello world";
+//		byte[] array = text.getBytes("UTF-8");
+//		byte[] encrypt = eu.encrypt(array);
+//		byte[] decrypt = eu.decrypt(encrypt);
+//		
+//		System.out.println(new String(decrypt, "UTF-8"));
+//		
+//		byte[] signature = eu.generateSignature(array);
+//		System.out.println("Valid Signature: " + eu.verifySignature(array, signature));
+		
 		CommandHandlerImpl chi = new CommandHandlerImpl();
 		ServerSocket socket = new ServerSocket(PORT);
 		Socket client = null;

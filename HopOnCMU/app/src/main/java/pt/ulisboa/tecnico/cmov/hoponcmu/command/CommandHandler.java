@@ -1,5 +1,8 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
+import java.io.UnsupportedEncodingException;
+import java.security.SignatureException;
+
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
 public interface CommandHandler {
