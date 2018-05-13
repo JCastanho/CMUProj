@@ -186,19 +186,17 @@ public class QuizActivity extends AppCompatActivity {
 
     public void onSend(View view){
 
-        if(getMonumento().equals("Praça da Figueira")) {
-            task = new SendQuizzAnswersTask(QuizActivity.this);
-            task.execute(getMonumento());
-            //taskPrizzes = new RequestPrizesTask(QuizActivity.this);
-            //taskPrizzes.execute("prize");
-            QuizActivity.this.finish();
-        }
+        //if(getMonumento().equals("Praça da Figueira")) {
+        //    task = new SendQuizzAnswersTask(QuizActivity.this);
+        //    task.execute(getMonumento());
+        //    taskPrizzes = new RequestPrizesTask(QuizActivity.this);
+        //    taskPrizzes.execute("prize");
+        //    QuizActivity.this.finish();
+        //}
 
-        else {
-            task = new SendQuizzAnswersTask(QuizActivity.this);
-            task.execute(getMonumento());
-            QuizActivity.this.finish();
-        }
+        task = new SendQuizzAnswersTask(QuizActivity.this);
+        task.execute(getMonumento());
+        QuizActivity.this.finish();
     }
 
     public void updateQuestion(String question, ArrayList<String> answers){

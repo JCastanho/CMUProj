@@ -31,7 +31,6 @@ public class Quizz {
 	}
 	
 	public boolean validateAnswer(String answer){
-            System.out.println(Correct);
             return answer.equals(Correct);
 	}
 }

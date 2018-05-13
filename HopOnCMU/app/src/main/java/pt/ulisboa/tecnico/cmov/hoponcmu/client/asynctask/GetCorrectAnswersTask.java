@@ -33,6 +33,7 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
             reply = response.getCorrect();
+            Log.d("ASDASDASDASDASDASDASD",""+reply);
 
             oos.close();
             ois.close();

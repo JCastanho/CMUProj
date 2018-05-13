@@ -167,7 +167,7 @@ public class Session {
         catch (Exception e){
             return -1;
         }
-        
+        System.out.println("counter: " + counter);
         //TODO ADICIONAR O COUNTER AO HASHMAP DE RESPOSTAS CERTAS DO USER
         return counter;
     }
