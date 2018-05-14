@@ -9,6 +9,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.command.*;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class CommandHandlerImpl implements CommandHandler {
 
@@ -52,6 +53,15 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
+    public Response handle(LogoutCommand cmd) {
+        Integer token = cmd.getToken();
+
+        s.logOutUser(token);
+
+        return null;
+    }
+
+    @Override
     public Response handle(SendLocationCommand cmd){
         SendLocationResponse rsp = null;
 		try {
@@ -87,19 +97,26 @@ public class CommandHandlerImpl implements CommandHandler {
     }
 
     @Override
-    public Response handle(GetUsersCommand cmd){
-        //verify id from command?
-        List<String> users = s.getActiveUsers(cmd.getID());
-
-        GetUsersResponse rsp = new GetUsersResponse(users);
+    public Response handle(SendQuizzesAnswersCommand cmd) {
+        s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+        s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+        SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }
 
     @Override
-    public Response handle(GetQuizzesAnswersCommand cmd) {
-        GetQuizzesAnswersResponse rsp = new GetQuizzesAnswersResponse(cmd.getQuizzAnswers());
+    public Response handle(GetCorrectAnswersCommand cmd) {
+        int correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+        System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
+        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+        return rsp;
+    }
+    
+    @Override
+    public Response handle(RequestPrizesCommand cmd){
+        Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
+        PrizesResponse rsp = new PrizesResponse(map);
         return rsp;
     }
     //Adicionar aqui handle para outros comandos
-
 }

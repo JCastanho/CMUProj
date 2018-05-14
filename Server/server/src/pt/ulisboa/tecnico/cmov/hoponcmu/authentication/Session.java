@@ -7,9 +7,14 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -20,14 +25,21 @@ public class Session {
     private List<User> users;
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
-    private Integer idSequence = 0;
+    private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
+    private Map<Integer, Map<String, ArrayList<QuizzAnswers>>> userAnswers;
+    private Integer idSequence;
+
 
     public Session(){
-        users=new ArrayList<>();
-        login=new HashMap<>();
+        idSequence = 0;
+        users = new ArrayList<>();
+        login = new HashMap<>();
         quizzes = new HashMap<>();
+        quizzAnswers = new HashMap<>();
+        userAnswers = new HashMap<>();
         populateQuizzes();
         users.add(new User("a","a"));
+        users.add(new User("b","b"));
     }
 
     public Boolean createUser(String username, String code){
@@ -45,18 +57,55 @@ public class Session {
     public int verifyUser(String username, String password){
         int identifier = -1;
 
-        for(User u: users){
-            if(u.getUsername().equals(username) && u.getCode().equals(password)){
+        if(verifyCredentials(username, password)){
+            if(!isUserLogged(username)) {
                 identifier = generateID();
-                login.put(identifier,u);
+                login.put(identifier, getUser(username));
             }
         }
 
         return identifier;
     }
 
-    public Integer generateID(){
-        return idSequence++;
+    private User getUser(String username){
+        for(User u: users){
+            if(u.getUsername().equals(username))
+                return u;
+        }
+        return null;
+    }
+    
+    public String getUserById(int id){
+        return login.get(id).getUsername();
+    }
+
+    private Boolean isUserLogged(String username){
+        for(User loggedUser: login.values()){
+            if(loggedUser.getUsername().equals(username)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private Boolean verifyCredentials(String username, String password){
+        for(User u: users){
+            if(u.getUsername().equals(username) && u.getCode().equals(password))
+                return true;
+        }
+
+        return false;
+    }
+
+    private Integer generateID(){
+        //Change eventually
+        return login.size();
+    }
+
+    public void logOutUser(Integer token) {
+        login.remove(token);
+        //System.out.println(login.size());
     }
 
     public ArrayList<String> getQuizzAnswers(String monument, int page){
@@ -74,16 +123,16 @@ public class Session {
     public void populateQuizzes(){
     	
     	ArrayList<Quizz> TdP = new ArrayList<Quizz>(Arrays.asList(
-    			new Quizz("Aonde est� situado o Terreiro do Pa�o?",new ArrayList<String>(Arrays.asList("Entrecampos","Marqu�s de Pombal","Martim de Moniz")),"Baixa Pombalina"),
+    			new Quizz("Aonde está situado o Terreiro do Paço?",new ArrayList<String>(Arrays.asList("Entrecampos","Marquês de Pombal","Martim de Moniz")),"Baixa Pombalina"),
     			new Quizz("Que rio passa ao lado?",new ArrayList<String>(Arrays.asList("Rio Douro","Rio Mondego","Rio Vouga")),"Rio Tejo"),
-    			new Quizz("Que Rei est� representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. Jos� I"),
+    			new Quizz("Que Rei está representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. José I"),
     			new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Pra�a da Figueira","Pra�a do Chile","Avenida de Roma")),"Pra�a do Com�rcio")
     	));
     	
     	ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
     			new Quizz("Em que ano se deu o inc�ndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
     			new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Bas�lica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
-    			new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Pra�a do Com�rcio","Pre�a do Chile","Pra�a de Espanha")),"Pra�a Lu�s de Cam�es"),
+    			new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Praça do Comércio","Pre�a do Chile","Praça de Espanha")),"Praça Lu�s de Cam�es"),
     			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
     	));
     	
@@ -94,27 +143,90 @@ public class Session {
     			new Quizz("Pergunta 4",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
 	    	));
 
-    	quizzes.put("Terreiro do Pa�o", TdP);
+    	quizzes.put("Terreiro do Paço", TdP);
     	quizzes.put("Chiado", C);
-    	quizzes.put("Castelo de S�o Jorge", fake);
-    	quizzes.put("Pra�a da Figueira", fake);
+    	quizzes.put("Castelo de São Jorge", fake);
+    	quizzes.put("Praça da Figueira", fake);
     	
-    }
-
-    public List<String> getActiveUsers(int identifier) {
-        List<String> usersToList = new ArrayList<>();
-        String currentUser = login.get(identifier).getUsername();
-
-        for(User u: users){
-            if(!u.getUsername().equals(currentUser))
-                usersToList.add(u.getUsername());
-        }
-
-        return usersToList;
     }
 
     public Boolean verifyLogin(int identifier){
         if(login.containsKey(identifier)) return true;
         else return false;
+    }
+
+    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
+        ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
+                new QuizzAnswers(quizzQuestions, answers)
+        ));
+        quizzAnswers.put(quizzTitle, list);
+        userAnswers.put(id, quizzAnswers);
+    }
+
+    public int correctAnswers(int id, String quizzTitle){
+
+        ArrayList<QuizzAnswers> quizzAnswersArrayList = userAnswers.get(id).get(quizzTitle);
+        ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
+        
+        int counter = 0;
+
+        try {
+            for (int i = 0; i < quizzAnswersArrayList.get(0).getQuizzAnswers().size(); i++) {
+                if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(0).getQuizzAnswers().get(i))) {
+                    counter += 1;
+                }
+            }
+        }
+        catch (Exception e){
+            return -1;
+        }
+        //TODO ADICIONAR O COUNTER AO HASHMAP DE RESPOSTAS CERTAS DO USER
+        User u = login.get(id);
+        u.setQuizzAnswser(quizzTitle,counter);
+        return counter;
+    }
+    
+    public Map<String, Integer> getQuizzesPrizes(int id){
+        Map<String, Integer> users = new HashMap<>();
+        User user = login.get(id);
+
+        for(int idAux: login.keySet()){
+            User userAux = login.get(idAux);
+            System.out.println(userAux.getUsername());
+            int counter = 0;
+            
+            for(String quizz: userAux.getQuizzAnswser().keySet()){
+                counter+=userAux.getQuizzAnswser().get(quizz);
+            }
+            if(user==userAux){
+                System.out.println("Tamanho: " + userAux.getQuizzAnswser().keySet().size());
+                if(userAux.getQuizzAnswser().keySet().size()==4){
+                    System.out.println("entrou");
+                    users.put("FINALSELECTED"+userAux.getUsername(), counter);
+                }
+                else{
+                    users.put("SELECTED"+userAux.getUsername(), counter);
+                }
+            }
+            else{
+                users.put(userAux.getUsername(), counter);
+            }
+        }
+        
+        Map<String, Integer> OrderUsers = sortByValue(users);
+        
+        return OrderUsers;
+    }
+    
+    public <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 }

@@ -7,12 +7,13 @@ import android.widget.Toast;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 
 public class SimWifiP2pBroadcastReceiver2 extends BroadcastReceiver {
 
-    private MsgSenderActivity mActivity;
+    private MainActivity mActivity;
 
-    public SimWifiP2pBroadcastReceiver2(MsgSenderActivity activity) {
+    public SimWifiP2pBroadcastReceiver2(MainActivity activity) {
         super();
         this.mActivity = activity;
     }
@@ -44,6 +45,7 @@ public class SimWifiP2pBroadcastReceiver2 extends BroadcastReceiver {
         	Toast.makeText(mActivity, "Peer list changed",
     				Toast.LENGTH_SHORT).show();
 
+
         } else if (SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION.equals(action)) {
 
         	SimWifiP2pInfo ginfo = (SimWifiP2pInfo) intent.getSerializableExtra(
@@ -51,6 +53,8 @@ public class SimWifiP2pBroadcastReceiver2 extends BroadcastReceiver {
         	ginfo.print();
     		Toast.makeText(mActivity, "Network membership changed",
     				Toast.LENGTH_SHORT).show();
+            //mActivity.updateGroupPeers();
+
 
         } else if (SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION.equals(action)) {
 

@@ -4,13 +4,14 @@ public class SendQuizzesAnswersResponse implements Response {
 
     private static final long serialVersionUID = 734457624276534179L;
 
-    private String quizzAnswers;
 
-    public SendQuizzesAnswersResponse(String quizzAnswers) {
-        this.quizzAnswers = quizzAnswers;
+    private int id;
+
+    public SendQuizzesAnswersResponse(int id) {
+        this.id= id;
     }
 
-    public String getQuizzAnswers() {
-        return this.quizzAnswers;
+    public int getId() {
+        return id;
     }
 }

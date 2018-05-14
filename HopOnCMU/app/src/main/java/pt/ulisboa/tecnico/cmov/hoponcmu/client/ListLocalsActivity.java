@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -25,6 +26,7 @@ public class ListLocalsActivity extends AppCompatActivity {
 
     private GetQuizzTask task = null;
     private String title = "";
+    private int id;
     private String quizzes = "empty";
 
     @Override
@@ -35,6 +37,9 @@ public class ListLocalsActivity extends AppCompatActivity {
         final ListView listView = (ListView) findViewById(R.id.list_tours);
         new GetLocalsTask(ListLocalsActivity.this).execute("location");
 
+        Bundle bundle = getIntent().getExtras();
+        this.id = bundle.getInt("id");
+
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
@@ -44,20 +49,14 @@ public class ListLocalsActivity extends AppCompatActivity {
 
                 Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
 
-                //Intent intent = new Intent(ListTourLocal.this, QuizActivity.class);
-
                 title = text;
+                Log.d("List Tour info", text);
 
                 // Show a progress spinner, and kick off a background task to
                 // perform the user login attempt.
                 task = new GetQuizzTask(ListLocalsActivity.this);
                 task.execute(text,"0");
-                //Bundle bundle = new Bundle();
-                //bundle.putString("Title", text);
-                //bundle.putString("Quizzes", quizzes);
 
-                //intent.putExtras(bundle);
-                //startActivity(intent);
             }
         });
 
@@ -74,6 +73,8 @@ public class ListLocalsActivity extends AppCompatActivity {
         bundle.putStringArrayList("Answers", answers);
         bundle.putInt("Page", page);
         bundle.putInt("Size", size);
+        bundle.putInt("id", id);
+
 
         intent.putExtras(bundle);
         startActivity(intent);
