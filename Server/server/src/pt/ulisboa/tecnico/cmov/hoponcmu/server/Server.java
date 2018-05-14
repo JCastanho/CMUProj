@@ -6,6 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.Command;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
 
 public class Server {

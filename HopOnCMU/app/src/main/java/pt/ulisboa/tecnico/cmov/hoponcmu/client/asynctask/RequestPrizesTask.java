@@ -8,27 +8,25 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.RequestPrizesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendQuizzesAnswersResponse;
 
-public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
+public class RequestPrizesTask extends AsyncTask<String, Void, Integer> {
 
     private QuizActivity activity;
-    private int id;
 
-    public SendQuizzAnswersTask(QuizActivity activity, int id) {
+    public RequestPrizesTask(QuizActivity activity) {
         this.activity = activity;
-        this.id = id;
     }
 
     @Override
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+        RequestPrizesCommand cmd = new RequestPrizesCommand(params[0]);
 
         try{
-            //If you're using geny emulator use 10.0.3.2
             server = new Socket("10.0.2.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);

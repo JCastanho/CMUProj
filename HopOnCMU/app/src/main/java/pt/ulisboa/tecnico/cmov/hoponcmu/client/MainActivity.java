@@ -41,7 +41,9 @@ public class MainActivity extends AppCompatActivity {
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ListLocalsActivity.class));
+                Intent intent = new Intent(MainActivity.this, ListLocalsActivity.class);
+                intent.putExtra("id",tokenID);
+                startActivity(intent);
             }
         });
 
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
         readQuizz_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, ReadQuizzAnswersActivity.class));
+                Intent intent = new Intent(MainActivity.this, ReadQuizzAnswersActivity.class);
+                intent.putExtra("id",tokenID);
+                startActivity(intent);
             }
         });
 

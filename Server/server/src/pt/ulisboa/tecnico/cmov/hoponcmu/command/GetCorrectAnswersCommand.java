@@ -7,9 +7,11 @@ public class GetCorrectAnswersCommand implements Command{
 
     private static final long serialVersionUID = -8807331723807741905L;
     private String quizzTitle;
+    private int id;
 
-    public GetCorrectAnswersCommand(String quizzTitle){
+    public GetCorrectAnswersCommand(String quizzTitle, int id){
         this.quizzTitle = quizzTitle;
+        this.id = id;
     }
 
     @Override
@@ -19,5 +21,9 @@ public class GetCorrectAnswersCommand implements Command{
 
     public String getQuizzTitle() {
         return quizzTitle;
+    }
+
+    public int getId(){
+        return id;
     }
 }
