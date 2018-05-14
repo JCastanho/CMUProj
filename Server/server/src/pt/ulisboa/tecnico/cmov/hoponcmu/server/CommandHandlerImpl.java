@@ -7,6 +7,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.command.*;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.*;
 
 import java.util.List;
+import java.util.Map;
 
 public class CommandHandlerImpl implements CommandHandler {
 
@@ -56,7 +57,6 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd) {
         s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
         s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }
@@ -66,6 +66,13 @@ public class CommandHandlerImpl implements CommandHandler {
         int correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
         System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+        return rsp;
+    }
+    
+    @Override
+    public Response handle(RequestPrizesCommand cmd){
+        Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
+        PrizesResponse rsp = new PrizesResponse(map);
         return rsp;
     }
     //Adicionar aqui handle para outros comandos

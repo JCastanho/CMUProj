@@ -6,25 +6,27 @@ import android.util.Log;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.PrizesActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.RequestPrizesCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
-import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendQuizzesAnswersResponse;
+import pt.ulisboa.tecnico.cmov.hoponcmu.response.PrizesResponse;
 
-public class RequestPrizesTask extends AsyncTask<String, Void, Integer> {
+public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integer>> {
 
-    private QuizActivity activity;
+    private PrizesActivity activity;
 
-    public RequestPrizesTask(QuizActivity activity) {
+    public RequestPrizesTask(PrizesActivity activity) {
         this.activity = activity;
     }
 
     @Override
-    protected Integer doInBackground(String[] params) {
+    protected Map<String, Integer> doInBackground(String[] params) {
         Socket server = null;
-        int reply = -1;
-        RequestPrizesCommand cmd = new RequestPrizesCommand(params[0]);
+        Map<String, Integer> reply = null;
+        RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
 
         try{
             server = new Socket("10.0.2.2", 9090);
@@ -32,9 +34,8 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Integer> {
             oos.writeObject(cmd);
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
-            SendQuizzesAnswersResponse response = (SendQuizzesAnswersResponse) ois.readObject();
-            reply = response.getId();
-
+            PrizesResponse response = (PrizesResponse) ois.readObject();
+            reply = response.getMap();
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");
@@ -52,7 +53,7 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer o) {
+    protected void onPostExecute(Map<String, Integer> o) {
         activity.updateInterface(o);
     }
 }

@@ -14,14 +14,14 @@ import java.util.Map;
  */
 public class User {
 
-    private Map<String, Integer> quizzAnwser;
+    private Map<String, Integer> quizzAnswer;
     private String username;
     private String code;
 
     public User(String username, String code){
         this.username=username;
         this.code=code;
-        quizzAnwser = new HashMap<>();
+        quizzAnswer = new HashMap<>();
     }
 
     public String getUsername() {
@@ -41,11 +41,13 @@ public class User {
     }
     
     //TODO add getPoints, n shit
-    public Map<String, Integer> getQuizzAnwser() {
-        return quizzAnwser;
+    public Map<String, Integer> getQuizzAnswser() {
+        return quizzAnswer;
     }
 
-    public void setQuizzAnwser(Map<String, Integer> quizzAnwser) {
-        this.quizzAnwser = quizzAnwser;
+    public void setQuizzAnswser(String quizzTitle, int correctAnswer) {
+        if(!quizzAnswer.containsKey(quizzTitle)){
+            quizzAnswer.put(quizzTitle, correctAnswer);
+        }
     }
 }

@@ -7,9 +7,14 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  *
@@ -68,6 +73,10 @@ public class Session {
                 return u;
         }
         return null;
+    }
+    
+    public String getUserById(int id){
+        return login.get(id).getUsername();
     }
 
     private Boolean isUserLogged(String username){
@@ -165,15 +174,59 @@ public class Session {
             for (int i = 0; i < quizzAnswersArrayList.get(0).getQuizzAnswers().size(); i++) {
                 if (quizzArrayList.get(i).validateAnswer(quizzAnswersArrayList.get(0).getQuizzAnswers().get(i))) {
                     counter += 1;
-                    System.out.println("teste -> " + Integer.toString(counter));
                 }
             }
         }
         catch (Exception e){
             return -1;
         }
-        System.out.println("counter: " + counter);
         //TODO ADICIONAR O COUNTER AO HASHMAP DE RESPOSTAS CERTAS DO USER
+        User u = login.get(id);
+        u.setQuizzAnswser(quizzTitle,counter);
         return counter;
+    }
+    
+    public Map<String, Integer> getQuizzesPrizes(int id){
+        Map<String, Integer> users = new HashMap<>();
+        User user = login.get(id);
+
+        for(int idAux: login.keySet()){
+            User userAux = login.get(idAux);
+            System.out.println(userAux.getUsername());
+            int counter = 0;
+            
+            for(String quizz: userAux.getQuizzAnswser().keySet()){
+                counter+=userAux.getQuizzAnswser().get(quizz);
+            }
+            if(user==userAux){
+                System.out.println("Tamanho: " + userAux.getQuizzAnswser().keySet().size());
+                if(userAux.getQuizzAnswser().keySet().size()==4){
+                    System.out.println("entrou");
+                    users.put("FINALSELECTED"+userAux.getUsername(), counter);
+                }
+                else{
+                    users.put("SELECTED"+userAux.getUsername(), counter);
+                }
+            }
+            else{
+                users.put(userAux.getUsername(), counter);
+            }
+        }
+        
+        Map<String, Integer> OrderUsers = sortByValue(users);
+        
+        return OrderUsers;
+    }
+    
+    public <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
+        List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
+        list.sort(Entry.comparingByValue());
+
+        Map<K, V> result = new LinkedHashMap<>();
+        for (Entry<K, V> entry : list) {
+            result.put(entry.getKey(), entry.getValue());
+        }
+
+        return result;
     }
 }
