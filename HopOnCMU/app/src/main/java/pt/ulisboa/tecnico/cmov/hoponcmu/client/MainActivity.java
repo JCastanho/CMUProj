@@ -57,6 +57,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button prizes_btn = (Button) findViewById(R.id.prizes_btn);
+        prizes_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, PrizesActivity.class);
+                intent.putExtra("id",tokenID);
+                startActivity(intent);
+            }
+        });
+
         Button share_btn = (Button) findViewById(R.id.share_btn);
         share_btn.setOnClickListener(new View.OnClickListener() {
             @Override
