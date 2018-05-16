@@ -99,6 +99,6 @@ public class PrizesActivity extends AppCompatActivity {
             prize.setText("");
             time.setText("");
         }
-        Toast.makeText(PrizesActivity.this, "" + map.keySet(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(PrizesActivity.this, "" + map.entrySet(), Toast.LENGTH_SHORT).show();
     }
 }

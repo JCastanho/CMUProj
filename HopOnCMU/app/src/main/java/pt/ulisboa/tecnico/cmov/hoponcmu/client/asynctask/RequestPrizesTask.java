@@ -6,7 +6,6 @@ import android.util.Log;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.PrizesActivity;

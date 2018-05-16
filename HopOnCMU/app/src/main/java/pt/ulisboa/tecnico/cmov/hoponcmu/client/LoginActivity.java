@@ -123,7 +123,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
             //return the id to the next activity so the user can perform the tasks
             mainActivity.putExtra("id",id);
-            Log.d("ID LOGIN: ",""+id);
             startActivity(mainActivity);
             finish();
         } else{

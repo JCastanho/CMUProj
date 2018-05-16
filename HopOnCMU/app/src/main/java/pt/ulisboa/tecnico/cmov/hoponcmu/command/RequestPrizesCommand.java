@@ -7,7 +7,7 @@ public class RequestPrizesCommand implements Command {
     private static final long serialVersionUID = -8807331723807741905L;
     private int id;
 
-    public RequestPrizesCommand(int prize) {
+    public RequestPrizesCommand(int id) {
         this.id = id;
     }
 
