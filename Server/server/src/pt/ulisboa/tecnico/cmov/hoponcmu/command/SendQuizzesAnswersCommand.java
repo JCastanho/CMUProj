@@ -11,12 +11,14 @@ public class SendQuizzesAnswersCommand implements Command {
     private String quizzTitle;
     private ArrayList<String> quizzAnswers;
     private ArrayList<String> quizzQuestions;
+    private int timeForQuizz;
 
-    public SendQuizzesAnswersCommand(int id, String quizzTitle , ArrayList<String> quizzQuestions , ArrayList<String> quizzAnswers){
+    public SendQuizzesAnswersCommand(int id, String quizzTitle , ArrayList<String> quizzQuestions , ArrayList<String> quizzAnswers, int timeForQuizz){
         this.id = id;
         this.quizzTitle = quizzTitle;
         this.quizzQuestions = quizzQuestions;
         this.quizzAnswers = quizzAnswers;
+        this.timeForQuizz = timeForQuizz;
     }
 
     @Override
@@ -39,4 +41,8 @@ public class SendQuizzesAnswersCommand implements Command {
     public ArrayList<String> getQuizzQuestions() {
         return quizzQuestions;
     }
+    
+    public int getTimeForQuizz(){
+        return timeForQuizz;
+    }        
 }

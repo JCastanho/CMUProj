@@ -17,11 +17,13 @@ public class User {
     private Map<String, Integer> quizzAnswer;
     private String username;
     private String code;
+    private int timeForQuizz;
 
     public User(String username, String code){
         this.username=username;
         this.code=code;
         quizzAnswer = new HashMap<>();
+        timeForQuizz=0;
     }
 
     public String getUsername() {
@@ -39,7 +41,15 @@ public class User {
     public void setCode(String code){
         this.code=code;
     }
-    
+
+    public int getTimeForQuizz() {
+        return timeForQuizz;
+    }
+
+    public void setTimeForQuizz(int timeForQuizz) {
+        this.timeForQuizz = timeForQuizz;
+    }
+        
     //TODO add getPoints, n shit
     public Map<String, Integer> getQuizzAnswser() {
         return quizzAnswer;

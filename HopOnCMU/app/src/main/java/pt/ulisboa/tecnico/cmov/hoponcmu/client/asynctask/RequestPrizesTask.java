@@ -26,6 +26,7 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integ
     protected Map<String, Integer> doInBackground(String[] params) {
         Socket server = null;
         Map<String, Integer> reply = null;
+        Log.d("ID TASK: ",params[0]);
         RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
 
         try{
