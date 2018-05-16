@@ -1,5 +1,7 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,7 +11,11 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
@@ -27,6 +33,12 @@ public class QuizActivity extends AppCompatActivity {
 
     private ArrayList<String> questionSend = new ArrayList<String>();
     private ArrayList<String> answersSend = new ArrayList<String>();
+
+    Timer quizzTimer;
+    TimerTask quizzTimerTask;
+
+    //we are going to use a handler to be able to run in our TimerTask
+    final Handler handler = new Handler();
 
     public int getQ() {
         return q;
@@ -60,6 +72,10 @@ public class QuizActivity extends AppCompatActivity {
         this.answers = answers;
     }
 
+    public int getTimeForQuizz(){
+        return this.timeForQuizz;
+    }
+
     public ArrayList<String> getQuestionSend() {
         return questionSend;
     }
@@ -75,7 +91,11 @@ public class QuizActivity extends AppCompatActivity {
     public void setAnswersSend(ArrayList<String> answersSend) {
         this.answersSend = answersSend;
     }
-
+    private Button btnSend;
+    private TextView time;
+    private int min;
+    private int seg;
+    private int timeForQuizz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,10 +106,17 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
+        timeForQuizz=15;
+        min=0;
+        seg=15;
+
+        time = (TextView) findViewById(R.id.time);
+        time.setText("0"+min+":"+seg);
+
         Button btnPrev = (Button) findViewById(R.id.btnPrev);
         btnPrev.setEnabled(false);
 
-        Button btnSend = (Button) findViewById(R.id.btnSend);
+        btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setEnabled(false);
 
         this.id = bundle.getInt("id");
@@ -116,6 +143,54 @@ public class QuizActivity extends AppCompatActivity {
             group.addView(btn);
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //onResume we start our timer so it can start when the app comes from the background
+        startQuizzTimer();
+    }
+
+    public void startQuizzTimer() {
+        quizzTimer = new Timer();
+        initializeQuizzTimer();
+        quizzTimer.schedule(quizzTimerTask, 500, 1000); //
+    }
+
+    public void initializeQuizzTimer() {
+
+        quizzTimerTask = new TimerTask() {
+            public void run() {
+                handler.post(new Runnable() {
+                    public void run() {
+                        if(min==0 && seg==0){
+                            time.setText("00:00");
+                            btnSend.performClick();
+                        }
+                        else{
+                            if(min==0 && seg<11){
+                                time.setTextColor(Color.RED);
+                            }
+                            if(seg==0){
+                                seg=59;
+                                min-=1;
+                                time.setText("0"+min+":"+seg);
+                            }
+
+                            seg-=1;
+                            if(seg<10){
+                                time.setText("0"+min+":0"+seg);
+                            }
+                            else{
+                                time.setText("0"+min+":"+seg);
+                            }
+                        }
+                    }
+                });
+            }
+        };
     }
 
     public void onNext(View view){
@@ -184,6 +259,13 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void onSend(View view){
+
+        if (quizzTimer != null) {
+            quizzTimer.cancel();
+            quizzTimer = null;
+        }
+
+        timeForQuizz=timeForQuizz-((min*60)+seg);
 
         getQuestionSend().add(question);
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);

@@ -57,6 +57,7 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd) {
         s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
         s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+        s.saveTime(cmd.getId(), cmd.getTimeForQuizz());
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }

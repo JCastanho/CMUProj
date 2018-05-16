@@ -64,6 +64,17 @@
             android:onClick="onSend"
             android:text="Send" />
 
+        <TextView
+            android:id="@+id/time"
+            android:paddingTop="20dp"
+            android:textSize="30dp"
+            android:textAppearance="@color/colorPrimaryDark"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="aa" />
+
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

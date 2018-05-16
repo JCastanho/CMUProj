@@ -4,15 +4,10 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/LoginResponse.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/CreateUserCommand.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/CommandHandler.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/SendLocationCommand.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/SendLocationResponse.java</file>
             <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/server/CommandHandlerImpl.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/server/Server.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/LoginCommand.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/Response.java</file>
-            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/SignupResponse.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/Session.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/User.java</file>
+            <file>file:/home/josesa/Documents/IST/CMU/CMUProj/Server/server/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/ResponseHandler.java</file>
         </group>
     </open-files>
 </project-private>

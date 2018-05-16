@@ -26,7 +26,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend(), activity.getTimeForQuizz());
 
         try{
             //If you're using geny emulator use 10.0.3.2
