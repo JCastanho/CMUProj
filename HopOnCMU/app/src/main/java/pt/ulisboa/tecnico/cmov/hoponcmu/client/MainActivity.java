@@ -3,6 +3,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.os.Messenger;
@@ -15,10 +16,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ShareResultService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.LogoutTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.SimWifiP2pBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
     private Messenger mService = null;
+    private SimWifiP2pBroadcastReceiver mReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         tokenID = getIntent().getExtras().getInt("id",-1);
-        setTermite();
+
+        registerBroadcastReceiver();
+        setServices();
 
         Button list_btn = (Button) findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {
@@ -81,15 +88,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Intent intent = new Intent(MainActivity.this, SimWifiP2pService.class);
-        stopService(intent);
+        Intent termite = new Intent(MainActivity.this, SimWifiP2pService.class);
+        Intent sharingService = new Intent(MainActivity.this, SimWifiP2pService.class);
 
-        new LogoutTask(MainActivity.this).execute(tokenID);
+        unbindService(mConnection);
+        stopService(termite);
+        stopService(sharingService);
+        unregisterReceiver(mReceiver);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.log_out){
+            new LogoutTask(MainActivity.this).execute(tokenID);
             Intent intent = new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
             finish();
@@ -105,12 +116,25 @@ public class MainActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
-    private void setTermite() {
-        Intent intent = new Intent(this, SimWifiP2pService.class);
-        startService(intent);
-		bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    private void registerBroadcastReceiver() {
+        IntentFilter filter = new IntentFilter();
 
-		startService(new Intent(this, MyService.class));
+        filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION);
+        filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION);
+        filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION);
+        filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION);
+
+        mReceiver = new SimWifiP2pBroadcastReceiver();
+
+        registerReceiver(mReceiver, filter);
+    }
+
+    private void setServices() {
+        Intent termite = new Intent(this, SimWifiP2pService.class);
+        startService(termite);
+		bindService(termite, mConnection, Context.BIND_AUTO_CREATE);
+
+		startService(new Intent(this, ShareResultService.class));
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {

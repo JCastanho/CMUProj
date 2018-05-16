@@ -76,6 +76,7 @@ public class ListResultsActivity extends AppCompatActivity {
 		array.add("70%");
 
 		// TODO: Get results in server
+		//new GetCorrectAnswersCommand().execute()
 
 		adapter = new ResultAdapter(this,array);
 

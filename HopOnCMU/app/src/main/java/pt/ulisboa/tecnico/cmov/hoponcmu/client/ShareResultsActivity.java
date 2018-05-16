@@ -1,77 +1,61 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
-import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
-import pt.inesc.termite.wifidirect.SimWifiP2pDevice;
-import pt.inesc.termite.wifidirect.SimWifiP2pDeviceList;
-import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
-import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.User;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.UserAdapter;
 
-public class ShareResultsActivity extends AppCompatActivity implements
-		SimWifiP2pManager.PeerListListener, SimWifiP2pManager.GroupInfoListener {
+public class ShareResultsActivity extends AppCompatActivity{
 
-	private static ArrayList<User> array;
-	private static UserAdapter adapter;
+	private ArrayList<User> array;
+	private UserAdapter adapter;
 	private ListView listView;
-	private SimWifiP2pBroadcastReceiver mReceiver;
+	private final String TAG = "NEARBY_USERS";
+	private Boolean alive;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sharerslt);
 
-		registerBroadcastReceiver();
-
 		listView = findViewById(R.id.list_users);
+		alive = true;
 
-		if (adapter == null) { setAdapter(); }
+		setAdapter();
+
+		new NearbyUsersTask().executeOnExecutor(
+				AsyncTask.THREAD_POOL_EXECUTOR);
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		alive = false;
 	}
 
 	@Override
 	protected void onRestart() {
 		super.onRestart();
-		registerBroadcastReceiver();
-	}
-
-	@Override
-	public void onPause() {
-		super.onPause();
-		unregisterReceiver(mReceiver);
-	}
-
-
-	private void registerBroadcastReceiver() {
-		IntentFilter filter = new IntentFilter();
-
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION);
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION);
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION);
-		filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION);
-
-		mReceiver = new SimWifiP2pBroadcastReceiver(this);
-
-		registerReceiver(mReceiver, filter);
+		array.clear();
 	}
 
 	private void setAdapter() {
-		array = ApplicationContextProvider.groupPeersList();
+		array = ApplicationContextProvider.getGroupPeersList();
+		Log.d("Set Adapter: ", ""+array.size());
 		adapter = new UserAdapter(ShareResultsActivity.this, array);
-
 		listView.setAdapter(adapter);
-		listView.setEmptyView(findViewById(R.id.no_near_users));
+		checkEmptyList();
 	}
 
-	public String getUserAddress(String name){
-		for(User u: array){
+	public String getUserAddress(String name) {
+		for(User u: array) {
 			if(u.getName().equals(name))
 				return u.getAddress();
 		}
@@ -83,35 +67,58 @@ public class ShareResultsActivity extends AppCompatActivity implements
 		if(array.size() == 0)
 			listView.setEmptyView(findViewById(R.id.no_near_users));
 	}
+	private ArrayList<String> getListOfUsernames(ArrayList<User> users) {
+		ArrayList<String> usernames = new ArrayList<>();
 
-	public void updatePeers() {
-		ApplicationContextProvider.getManager().requestPeers(ApplicationContextProvider.getChannel(), ShareResultsActivity.this);
-	}
-
-	public void updateGroupPeers() {
-		ApplicationContextProvider.getManager().requestGroupInfo(ApplicationContextProvider.getChannel(), ShareResultsActivity.this);
-	}
-
-	@Override
-	public void onGroupInfoAvailable(SimWifiP2pDeviceList devices, SimWifiP2pInfo groupInfo) {
-		array.clear();
-
-		for (String deviceName : groupInfo.getDevicesInNetwork()) {
-			SimWifiP2pDevice device = devices.getByName(deviceName);
-
-			//Verify that we're not adding beacons to the list
-			if(!device.deviceName.matches("M[0-9]+"))
-				array.add(new User(deviceName,device.getVirtIp()));
+		for(User user: users) {
+			usernames.add(user.getName());
 		}
 
-		adapter.notifyDataSetChanged();
-		checkEmptyList();
-		ApplicationContextProvider.setGroupPeers(array);
+		return usernames;
 	}
 
-	@Override
-	public void onPeersAvailable(SimWifiP2pDeviceList peers) {
-		//verify if i'm close to beacon
+	public class NearbyUsersTask extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+
+			Log.d(TAG, "Working...");
+
+			while (alive) {
+				ArrayList<User> updatedUsers = ApplicationContextProvider.getGroupPeersList();
+
+				/*List<String> updatedUsersSorted = getListOfUsernames(updatedUsers);
+				List<String> arraySorted = getListOfUsernames(array);
+				Collections.sort(updatedUsersSorted);
+				Collections.sort(arraySorted);
+
+				if(!updatedUsers.equals(arraySorted)) {
+					Log.d(TAG, "Old list size: " + array.size());
+					array.clear();
+					array.addAll(updatedUsers);
+					Log.d(TAG, "New list size: " + array.size());
+					publishProgress();
+				}*/
+
+				//TODO Fix concurrent modification
+				if(!(array.containsAll(updatedUsers) && updatedUsers.containsAll(array))){
+					Log.d(TAG, "Old list size: " + array.size());
+					Log.d(TAG, "New list size: " + updatedUsers.size());
+					Log.d(TAG, "New list size app: " + ApplicationContextProvider.getGroupPeersList().size());
+					array.clear();
+					array.addAll(updatedUsers);
+					Log.d(TAG, "Updated list size: " + array.size());
+					publishProgress();
+				}
+			}
+
+			return null;
+		}
+
+		@Override
+		protected void onProgressUpdate(Void... params) {
+			adapter.notifyDataSetChanged();
+			checkEmptyList();
+		}
 	}
 }
-

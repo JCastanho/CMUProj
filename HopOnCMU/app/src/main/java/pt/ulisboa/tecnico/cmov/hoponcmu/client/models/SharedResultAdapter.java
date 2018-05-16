@@ -5,7 +5,6 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
  */
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,8 +72,8 @@ public class SharedResultAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.content_sharedresult, null);
         }
 
-        TextView sharedresult = (TextView) convertView.findViewById(R.id.sharedresult);
-        sharedresult.setText(currentResult);
+        TextView sharedResult = (TextView) convertView.findViewById(R.id.sharedresult);
+        sharedResult.setText(currentResult);
 
         return convertView;
     }
@@ -85,9 +84,10 @@ public class SharedResultAdapter extends BaseExpandableListAdapter {
 
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.expandable_item, null);        }
+            convertView = inflater.inflate(R.layout.expandable_item, null);
+        }
 
-        TextView expandableItems = (TextView) convertView.findViewById(R.id.expandleItem);
+        TextView expandableItems = (TextView) convertView.findViewById(R.id.expandableItem);
         expandableItems.setText(childText);
 
         return convertView;

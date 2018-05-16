@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/expandleItem"
+        android:id="@+id/expandableItem"
         android:layout_width="0dp"
         android:layout_height="58dp"
         android:layout_centerHorizontal="true"

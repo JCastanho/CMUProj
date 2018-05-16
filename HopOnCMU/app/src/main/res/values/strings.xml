@@ -10,6 +10,7 @@
     <string name="title_share_results">Share Results</string>
     <string name="title_list_results">Select the results to share</string>
     <string name="title_quizz">Quizzes</string>
+    <string name="title_asknatives">Select the user</string>
     <string name="title_see_shared_results">Shared Results</string>
     <string name="no_near_users">No users available</string>
     <string name="no_results_shared">No results were shared with you</string>
@@ -17,4 +18,6 @@
 
     <!--Termite-->
     <string name="port">10001</string>
+    <string name="host">10.0.2.2</string>
+
 </resources>
