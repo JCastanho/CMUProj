@@ -74,7 +74,7 @@ public class Session {
         }
         return null;
     }
-    
+
     public String getUserById(int id){
         return login.get(id).getUsername();
     }
@@ -121,33 +121,33 @@ public class Session {
     }
 
     public void populateQuizzes(){
-    	
-    	ArrayList<Quizz> TdP = new ArrayList<Quizz>(Arrays.asList(
-    			new Quizz("Aonde está situado o Terreiro do Paço?",new ArrayList<String>(Arrays.asList("Entrecampos","Marquês de Pombal","Martim de Moniz")),"Baixa Pombalina"),
-    			new Quizz("Que rio passa ao lado?",new ArrayList<String>(Arrays.asList("Rio Douro","Rio Mondego","Rio Vouga")),"Rio Tejo"),
-    			new Quizz("Que Rei está representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. José I"),
-    			new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Pra�a da Figueira","Pra�a do Chile","Avenida de Roma")),"Pra�a do Com�rcio")
-    	));
-    	
-    	ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
-    			new Quizz("Em que ano se deu o inc�ndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
-    			new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Bas�lica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
-    			new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Praça do Comércio","Pre�a do Chile","Praça de Espanha")),"Praça Lu�s de Cam�es"),
-    			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
-    	));
-    	
-    	ArrayList<Quizz> fake = new ArrayList<Quizz>(Arrays.asList(
-    			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
-    			new Quizz("Pergunta 2",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
-    			new Quizz("Pergunta 3",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
-    			new Quizz("Pergunta 4",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
-	    	));
 
-    	quizzes.put("Terreiro do Paço", TdP);
-    	quizzes.put("Chiado", C);
-    	quizzes.put("Castelo de São Jorge", fake);
-    	quizzes.put("Praça da Figueira", fake);
-    	
+        ArrayList<Quizz> TdP = new ArrayList<Quizz>(Arrays.asList(
+                new Quizz("Aonde está situado o Terreiro do Paço?",new ArrayList<String>(Arrays.asList("Entrecampos","Marquês de Pombal","Martim de Moniz")),"Baixa Pombalina"),
+                new Quizz("Que rio passa ao lado?",new ArrayList<String>(Arrays.asList("Rio Douro","Rio Mondego","Rio Vouga")),"Rio Tejo"),
+                new Quizz("Que Rei está representado na est�tua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. In�s")),"D. José I"),
+                new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Pra�a da Figueira","Pra�a do Chile","Avenida de Roma")),"Pra�a do Com�rcio")
+        ));
+
+        ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
+                new Quizz("Em que ano se deu o inc�ndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
+                new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Bas�lica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
+                new Quizz("Que pra�a aqui se encontra?",new ArrayList<String>(Arrays.asList("Praça do Comércio","Pre�a do Chile","Praça de Espanha")),"Praça Lu�s de Cam�es"),
+                new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
+        ));
+
+        ArrayList<Quizz> fake = new ArrayList<Quizz>(Arrays.asList(
+                new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+                new Quizz("Pergunta 2",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+                new Quizz("Pergunta 3",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
+                new Quizz("Pergunta 4",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
+        ));
+
+        quizzes.put("Terreiro do Paço", TdP);
+        quizzes.put("Chiado", C);
+        quizzes.put("Castelo de São Jorge", fake);
+        quizzes.put("Praça da Figueira", fake);
+
     }
 
     public Boolean verifyLogin(int identifier){
@@ -167,7 +167,7 @@ public class Session {
 
         ArrayList<QuizzAnswers> quizzAnswersArrayList = userAnswers.get(id).get(quizzTitle);
         ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
-        
+
         int counter = 0;
 
         try {
@@ -185,7 +185,7 @@ public class Session {
         u.setQuizzAnswser(quizzTitle,counter);
         return counter;
     }
-    
+
     public Map<String, Integer> getQuizzesPrizes(int id){
         Map<String, Integer> users = new HashMap<>();
         User user = login.get(id);
@@ -194,7 +194,7 @@ public class Session {
             User userAux = login.get(idAux);
             System.out.println(userAux.getUsername());
             int counter = 0;
-            
+
             for(String quizz: userAux.getQuizzAnswser().keySet()){
                 counter+=userAux.getQuizzAnswser().get(quizz);
             }
@@ -212,12 +212,12 @@ public class Session {
                 users.put(userAux.getUsername(), counter);
             }
         }
-        
+
         Map<String, Integer> OrderUsers = sortByValue(users);
-        
+
         return OrderUsers;
     }
-    
+
     public <K, V extends Comparable<? super V>> Map<K, V> sortByValue(Map<K, V> map) {
         List<Entry<K, V>> list = new ArrayList<>(map.entrySet());
         list.sort(Entry.comparingByValue());

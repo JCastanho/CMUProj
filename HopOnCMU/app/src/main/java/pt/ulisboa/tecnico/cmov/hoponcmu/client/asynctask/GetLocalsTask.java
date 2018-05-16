@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;

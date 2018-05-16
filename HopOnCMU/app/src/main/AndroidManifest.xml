@@ -49,21 +49,15 @@
             android:label="@string/title_list_results" />
         <activity
             android:name=".client.SeeSharedResultsActivity"
-            android:label="@string/title_see_shared_results" />
-
+            android:label="@string/title_see_shared_results"/>
+        <activity
+            android:name=".client.AskNativesActivity"
+            android:label="@string/title_asknatives"/>
+        <activity
+            android:name=".client.PrizesActivity">
+        </activity>
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
-
-        <!--
-        <receiver android:name=".client.SimWifiP2pBroadcastReceiver" >
-            <intent-filter>
-                <action android:name="SimWifiP2pBroadcast.WIFI_P2P_STATE_CHANGED_ACTION" />
-                <action android:name="SimWifiP2pBroadcast.WIFI_P2P_PEERS_CHANGED_ACTION" />
-                <action android:name="SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION" />
-                <action android:name="SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION" />
-            </intent-filter>
-        </receiver>
-        -->
-        <activity android:name=".client.PrizesActivity"></activity>
+        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ShareResultService" android:enabled="true" />
     </application>
 
 </manifest>
