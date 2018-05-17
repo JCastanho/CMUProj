@@ -1,53 +1,68 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.widget.ListView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.UnknownHostException;
 
+import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.NearbyUser;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.UserAdapter;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
-public class AskNativesActivity extends AppCompatActivity {
+public class AskNativesActivity extends PeerListenerActivity{
 
-	private ArrayList<NearbyUser> array = new ArrayList<>();
-	private UserAdapter adapter;
-	private ListView listView;
+	private SimWifiP2pSocket mCliSocket = null;
+	private SendQuizzesAnswersCommand cmd;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_asknatives);
 
-		listView = findViewById(R.id.list_nativeusers);
-
-		setAdapter();
-
-
+		super.setAdapter(AskNativesActivity.this);
+		super.findGroupPeers();
 	}
 
-	private void setAdapter() {
-		//array = ApplicationContextProvider.getGroupPeersList();
-		adapter = new UserAdapter(AskNativesActivity.this, array);
-
-		listView.setAdapter(adapter);
-		listView.setEmptyView(findViewById(R.id.no_near_users));
+	public void sendResults(String neighborAddr){
+		new sendMessageTask().executeOnExecutor(
+				AsyncTask.THREAD_POOL_EXECUTOR,
+				neighborAddr);
 	}
 
-	public String getUserAddress(String name){
-		for(NearbyUser u: array){
-			if(u.getName().equals(name))
-				return u.getAddress();
+	public class sendMessageTask extends AsyncTask<String, Void, String> {
+
+		@Override
+		protected String doInBackground(String... params) {
+			try {
+				mCliSocket = new SimWifiP2pSocket(params[0],
+						Integer.parseInt(getString(R.string.port)));
+
+				mCliSocket.getOutputStream().write(("2-" + cmd + "\n").getBytes());
+
+				BufferedReader sockIn = new BufferedReader(
+						new InputStreamReader(mCliSocket.getInputStream()));
+				sockIn.readLine();
+				mCliSocket.close();
+			} catch (UnknownHostException e) {
+				return "Unknown Host:" + e.getMessage();
+			} catch (IOException e) {
+				return "IO error:" + e.getMessage();
+			}
+			mCliSocket = null;
+
+			return null;
 		}
 
-		return "";
-	}
-
-	private void checkEmptyList(){
-		if(array.size() == 0)
-			listView.setEmptyView(findViewById(R.id.no_near_users));
+		@Override
+		protected void onPostExecute(String result) {
+			if (result != null) {
+				Toast.makeText(getBaseContext(),result,Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getBaseContext(),"Results Sent!",Toast.LENGTH_SHORT).show();
+			}
+		}
 	}
 }
-
