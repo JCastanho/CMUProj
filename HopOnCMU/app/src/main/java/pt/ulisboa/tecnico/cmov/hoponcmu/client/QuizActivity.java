@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
@@ -192,7 +193,6 @@ public class QuizActivity extends AppCompatActivity {
             Button btnPrev = (Button) findViewById(R.id.btnPrev);
             btnPrev.setEnabled(true);
 
-            getQuestionSend().add(question);
             RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
             int selectedId = group.getCheckedRadioButtonId();
             if(selectedId != -1){
@@ -202,8 +202,6 @@ public class QuizActivity extends AppCompatActivity {
                 RadioButton button = (RadioButton) findViewById(selectedId);
                 getAnswersSend().add(button.getText().toString());
 
-//                GetQuizzTask task = new GetQuizzTask(QuizActivity.this, id);
-//                task.execute(monumento);
                 updateQuestion();
 
                 Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
@@ -236,11 +234,8 @@ public class QuizActivity extends AppCompatActivity {
 
             q -= 1;
 
-            getQuestionSend().remove(questionSend.size() -1);
             getAnswersSend().remove(answersSend.size() -1);
 
-//            GetQuizzTask task = new GetQuizzTask(QuizActivity.this, id);
-//            task.execute(monumento);
             updateQuestion();
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
@@ -297,8 +292,15 @@ public class QuizActivity extends AppCompatActivity {
     public void updateInterface(Integer id) {
         if( id != -1) {
             Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
+            new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
         } else {
             Toast.makeText(this, "Answer failed, try again!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void checkQuizz(List<String> quizzes){
+        HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
+        answeredQuizzes.put(id,quizzes);
+        applicationContext.setAnsweredQuizzes(answeredQuizzes);
     }
 }

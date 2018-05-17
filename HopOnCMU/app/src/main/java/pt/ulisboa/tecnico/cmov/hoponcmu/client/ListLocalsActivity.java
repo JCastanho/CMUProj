@@ -57,7 +57,7 @@ public class ListLocalsActivity extends AppCompatActivity {
 
                 Log.d("text", text);
 
-                new GetAnsweredQuizzesTask(ListLocalsActivity.this, userId).execute();
+//                new GetAnsweredQuizzesTask(ListLocalsActivity.this, userId).execute();
 
                 if(check()){
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
@@ -103,12 +103,11 @@ public class ListLocalsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    public void checkQuizz(List<String> quizzes){
-        Log.d("currentQuizz", currentQuizz);
-        answeredQuizzes = quizzes;
-    }
 
     public Boolean check(){
+
+        answeredQuizzes = applicationContext.getAnsweredQuizzes().get(userId);
+
         try{
             for (int i = 0; i < answeredQuizzes.size(); i++){
                 if(answeredQuizzes.get(i).equals(currentQuizz)){

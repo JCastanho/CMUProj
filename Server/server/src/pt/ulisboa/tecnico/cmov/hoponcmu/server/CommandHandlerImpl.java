@@ -54,7 +54,7 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(SendQuizzesAnswersCommand cmd) {
-        s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+        s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzAnswers());
         s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
         System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
         s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());

@@ -10,13 +10,11 @@ public class SendQuizzesAnswersCommand implements Command {
     private int id;
     private String quizzTitle;
     private ArrayList<String> quizzAnswers;
-    private ArrayList<String> quizzQuestions;
     private int time;
 
-    public SendQuizzesAnswersCommand(int id, String quizzTitle , ArrayList<String> quizzQuestions , ArrayList<String> quizzAnswers, int time){
+    public SendQuizzesAnswersCommand(int id, String quizzTitle , ArrayList<String> quizzAnswers, int time){
         this.id = id;
         this.quizzTitle = quizzTitle;
-        this.quizzQuestions = quizzQuestions;
         this.quizzAnswers = quizzAnswers;
         this.time = time;
     }
@@ -36,10 +34,6 @@ public class SendQuizzesAnswersCommand implements Command {
 
     public ArrayList<String> getQuizzAnswers() {
         return quizzAnswers;
-    }
-
-    public ArrayList<String> getQuizzQuestions() {
-        return quizzQuestions;
     }
     
     public int getTime(){

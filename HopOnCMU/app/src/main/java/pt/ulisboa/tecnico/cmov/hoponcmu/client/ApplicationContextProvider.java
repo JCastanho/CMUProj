@@ -26,6 +26,7 @@ public class ApplicationContextProvider extends Application implements
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
     private HashMap<String, List<Question>> quizz = new HashMap<>();
+    private HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -51,6 +52,14 @@ public class ApplicationContextProvider extends Application implements
 
     public void setQuizz(HashMap<String, List<Question>> quizz) {
         this.quizz = quizz;
+    }
+
+    public HashMap<Integer, List<String>> getAnsweredQuizzes() {
+        return answeredQuizzes;
+    }
+
+    public void setAnsweredQuizzes(HashMap<Integer, List<String>> answeredQuizzes) {
+        this.answeredQuizzes = answeredQuizzes;
     }
 
     public Boolean nearBeacon(int monumentPos) {
