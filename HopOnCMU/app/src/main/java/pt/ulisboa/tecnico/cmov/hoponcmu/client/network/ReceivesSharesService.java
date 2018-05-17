@@ -1,6 +1,5 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client.service;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.network;
 
-import android.app.Application;
 import android.app.Service;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -68,7 +67,6 @@ public class ReceivesSharesService extends Service {
 
     public class IncommingCommTask extends AsyncTask<Void, String, Void> {
 
-
         @Override
         protected Void doInBackground(Void... params) {
 
@@ -91,8 +89,18 @@ public class ReceivesSharesService extends Service {
                         BufferedReader sockIn = new BufferedReader(
                                 new InputStreamReader(sock.getInputStream()));
                         String st = sockIn.readLine();
-                        publishProgress(st);
+
+                        String[] code = st.split("-");
+
+                        if(code[0].equals("2")){
+                          //  new SendQuizzAnswersTask(code[]).execute();
+
+                        } else {
+                            publishProgress(code[1]);
+                        }
+
                         sock.getOutputStream().write(("\n").getBytes());
+
                     } catch (IOException e) {
                         Log.d("Error reading socket:", e.getMessage());
                         //break;

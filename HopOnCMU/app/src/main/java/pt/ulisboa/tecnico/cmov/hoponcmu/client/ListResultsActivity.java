@@ -7,18 +7,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
-import android.widget.Toast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.ResultAdapter;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SendMessageTask;
 
 public class ListResultsActivity extends AppCompatActivity {
 
@@ -26,7 +22,6 @@ public class ListResultsActivity extends AppCompatActivity {
 	private ArrayList<String> array;
 	private String userAddress;
 	private String username;
-	private SimWifiP2pSocket mCliSocket = null;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,10 +34,8 @@ public class ListResultsActivity extends AppCompatActivity {
 		userAddress = extras.getString("UserAddr");
 		username = extras.getString("Username");
 
-		if (adapter == null) {
-			ListView lResults = (ListView) findViewById(R.id.list_results);
-			setAdapter(lResults);
-		}
+		ListView lResults = (ListView) findViewById(R.id.list_results);
+		setAdapter(lResults);
 	}
 
 	@Override
@@ -54,9 +47,11 @@ public class ListResultsActivity extends AppCompatActivity {
 				results += rslt + ",";
 			}
 
-			new sendMessageTask().executeOnExecutor(
+			new SendMessageTask(ListResultsActivity.this).executeOnExecutor(
 					AsyncTask.THREAD_POOL_EXECUTOR,
-					userAddress, username, results);
+					userAddress, "1-" + username + ":" + results);
+
+			this.finish();
 		}
 
 		return super.onOptionsItemSelected(item);
@@ -81,43 +76,5 @@ public class ListResultsActivity extends AppCompatActivity {
 		adapter = new ResultAdapter(this,array);
 
 		listView.setAdapter(adapter);
-	}
-
-	/*
-     * Asynctask implementing message exchange
-     */
-
-	public class sendMessageTask extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-				mCliSocket = new SimWifiP2pSocket(params[0],
-						Integer.parseInt(getString(R.string.port)));
-
-				mCliSocket.getOutputStream().write((params[1] + ":" + params[2] + "\n").getBytes());
-				BufferedReader sockIn = new BufferedReader(
-						new InputStreamReader(mCliSocket.getInputStream()));
-				sockIn.readLine();
-				mCliSocket.close();
-			} catch (UnknownHostException e) {
-				return "Unknown Host:" + e.getMessage();
-			} catch (IOException e) {
-				return "IO error:" + e.getMessage();
-			}
-			mCliSocket = null;
-
-			return null;
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			if (result != null) {
-				Toast.makeText(getBaseContext(),result,Toast.LENGTH_SHORT).show();
-			} else {
-				Toast.makeText(getBaseContext(),"Results Sent!",Toast.LENGTH_SHORT).show();
-				finish();
-			}
-		}
 	}
 }

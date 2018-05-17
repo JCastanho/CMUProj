@@ -6,6 +6,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.AskNativesActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListResultsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.PeerListenerActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ShareResultsActivity;
 
 public class UserAdapter extends ArrayAdapter<NearbyUser> {
@@ -44,22 +47,30 @@ public class UserAdapter extends ArrayAdapter<NearbyUser> {
             final String neighborName = currentUser.getName();
             user.setText(neighborName);
 
-            final ShareResultsActivity activity = (ShareResultsActivity) context;
+            final PeerListenerActivity activity = (PeerListenerActivity) context;
 
             ImageButton btn = (ImageButton) listItem.findViewById(R.id.shareResult_btn);
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(activity, ListResultsActivity.class);
 
-                   // Bundle bundle = new Bundle();
-                    intent.putExtra("UserAddr",activity.getUserAddress(neighborName));
-                    intent.putExtra("Username",neighborName);
+                    String neighborAddress = activity.getUserAddress(neighborName);
 
-                    //bundle.putString("Username", neighborName);
-                    //intent.putExtras(bundle);
+                    if(context instanceof ShareResultsActivity) {
+                        Log.d("UserAdapter","ShareResultsActivity");
 
-                    activity.startActivity(intent);
+                        Intent intent = new Intent(activity, ListResultsActivity.class);
+
+                        intent.putExtra("Username", neighborName);
+                        intent.putExtra("UserAddr", neighborAddress);
+
+                        activity.startActivity(intent);
+                    } else {
+                        Log.d("UserAdapter","AskNativeActivity");
+
+                        AskNativesActivity askNativesActvt = (AskNativesActivity) context;
+                        askNativesActvt.sendResults(neighborAddress);
+                    }
                 }
             });
         }

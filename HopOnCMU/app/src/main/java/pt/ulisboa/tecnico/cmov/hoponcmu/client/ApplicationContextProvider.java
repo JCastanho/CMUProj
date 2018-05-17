@@ -41,7 +41,10 @@ public class ApplicationContextProvider extends Application implements
         mChannel = c;
     }
 
-    public ArrayList<NearbyUser> getGroupPeersList(){ return groupPeers; }
+    public ArrayList<NearbyUser> getGroupPeersList(){
+        Log.d("App Context Info Peers",""+System.identityHashCode(groupPeers));
+        return groupPeers;
+    }
 
     public HashMap<String,List<String>> getSharedResults() { return sharedResults; }
 
@@ -105,6 +108,7 @@ public class ApplicationContextProvider extends Application implements
                 Log.d("App Context Info","Beacon near me: " + deviceName);
             }
         }
+
         groupPeers = auxList;
         Log.d("App Context Info", "New list size: " + groupPeers.size());
     }
