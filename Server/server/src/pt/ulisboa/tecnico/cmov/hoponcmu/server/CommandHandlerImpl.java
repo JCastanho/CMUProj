@@ -97,7 +97,6 @@ public class CommandHandlerImpl implements CommandHandler {
 		        return rsp;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -156,9 +155,18 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(GetAnsweredQuizzesCommand cmd){
-        List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
-        GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
-        return rsp;
+		try {
+			if(cmd.securityCheck()) {
+				List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
+				GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
+		        return rsp;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return null;
     }
     //Adicionar aqui handle para outros comandos
 }

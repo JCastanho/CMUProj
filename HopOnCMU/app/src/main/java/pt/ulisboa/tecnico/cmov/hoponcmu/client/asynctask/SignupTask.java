@@ -43,8 +43,6 @@ public class SignupTask extends AsyncTask<String, Void, Boolean> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SignupResponse sr = (SignupResponse) ois.readObject();
 
-
-
             reply = sr.securityCheck()? sr.getAuthorization() : false;
 
             oos.close();

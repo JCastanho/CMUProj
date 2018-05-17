@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
@@ -17,7 +19,7 @@ public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>
 
     private ListLocalsActivity listLocalsActivity;
     private ReadQuizzAnswersActivity readQuizzAnswersActivity;
-    int id;
+    private int id;
 
     public GetAnsweredQuizzesTask(ListLocalsActivity listLocalsActivity, int id){
         this.listLocalsActivity = listLocalsActivity;
@@ -33,7 +35,14 @@ public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>
     protected List<String> doInBackground(String[] params){
         Socket server = null;
         List<String> reply = null;
-        GetAnsweredQuizzesCommand cmd = new GetAnsweredQuizzesCommand(id);
+        GetAnsweredQuizzesCommand cmd = null;
+        try {
+            cmd = new GetAnsweredQuizzesCommand(id);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }
 
         try{
             server = new Socket("10.0.2.2", 9090);
@@ -43,7 +52,8 @@ public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetAnsweredQuizzesResponse response = (GetAnsweredQuizzesResponse) ois.readObject();
-            reply = response.getLocations();
+            if(response.securityCheck())
+                reply = response.getLocations();
 
             oos.close();
             ois.close();
