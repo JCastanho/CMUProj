@@ -67,6 +67,6 @@ public class PrizesActivity extends AppCompatActivity {
             prize.setText("");
         }
 
-        //Toast.makeText(PrizesActivity.this, "Boolean: " + madeQuizz + "Rank: " + resRank + " Pont: " + resPont, Toast.LENGTH_SHORT).show();
+        Toast.makeText(PrizesActivity.this, "Boolean: " + madeQuizz + " Rank: " + resRank + " Pont: " + resPont, Toast.LENGTH_SHORT).show();
     }
 }
