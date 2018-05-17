@@ -6,13 +6,15 @@ import android.util.Log;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
 
-public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
+public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>> {
 
     private ReadQuizzAnswersActivity activity;
     private int id;
@@ -23,9 +25,9 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String[] params){
+    protected List<Integer> doInBackground(String[] params){
         Socket server = null;
-        int reply = -1;
+        List<Integer> reply = new ArrayList<>();
         GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(id ,params[0]);
 
         try{
@@ -35,7 +37,9 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
-            reply = response.getCorrectAnswers();
+            reply.add(response.getCorrectAnswers());
+            Log.d("GET TIME: ",""+response.getTime());
+            reply.add(response.getTime());
 
             oos.close();
             ois.close();
@@ -53,7 +57,7 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer o){
+    protected void onPostExecute(List<Integer> o){
         activity.correctAnswers(o);
     }
 }

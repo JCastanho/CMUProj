@@ -17,7 +17,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 
 public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
-    private int correctAnswers;
+    private List<Integer> correctAnswers;
     private int userId = -1;
 
     @Override
@@ -40,7 +40,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
                 String text = (String) listView.getItemAtPosition(position);
 
-                Toast.makeText(ReadQuizzAnswersActivity.this, "Getting Quizz answers for: " + text, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ReadQuizzAnswersActivity.this, "Getting Quizz answers for: " + text, Toast.LENGTH_SHORT).show();
 
                 GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this, userId);
                 task.execute(text);
@@ -49,10 +49,10 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         });
     }
 
-    public void correctAnswers(int answers){
-        if (answers != -1){
+    public void correctAnswers(List<Integer> answers){
+        if (answers != null){
             this.correctAnswers = answers;
-            Toast.makeText(ReadQuizzAnswersActivity.this, Integer.toString(answers) + " of 4", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(ReadQuizzAnswersActivity.this, "You didn't answer this Quizz", Toast.LENGTH_SHORT).show();

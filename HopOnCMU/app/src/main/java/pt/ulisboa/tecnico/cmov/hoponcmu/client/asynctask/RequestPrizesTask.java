@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.RequestPrizesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.PrizesResponse;
 
-public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integer>> {
+public class RequestPrizesTask extends AsyncTask<String, Void, String> {
 
     private PrizesActivity activity;
 
@@ -22,9 +22,9 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integ
     }
 
     @Override
-    protected Map<String, Integer> doInBackground(String[] params) {
+    protected String doInBackground(String[] params) {
         Socket server = null;
-        Map<String, Integer> reply = null;
+        String reply = null;
         Log.d("ID TASK: ",params[0]);
         RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
 
@@ -35,7 +35,7 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integ
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             PrizesResponse response = (PrizesResponse) ois.readObject();
-            reply = response.getMap();
+            reply = response.getRes();
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");
@@ -53,7 +53,7 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integ
     }
 
     @Override
-    protected void onPostExecute(Map<String, Integer> o) {
+    protected void onPostExecute(String o) {
         activity.updateInterface(o);
     }
 }

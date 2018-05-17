@@ -17,13 +17,13 @@ public class User {
     private Map<String, Integer> quizzAnswer;
     private String username;
     private String code;
-    private int timeForQuizz;
+    private Map<String, Integer> timeForQuizz;
 
     public User(String username, String code){
         this.username=username;
         this.code=code;
         quizzAnswer = new HashMap<>();
-        timeForQuizz=0;
+        timeForQuizz = new HashMap<>();
     }
 
     public String getUsername() {
@@ -42,12 +42,18 @@ public class User {
         this.code=code;
     }
 
-    public int getTimeForQuizz() {
+    public Integer getTimeForQuizz(String quizzTitle) {
+        return timeForQuizz.get(quizzTitle);
+    }
+    
+    public Map<String,Integer> getTimeMap(){
         return timeForQuizz;
     }
 
-    public void setTimeForQuizz(int timeForQuizz) {
-        this.timeForQuizz = timeForQuizz;
+    public void setTimeForQuizz(String quizzTitle, int time) {
+        if(!timeForQuizz.containsKey(quizzTitle)){
+            timeForQuizz.put(quizzTitle, time);
+        }
     }
         
     //TODO add getPoints, n shit
@@ -59,5 +65,13 @@ public class User {
         if(!quizzAnswer.containsKey(quizzTitle)){
             quizzAnswer.put(quizzTitle, correctAnswer);
         }
+    }
+    
+    public int allQuizzTimes(){
+        int counter=0;
+        for(String s: timeForQuizz.keySet()){
+            counter+=timeForQuizz.get(s);
+        }
+        return counter;
     }
 }

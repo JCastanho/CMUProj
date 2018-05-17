@@ -57,7 +57,8 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd) {
         s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
         s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        s.saveTime(cmd.getId(), cmd.getTimeForQuizz());
+        System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
+        s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());
         SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
         return rsp;
     }
@@ -65,14 +66,15 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetCorrectAnswersCommand cmd) {
         int correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+        int timeQuizz = s.getTime(cmd.getId(), cmd.getQuizzTitle());
+        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers, timeQuizz);
         return rsp;
     }
     
     @Override
     public Response handle(RequestPrizesCommand cmd){
-        Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
-        PrizesResponse rsp = new PrizesResponse(map);
+        String res = s.getQuizzesPrizes(cmd.getId());
+        PrizesResponse rsp = new PrizesResponse(res);
         return rsp;
     }
 

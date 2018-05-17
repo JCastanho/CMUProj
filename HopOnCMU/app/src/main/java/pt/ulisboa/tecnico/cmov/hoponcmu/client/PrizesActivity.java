@@ -18,87 +18,56 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.RequestPrizesTask;
 public class PrizesActivity extends AppCompatActivity {
 
     private int id;
-    TextView logins = null;
     TextView rank = null;
     TextView prize = null;
-    TextView time=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_prizes);
-
-        logins = (TextView) findViewById(R.id.logins);
         rank = (TextView) findViewById(R.id.rank);
         prize = (TextView) findViewById(R.id.prize);
-        time = (TextView) findViewById(R.id.time);
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
 
         new RequestPrizesTask(PrizesActivity.this).execute(""+id);
     }
 
-    public void updateInterface(Map<String, Integer> map){
+    public void updateInterface(String res){
 
-        boolean flag=false;
-        boolean flagFinal=false;
-        int position=0;
-        int iterator=1;
-        int points=0;
-        int timeForQuizz=0;
+        String[] parse = res.split("/");
+        boolean madeQuizz = Boolean.parseBoolean(parse[0]);
+        int resRank = Integer.parseInt(parse[1]);
+        int resPont = Integer.parseInt(parse[2]);
+        boolean resFinal = Boolean.parseBoolean(parse[3]);
 
-        if(map.keySet().size()>1){
-            logins.setText(map.keySet().size() + " people are connected!");
-        }
-        else{
-            logins.setText(map.keySet().size() + " people is connected!");
-        }
-
-        for(String s: map.keySet()){
-            if(s.contains("SELECTED")){
-                String[] si = s.split("/");
-                timeForQuizz = Integer.parseInt(si[1]);
-                flag=true;
-                position=iterator;
-                points = map.get(s);
-                if(s.contains("FINAL")){
-                    flagFinal=true;
-                }
-            }
-            iterator++;
-        }
-
-        if(flag){
-            rank.setText("Points: " + points + "\nYou're ranked " + position + " on total of " + map.keySet().size() + " contestants");
-            time.setText("Quizzes Time: " + timeForQuizz + " seconds");
-            if(flagFinal){
-                switch(position){
+        if(madeQuizz){
+            if(resFinal){
+                rank.setText("Points: " + resPont);
+                switch (resRank){
                     case 1:
-                        rank.setText("Points: " + points);
-                        prize.setText("You've completed all Quizzes\nYou're currently at first place!\n Congratulations!");
+                        prize.setText("Congratulations! You are in 1 place!");
                         break;
                     case 2:
-                        rank.setText("Points: " + points);
-                        prize.setText("You've completed all Quizzes\nYou're currently at second place!\n Congratulations!");
+                        prize.setText("Well Done! You are in 2 place!");
                         break;
                     case 3:
-                        rank.setText("Points: " + points);
-                        prize.setText("You've completed all Quizzes\nYou're currently at third place!\n Congratulations!");
+                        prize.setText("Good Job! You are in 3 place!");
                         break;
                     default:
-                        prize.setText("You've completed all Quizzes\nYou're currently at third place!\n Congratulations!");
-                        break;
-                    }
+                        prize.setText("You are in " + resRank + "!");
+                }
             }
             else{
+                rank.setText("Rank: " + resRank+ "\nPoints: " + resPont);
                 prize.setText("");
             }
         }
         else{
-            rank.setText("You still have 0 points!");
+            rank.setText("Complete a Quizz to receive a rank");
             prize.setText("");
-            time.setText("");
         }
-        Toast.makeText(PrizesActivity.this, "" + map.entrySet(), Toast.LENGTH_SHORT).show();
+
+        //Toast.makeText(PrizesActivity.this, "Boolean: " + madeQuizz + "Rank: " + resRank + " Pont: " + resPont, Toast.LENGTH_SHORT).show();
     }
 }

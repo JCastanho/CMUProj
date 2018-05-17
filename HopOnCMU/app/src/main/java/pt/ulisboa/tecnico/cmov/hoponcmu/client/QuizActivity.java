@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
@@ -73,7 +74,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public int getTimeForQuizz(){
-        return this.timeForQuizz;
+        return timeForQuizz;
     }
 
     public ArrayList<String> getQuestionSend() {
@@ -106,9 +107,9 @@ public class QuizActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
 
-        timeForQuizz=15;
+        timeForQuizz=0;
         min=0;
-        seg=15;
+        seg=0;
 
         time = (TextView) findViewById(R.id.time);
         time.setText("0"+min+":"+seg);
@@ -165,28 +166,11 @@ public class QuizActivity extends AppCompatActivity {
             public void run() {
                 handler.post(new Runnable() {
                     public void run() {
-                        if(min==0 && seg==0){
-                            time.setText("00:00");
-                            btnSend.performClick();
+                        if(seg==59){
+                            seg=0;
+                            min+=1;
                         }
-                        else{
-                            if(min==0 && seg<11){
-                                time.setTextColor(Color.RED);
-                            }
-                            if(seg==0){
-                                seg=59;
-                                min-=1;
-                                time.setText("0"+min+":"+seg);
-                            }
-
-                            seg-=1;
-                            if(seg<10){
-                                time.setText("0"+min+":0"+seg);
-                            }
-                            else{
-                                time.setText("0"+min+":"+seg);
-                            }
-                        }
+                        seg+=1;
                     }
                 });
             }
@@ -209,7 +193,6 @@ public class QuizActivity extends AppCompatActivity {
 
                 RadioButton button = (RadioButton) findViewById(selectedId);
                 getAnswersSend().add(button.getText().toString());
-
 
                 GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
                 task.execute(monumento, Integer.toString(q));
@@ -267,8 +250,10 @@ public class QuizActivity extends AppCompatActivity {
             quizzTimer = null;
         }
 
-        timeForQuizz=timeForQuizz-((min*60)+seg);
+        timeForQuizz=(min*60)+seg;
+        Log.d("TIME: ",""+timeForQuizz);
 
+        Log.d("QUESTION: ",question);
         getQuestionSend().add(question);
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
         int selectedId = group.getCheckedRadioButtonId();

@@ -184,9 +184,12 @@ public class Session {
         return counter;
     }
 
-    public Map<String, Integer> getQuizzesPrizes(int id){
+    public String getQuizzesPrizes(int id){
         Map<String, Integer> users = new HashMap<>();
         User user = login.get(id);
+        boolean flag=false;
+        boolean resFinal=false;
+        String res="";
         
         for(int idAux: login.keySet()){
             User userAux = login.get(idAux);
@@ -195,25 +198,31 @@ public class Session {
             for(String quizz: userAux.getQuizzAnswser().keySet()){
                 counter+=userAux.getQuizzAnswser().get(quizz);
             }
-
-            if(user==userAux){
-                for(String quizz: userAux.getQuizzAnswser().keySet()){
-                    counter+=userAux.getQuizzAnswser().get(quizz);
+            System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
+            users.put(userAux.getUsername(), counter);
+        }
+        
+        Map<String, Integer> pontos = new HashMap<>();
+        for(String i: users.keySet()){
+            int pont=0;
+            System.out.println("User: " + getUser(i).getUsername() + " keySet : " + getUser(i).getQuizzAnswser().keySet());
+            if(getUser(i).getQuizzAnswser().keySet().size()>=1){
+                if(getUser(i).getQuizzAnswser().keySet().size()==4){
+                    resFinal=true;
                 }
-                if(user.getQuizzAnswser().keySet().size()==4){
-                    users.put("FINALSELECTED"+user.getUsername()+"/"+user.getTimeForQuizz(), counter);
-                }
-                else{
-                    users.put("SELECTED"+user.getUsername()+"/"+user.getTimeForQuizz(), counter);
+                flag=true;
+                System.out.println("entrei");
+                pont = (users.get(i)*50) - (getUser(i).allQuizzTimes());
+                if(pont<50){
+                    pont=50;
                 }
             }
-            else{
-                System.out.println("USER: " + userAux.getUsername());
-                users.put(userAux.getUsername(), counter);
-            }
+            System.out.println("i: " + i + " pont: " + pont);
+            pontos.put(i,pont);
         }
 
-        List<Entry<String, Integer>> list = new ArrayList<>(users.entrySet());
+        
+        List<Entry<String, Integer>> list = new ArrayList<>(pontos.entrySet());
         list.sort(Entry.comparingByValue());
         Collections.reverse(list);
         
@@ -222,12 +231,26 @@ public class Session {
             OrderUsers.put(entry.getKey(), entry.getValue());
         }
         
-        return OrderUsers;
+        int rank=1;
+        for(String s: OrderUsers.keySet()){
+            if(user.getUsername().equals(s)){
+                res = flag+"/"+ rank+"/"+OrderUsers.get(s)+"/"+resFinal;
+            }
+            rank++;
+        }
+        
+        return res;
     }
     
-    public void saveTime(int id, int timeForQuizz){
+    public void saveTime(int id, String quizzTitle, int time){
         User u = login.get(id);
-        u.setTimeForQuizz(timeForQuizz);
+        u.setTimeForQuizz(quizzTitle,time);
+    }
+    
+    public int getTime(int id, String quizzTitle){
+        User u = login.get(id);
+        
+        return u.getTimeForQuizz(quizzTitle);
     }
 
     public List<String> getAnsweredQuizzes(int id){
