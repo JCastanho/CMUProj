@@ -42,7 +42,8 @@ public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             PrizesResponse response = (PrizesResponse) ois.readObject();
-            reply = response.getRes();
+            if(response.securityCheck())
+                reply = response.getRes();
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");
