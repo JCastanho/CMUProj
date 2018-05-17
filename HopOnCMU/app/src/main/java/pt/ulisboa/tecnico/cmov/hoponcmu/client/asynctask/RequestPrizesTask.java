@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +28,12 @@ public class RequestPrizesTask extends AsyncTask<String, Void, Map<String, Integ
     protected Map<String, Integer> doInBackground(String[] params) {
         Socket server = null;
         Map<String, Integer> reply = null;
-        RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
+        RequestPrizesCommand cmd = null;
+        try {
+            cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             server = new Socket("10.0.2.2", 9090);

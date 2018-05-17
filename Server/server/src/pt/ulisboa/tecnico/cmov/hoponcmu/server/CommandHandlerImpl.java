@@ -106,10 +106,18 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(SendQuizzesAnswersCommand cmd) {
-        s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
-        s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
-        return rsp;
+        try {
+        	if(cmd.securityCheck()) {
+    			s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+    	        s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+    	        SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
+    	        return rsp;
+        	}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+        
+        return null;
     }
 
     @Override
@@ -130,9 +138,18 @@ public class CommandHandlerImpl implements CommandHandler {
     
     @Override
     public Response handle(RequestPrizesCommand cmd){
-        Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
-        PrizesResponse rsp = new PrizesResponse(map);
-        return rsp;
+        Map<String, Integer> map;
+		try {
+			if(cmd.securityCheck()) {
+				map = s.getQuizzesPrizes(cmd.getId());
+		        PrizesResponse rsp = new PrizesResponse(map);
+		        return rsp;	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
     }
     //Adicionar aqui handle para outros comandos
 }

@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
@@ -25,7 +27,12 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+        SendQuizzesAnswersCommand cmd = null;
+        try {
+            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             server = new Socket("10.0.2.2", 9090);
@@ -34,7 +41,10 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendQuizzesAnswersResponse response = (SendQuizzesAnswersResponse) ois.readObject();
-            reply = response.getId();
+
+            if(response.securityCheck()){
+                reply = response.getId();
+            }
 
             oos.close();
             ois.close();
