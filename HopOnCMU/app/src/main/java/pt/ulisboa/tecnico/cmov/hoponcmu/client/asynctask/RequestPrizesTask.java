@@ -13,7 +13,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.RequestPrizesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.PrizesResponse;
 
-public class RequestPrizesTask extends AsyncTask<String, Void, String> {
+public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
 
     private PrizesActivity activity;
 
@@ -22,14 +22,13 @@ public class RequestPrizesTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String[] params) {
+    protected String doInBackground(Integer[] params) {
         Socket server = null;
         String reply = null;
-        Log.d("ID TASK: ",params[0]);
-        RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
+        RequestPrizesCommand cmd = new RequestPrizesCommand(params[0]);
 
         try{
-            server = new Socket("10.0.3.2", 9090);
+            server = new Socket("10.0.2.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 

@@ -37,7 +37,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, Question> {
         GetQuizzesCommand hc = new GetQuizzesCommand(2,params[0], Integer.parseInt(params[1]));
         try {
             //If you're using geny emulator use 10.0.3.2
-            server = new Socket("10.0.3.2", 9090);
+            server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(hc);
