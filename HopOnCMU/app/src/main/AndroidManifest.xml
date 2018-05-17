@@ -3,8 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="pt.ulisboa.tecnico.cmov.hoponcmu">
 
-    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:name=".client.ApplicationContextProvider"
@@ -57,7 +57,7 @@
             android:name=".client.PrizesActivity">
         </activity>
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
-        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ShareResultService" android:enabled="true" />
+        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ReceivesSharesService" android:enabled="true" />
     </application>
 
 </manifest>

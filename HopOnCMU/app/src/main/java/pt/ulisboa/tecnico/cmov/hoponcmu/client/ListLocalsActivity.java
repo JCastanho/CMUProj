@@ -46,10 +46,9 @@ public class ListLocalsActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                int itemPosition=position;
-
                 String text = (String) listView.getItemAtPosition(position);
 
+                //if(ApplicationContextProvider.nearBeacon(position+1)) {
                 currentQuizz = text;
 
                 Log.d("text", text);
@@ -70,6 +69,9 @@ public class ListLocalsActivity extends AppCompatActivity {
                     task = new GetQuizzTask(ListLocalsActivity.this);
                     task.execute(text,"0");
                 }
+                /*} else {
+                  Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
+                }*/
             }
         });
 
@@ -94,7 +96,6 @@ public class ListLocalsActivity extends AppCompatActivity {
     }
 
     public void updateInterface(List<String> sucess){
-
         ListView listView = (ListView) findViewById(R.id.list_tours);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sucess);
         listView.setAdapter(adapter);

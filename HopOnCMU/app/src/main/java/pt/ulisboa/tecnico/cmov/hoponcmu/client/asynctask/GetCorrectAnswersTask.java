@@ -31,7 +31,7 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
         GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(id ,params[0]);
 
         try{
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 

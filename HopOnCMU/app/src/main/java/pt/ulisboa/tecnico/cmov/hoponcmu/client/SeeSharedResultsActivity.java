@@ -22,13 +22,15 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
     private List<String> array;
     private HashMap<String, List<String>> expandableItems;
     private Boolean alive;
+    private ApplicationContextProvider applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_shared_results);
 
-        SimWifiP2pSocketManager.Init(getApplicationContext());
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
+        SimWifiP2pSocketManager.Init(applicationContext);
 
         listView = (ExpandableListView) findViewById(R.id.sharedResults_list);
         alive = true;
@@ -46,7 +48,7 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
     }
 
     private void setAdapter(ExpandableListView listView) {
-        HashMap<String, List<String>> results = ApplicationContextProvider.getSharedResults();
+        HashMap<String, List<String>> results = applicationContext.getSharedResults();
         List<String> users = new ArrayList<>(results.keySet());
 
         array = new ArrayList<>(users);
@@ -73,16 +75,6 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
         return mergedList;
     }
 
-   /*private void print(List<String> strings){
-        String finalS = "";
-
-        for(String s: strings){
-            finalS += s + " ";
-        }
-
-        Log.d(TAG,finalS + "\n");
-    }*/
-
     public class SharedResultsTask extends AsyncTask<Void, Void, Void> {
 
         @Override
@@ -91,7 +83,7 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
             while (alive) {
 
-                HashMap<String,List<String>> results = ApplicationContextProvider.getSharedResults();
+                HashMap<String,List<String>> results = applicationContext.getSharedResults();
 
                 List<String> resultsValues = mergeNestedLists(results.values());
                 List<String> expandableItemsValues = mergeNestedLists(expandableItems.values());
@@ -111,7 +103,6 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
                     publishProgress();
                 }
-
             }
 
             return null;

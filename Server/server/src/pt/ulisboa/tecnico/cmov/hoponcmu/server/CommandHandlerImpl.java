@@ -44,11 +44,11 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(GetQuizzesCommand cmd){
-    	
+
     	String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
     	ArrayList<String> answers = s.getQuizzAnswers(cmd.getLocation(), cmd.getPage());
     	int size = s.getQuizzSize(cmd.getLocation());
-    	
+
         GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
         return rsp;
     }
@@ -70,7 +70,7 @@ public class CommandHandlerImpl implements CommandHandler {
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers, timeQuizz);
         return rsp;
     }
-    
+
     @Override
     public Response handle(RequestPrizesCommand cmd){
         String res = s.getQuizzesPrizes(cmd.getId());

@@ -29,7 +29,7 @@ public class RequestPrizesTask extends AsyncTask<String, Void, String> {
         RequestPrizesCommand cmd = new RequestPrizesCommand(Integer.parseInt(params[0]));
 
         try{
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 

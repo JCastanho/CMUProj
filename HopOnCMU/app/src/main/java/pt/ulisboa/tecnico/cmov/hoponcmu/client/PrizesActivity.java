@@ -29,8 +29,7 @@ public class PrizesActivity extends AppCompatActivity {
         prize = (TextView) findViewById(R.id.prize);
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
-
-        new RequestPrizesTask(PrizesActivity.this).execute(""+id);
+        new RequestPrizesTask(PrizesActivity.this).execute(id);
     }
 
     public void updateInterface(String res){

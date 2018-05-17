@@ -55,9 +55,10 @@ public class Session {
 
     public int verifyUser(String username, String password){
         int identifier = -1;
-        
+
         if(verifyCredentials(username, password)){
             if(!isUserLogged(username)) {
+
                 identifier = generateID();
                 login.put(identifier, getUser(username));
             }
@@ -70,10 +71,11 @@ public class Session {
             if(u.getUsername().equals(username))
                 return u;
         }
+
         return null;
     }
 
-    public String getUserById(int id){
+    public String getUsernameById(int id){
         return login.get(id).getUsername();
     }
 
@@ -97,13 +99,21 @@ public class Session {
     }
 
     private Integer generateID(){
-        //Change eventually
-        return login.size();
+        Integer id = login.size();
+        System.out.println(id);
+        return id;
     }
 
     public void logOutUser(Integer token) {
-        login.remove(token);
-        //System.out.println(login.size());
+
+        if(login.containsKey(token)) {
+            login.remove(token);
+            System.out.println("The user logged out successfully");
+        } else {
+            System.out.println("The user logged out was already logged out or had an broken token");
+        }
+
+        System.out.println("Remanining users: " + login.size());
     }
 
     public ArrayList<String> getQuizzAnswers(String monument, int page){
@@ -126,14 +136,14 @@ public class Session {
     			new Quizz("Que Rei está representado na estátua?",new ArrayList<String>(Arrays.asList("D. Manuel I","D. Carlos","D. Inês")),"D. José I"),
     			new Quizz("Que outro nome tem este monumento?",new ArrayList<String>(Arrays.asList("Praça da Figueira","Praça do Chile","Avenida de Roma")),"Praça do Comércio")
     	));
-    	
+
     	ArrayList<Quizz> C = new ArrayList<Quizz>(Arrays.asList(
     			new Quizz("Em que ano se deu o incêndio no Chiado?",new ArrayList<String>(Arrays.asList("1978","1987","1990")),"1988"),
     			new Quizz("Que Igreja aqui se encontra?",new ArrayList<String>(Arrays.asList("Igreja de S. Catarina","Basílica da Estrela","Igreja dos Anjos")),"Igreja de Loreto"),
     			new Quizz("Que praia aqui se encontra?",new ArrayList<String>(Arrays.asList("Praça do Comércio","Praça do Chile","Praça de Espanha")),"Praça Luís de Camões"),
     			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4")
     	));
-    	
+
     	ArrayList<Quizz> fake = new ArrayList<Quizz>(Arrays.asList(
     			new Quizz("Pergunta 1",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
     			new Quizz("Pergunta 2",new ArrayList<String>(Arrays.asList("Resposta 1","Resposta 2","Resposta 3")),"Resposta 4"),
@@ -145,7 +155,7 @@ public class Session {
     	quizzes.put("Chiado", C);
     	quizzes.put("Castelo de São Jorge", fake);
     	quizzes.put("Praça da Figueira", fake);
-    	
+
     }
 
     public Boolean verifyLogin(int identifier){
@@ -190,7 +200,7 @@ public class Session {
         boolean flag=false;
         boolean resFinal=false;
         String res="";
-        
+
         for(int idAux: login.keySet()){
             User userAux = login.get(idAux);
             int counter = 0;
@@ -201,7 +211,7 @@ public class Session {
             System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
             users.put(userAux.getUsername(), counter);
         }
-        
+
         Map<String, Integer> pontos = new HashMap<>();
         for(String i: users.keySet()){
             int pont=0;
@@ -221,16 +231,16 @@ public class Session {
             pontos.put(i,pont);
         }
 
-        
+
         List<Entry<String, Integer>> list = new ArrayList<>(pontos.entrySet());
         list.sort(Entry.comparingByValue());
         Collections.reverse(list);
-        
+
         Map<String, Integer> OrderUsers = new LinkedHashMap<>();
         for (Entry<String, Integer> entry : list) {
             OrderUsers.put(entry.getKey(), entry.getValue());
         }
-        
+
         int rank=1;
         for(String s: OrderUsers.keySet()){
             if(user.getUsername().equals(s)){
@@ -238,18 +248,18 @@ public class Session {
             }
             rank++;
         }
-        
+
         return res;
     }
-    
+
     public void saveTime(int id, String quizzTitle, int time){
         User u = login.get(id);
         u.setTimeForQuizz(quizzTitle,time);
     }
-    
+
     public int getTime(int id, String quizzTitle){
         User u = login.get(id);
-        
+
         return u.getTimeForQuizz(quizzTitle);
     }
 
