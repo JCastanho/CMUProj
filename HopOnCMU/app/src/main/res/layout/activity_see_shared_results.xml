@@ -6,21 +6,47 @@
     android:layout_height="match_parent"
     tools:context="pt.ulisboa.tecnico.cmov.hoponcmu.client.SeeSharedResultsActivity">
 
-    <TextView
-        android:id="@+id/outputText"
-        android:layout_width="320dp"
-        android:layout_height="40dp"
-        android:text="The message sent will be inserted here"
-        tools:layout_editor_absoluteX="7dp"
-        tools:layout_editor_absoluteY="7dp" />
-
-    <ListView
+    <!--<ExpandableListView
         android:id="@+id/sharedResults_list"
-        android:layout_width="368dp"
-        android:layout_height="448dp"
+        android:layout_width="371dp"
+        android:layout_height="509dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.952" />
+
+    <TextView
+        android:id="@+id/no_results_shared"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="50dp"
+        android:text="@string/no_results_shared"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="98dp" />/>-->
+
+    <ExpandableListView
+        android:id="@+id/sharedResults_list"
+        android:layout_width="371dp"
+        android:layout_height="509dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
+
+    <TextView
+        android:id="@+id/no_results_shared"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingVertical="50dp"
+        android:text="@string/no_results_shared"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:visibility="gone"
+        tools:layout_editor_absoluteX="89dp"
+        tools:layout_editor_absoluteY="106dp" />
+
 </android.support.constraint.ConstraintLayout>

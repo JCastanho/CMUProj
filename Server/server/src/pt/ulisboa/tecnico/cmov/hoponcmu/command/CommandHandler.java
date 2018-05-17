@@ -14,6 +14,7 @@ public interface CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd);
     public Response handle(GetCorrectAnswersCommand cmd);
     public Response handle(RequestPrizesCommand cmd);
+    public Response handle(GetAnsweredQuizzesCommand cmd);
 	//Adicionar aqui handle para outros comandos
 
 }

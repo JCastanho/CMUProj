@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.security.SignatureException;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendQuizzesAnswersResponse;
@@ -29,12 +30,14 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         int reply = -1;
         SendQuizzesAnswersCommand cmd = null;
         try {
-            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend());
+            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend(), activity.getTimeForQuizz());
+            Log.d("TIME TASK: ",""+cmd.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try{
+            //If you're using geny emulator use 10.0.3.2
             server = new Socket("10.0.2.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);

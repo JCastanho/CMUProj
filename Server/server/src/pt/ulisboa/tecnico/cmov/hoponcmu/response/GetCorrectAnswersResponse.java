@@ -12,38 +12,46 @@ public class GetCorrectAnswersResponse implements Response {
     private static final long serialVersionUID = 734457624276534179L;
 
     // Data
-    private byte[] correct;
+    private byte[] correctAnswers;
+    private byte[] time;
 
     // Security
     private byte[] nonce;
     private byte[] signature;
 
-    public GetCorrectAnswersResponse(int correct) throws UnsupportedEncodingException, SignatureException {
+    public GetCorrectAnswersResponse(int correctAnswers, int time) throws UnsupportedEncodingException, SignatureException {
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        this.correct= encryption.encrypt(Integer.toString(correct).getBytes("UTF-8"));
+        this.correctAnswers= encryption.encrypt(Integer.toString(correctAnswers).getBytes("UTF-8"));
+        this.time= encryption.encrypt(Integer.toString(time).getBytes("UTF-8"));
 
         String pureNonce = "GetCorrectAnswersResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
-        String pureSignature = pureNonce + correct;
+        String pureSignature = pureNonce + correctAnswers + time;
 
         this.signature = encryption.generateSignature(pureSignature.getBytes("UTF-8"));
     }
 
-    public int getCorrect() throws UnsupportedEncodingException {
+    public int getCorrectAnswers() throws UnsupportedEncodingException {
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        return Integer.parseInt(new String(encryption.decrypt(this.correct),"UTF-8"));
+        return Integer.parseInt(new String(encryption.decrypt(this.correctAnswers),"UTF-8"));
+    }
+
+    public int getTime() throws UnsupportedEncodingException {
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+        return Integer.parseInt(new String(encryption.decrypt(this.time),"UTF-8"));
     }
 
     public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+        String nonce = new String(encryption.decrypt(this.nonce), "UTF-8");
 
-        String replicateSignature = nonce + this.getCorrect();
+        String replicateSignature = nonce + this.getCorrectAnswers() + this.getTime();
 
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"), signature);
     }
 }

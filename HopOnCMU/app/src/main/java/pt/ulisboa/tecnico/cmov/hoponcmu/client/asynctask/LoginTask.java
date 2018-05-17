@@ -9,6 +9,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.security.SignatureException;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;

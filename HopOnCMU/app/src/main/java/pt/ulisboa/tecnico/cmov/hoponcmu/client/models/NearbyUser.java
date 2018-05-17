@@ -1,15 +1,15 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
 
 /**
  * Created by Daniela on 08/05/2018.
  */
 
-public class User {
+public class NearbyUser {
 
     private String name;
     private String address;
 
-    public User(String name, String addr){
+    public NearbyUser(String name, String addr){
         this.name = name;
         this.address = addr;
     }

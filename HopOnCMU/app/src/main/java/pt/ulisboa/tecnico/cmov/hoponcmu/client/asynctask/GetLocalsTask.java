@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.security.SignatureException;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
@@ -60,6 +61,7 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
             ois.close();
             Log.d("Client", "Hello m8!");
         }
+
         catch (Exception e) {
             Log.d("Client", "Get Locals Task failed..." + e.getMessage());
             e.printStackTrace();

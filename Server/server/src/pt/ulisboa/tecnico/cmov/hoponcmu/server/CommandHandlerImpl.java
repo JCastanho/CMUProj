@@ -89,10 +89,10 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(GetQuizzesCommand cmd){
 		try {
 			if(cmd.securityCheck()) {
-				String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
+		    	String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
 		    	ArrayList<String> answers = s.getQuizzAnswers(cmd.getLocation(), cmd.getPage());
 		    	int size = s.getQuizzSize(cmd.getLocation());
-		    	
+
 		        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
 		        return rsp;
 			}
@@ -108,10 +108,12 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd) {
         try {
         	if(cmd.securityCheck()) {
-    			s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
-    	        s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-    	        SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
-    	        return rsp;
+        		s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+                s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+                System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
+                s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());
+                SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
+                return rsp;
         	}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,8 +128,8 @@ public class CommandHandlerImpl implements CommandHandler {
 		try {
 			if(cmd.securityCheck()) {
 				correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-		        System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
-		        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+		        int timeQuizz = s.getTime(cmd.getId(), cmd.getQuizzTitle());
+		        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers, timeQuizz);
 		        return rsp;
 			}
 		} catch (Exception e) {
@@ -135,21 +137,28 @@ public class CommandHandlerImpl implements CommandHandler {
 		}
 		return null;
     }
-    
+
     @Override
     public Response handle(RequestPrizesCommand cmd){
-        Map<String, Integer> map;
+        String res;
 		try {
 			if(cmd.securityCheck()) {
-				map = s.getQuizzesPrizes(cmd.getId());
-		        PrizesResponse rsp = new PrizesResponse(map);
-		        return rsp;	
+				res = s.getQuizzesPrizes(cmd.getId());
+		        PrizesResponse rsp = new PrizesResponse(res);
+		        return rsp;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
 		return null;
+    }
+
+    @Override
+    public Response handle(GetAnsweredQuizzesCommand cmd){
+        List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
+        GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
+        return rsp;
     }
     //Adicionar aqui handle para outros comandos
 }

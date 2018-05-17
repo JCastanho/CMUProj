@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.models;
 
 /**
  * Created by Daniela on 05/05/2018.
@@ -6,7 +6,6 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,12 +16,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListResultsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ShareResultsActivity;
 
-public class UserAdapter extends ArrayAdapter<User> {
-    private final ArrayList<User> array;
+public class UserAdapter extends ArrayAdapter<NearbyUser> {
+    private final ArrayList<NearbyUser> array;
     private final Context context;
 
-    public UserAdapter(Context c_context, ArrayList<User> a_array) {
+    public UserAdapter(Context c_context, ArrayList<NearbyUser> a_array) {
         super(c_context, R.layout.content_userlist, a_array);
         array = a_array;
         context = c_context;
@@ -36,7 +37,7 @@ public class UserAdapter extends ArrayAdapter<User> {
             listItem = LayoutInflater.from(context).inflate(R.layout.content_userlist, parent, false);
         }
 
-        User currentUser = array.get(position);
+        NearbyUser currentUser = array.get(position);
 
         if(currentUser != null) {
             final TextView user = (TextView) listItem.findViewById(R.id.neighborUser);
@@ -52,8 +53,8 @@ public class UserAdapter extends ArrayAdapter<User> {
                     Intent intent = new Intent(activity, ListResultsActivity.class);
 
                    // Bundle bundle = new Bundle();
-                    intent.putExtra("UserAddr", activity.getUserAddress(neighborName));
-                    intent.putExtra("Username", neighborName);
+                    intent.putExtra("UserAddr",activity.getUserAddress(neighborName));
+                    intent.putExtra("Username",neighborName);
 
                     //bundle.putString("Username", neighborName);
                     //intent.putExtras(bundle);

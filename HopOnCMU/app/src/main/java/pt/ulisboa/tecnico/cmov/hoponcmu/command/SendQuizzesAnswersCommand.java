@@ -21,27 +21,29 @@ public class SendQuizzesAnswersCommand implements Command {
     private byte[] quizzTitle;
     private ArrayList<byte[]> quizzQuestions;
     private ArrayList<byte[]> quizzAnswers;
+    private byte[] time;
 
     // Security
     private byte[] nonce;
     private byte[] signature;
 
-    public SendQuizzesAnswersCommand(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> quizzAnswers) throws UnsupportedEncodingException, SignatureException {
+    public SendQuizzesAnswersCommand(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> quizzAnswers,int time) throws UnsupportedEncodingException, SignatureException {
         ArrayList<byte[]> finalQuizzQuestions = new ArrayList<byte[]>();
         ArrayList<byte[]> finalQuizzAnswers = new ArrayList<byte[]>();
 
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
-        this.id= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
-        this.quizzTitle=encryption.encrypt(quizzTitle.getBytes("UTF-8"));
+        this.id = encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
+        this.time = encryption.encrypt(Integer.toString(time).getBytes("UTF-8"));
+        this.quizzTitle = encryption.encrypt(quizzTitle.getBytes("UTF-8"));
 
-        for (String location: quizzQuestions) {
+        for (String location : quizzQuestions) {
             finalQuizzQuestions.add(encryption.encrypt(location.getBytes("UTF-8")));
         }
-        this.quizzQuestions= finalQuizzQuestions;
+        this.quizzQuestions = finalQuizzQuestions;
 
 
-        for (String location: quizzAnswers) {
+        for (String location : quizzAnswers) {
             finalQuizzAnswers.add(encryption.encrypt(location.getBytes("UTF-8")));
         }
         this.quizzAnswers = finalQuizzAnswers;
@@ -63,6 +65,13 @@ public class SendQuizzesAnswersCommand implements Command {
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
+    }
+
+
+    public int getTime() throws UnsupportedEncodingException {
+        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+        return Integer.parseInt(new String(encryption.decrypt(this.time),"UTF-8"));
     }
 
     public String getQuizzTitle() throws UnsupportedEncodingException {

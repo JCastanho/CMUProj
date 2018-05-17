@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetLocalsTask;
 
@@ -26,8 +27,10 @@ public class ListLocalsActivity extends AppCompatActivity {
 
     private GetQuizzTask task = null;
     private String title = "";
-    private int id;
-    private String quizzes = "empty";
+    private int userId;
+    private String currentQuizz;
+    private List<String> answeredQuizzes;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,25 +41,37 @@ public class ListLocalsActivity extends AppCompatActivity {
         new GetLocalsTask(ListLocalsActivity.this).execute("location");
 
         Bundle bundle = getIntent().getExtras();
-        this.id = bundle.getInt("id");
+        this.userId = bundle.getInt("id");
 
         listView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-                int itemPosition=position;
-
                 String text = (String) listView.getItemAtPosition(position);
 
-                Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
+                //if(ApplicationContextProvider.nearBeacon(position+1)) {
+                currentQuizz = text;
 
-                title = text;
-                Log.d("List Tour info", text);
+                Log.d("text", text);
 
-                // Show a progress spinner, and kick off a background task to
-                // perform the user login attempt.
-                task = new GetQuizzTask(ListLocalsActivity.this);
-                task.execute(text,"0");
+                new GetAnsweredQuizzesTask(ListLocalsActivity.this, userId).execute();
 
+                if(check()){
+                    Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
+
+                    title = text;
+                    Log.d("List Tour info", text);
+
+                    // Show a progress spinner, and kick off a background task to
+                    // perform the user login attempt.
+                    task = new GetQuizzTask(ListLocalsActivity.this);
+                    task.execute(text,"0");
+                }
+                /*} else {
+                  Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
+                }*/
             }
         });
 
@@ -73,7 +88,7 @@ public class ListLocalsActivity extends AppCompatActivity {
         bundle.putStringArrayList("Answers", answers);
         bundle.putInt("Page", page);
         bundle.putInt("Size", size);
-        bundle.putInt("id", id);
+        bundle.putInt("id", userId);
 
 
         intent.putExtras(bundle);
@@ -81,9 +96,29 @@ public class ListLocalsActivity extends AppCompatActivity {
     }
 
     public void updateInterface(List<String> sucess){
-
         ListView listView = (ListView) findViewById(R.id.list_tours);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sucess);
         listView.setAdapter(adapter);
+    }
+
+    public void checkQuizz(List<String> quizzes){
+        Log.d("currentQuizz", currentQuizz);
+        answeredQuizzes = quizzes;
+    }
+
+    public Boolean check(){
+        try{
+            for (int i = 0; i < answeredQuizzes.size(); i++){
+                if(answeredQuizzes.get(i).equals(currentQuizz)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }catch (Exception e){
+            return false;
+        }
+        return false;
     }
 }

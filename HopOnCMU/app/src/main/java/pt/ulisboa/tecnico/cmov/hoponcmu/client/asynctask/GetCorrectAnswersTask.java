@@ -8,12 +8,15 @@ import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.security.SignatureException;
+import java.util.ArrayList;
+import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
 
-public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
+public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>> {
 
     private ReadQuizzAnswersActivity activity;
     private int id;
@@ -24,9 +27,9 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected Integer doInBackground(String[] params){
+    protected List<Integer> doInBackground(String[] params){
         Socket server = null;
-        int reply = -1;
+        List<Integer> reply = new ArrayList<>();
 
         GetCorrectAnswersCommand cmd = null;
         try {
@@ -40,15 +43,14 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
-            Log.d("Teste" ,"Reply: " + Integer.toString(reply));
-
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
-
             if(response.securityCheck())
-                reply = response.getCorrect();
-
-            Log.d("Teste" ,"Respostas: " + Integer.toString(reply));
+            {
+                reply.add(response.getCorrectAnswers());
+                Log.d("GET TIME: ",""+response.getTime());
+                reply.add(response.getTime());
+            }
 
             oos.close();
             ois.close();
@@ -66,7 +68,7 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
     }
 
     @Override
-    protected void onPostExecute(Integer o){
+    protected void onPostExecute(List<Integer> o){
         activity.correctAnswers(o);
     }
 }

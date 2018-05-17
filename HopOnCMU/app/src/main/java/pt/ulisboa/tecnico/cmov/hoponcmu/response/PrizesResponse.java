@@ -1,23 +1,15 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
-import java.util.Map;
-
 public class PrizesResponse implements Response {
 
     private static final long serialVersionUID = 734457624276534179L;
-    private Map<String, Integer> map;
-    private String user;
+    private String res;
 
-    public PrizesResponse(Map<String, Integer> map, String user){
-        this.map = map;
-        this.user = user;
+    public PrizesResponse(String res){
+        this.res = res;
     }
 
-    public Map<String, Integer> getMap() {
-        return this.map;
-    }
-
-    public String getUser(){
-        return this.user;
+    public String getRes() {
+        return this.res;
     }
 }
