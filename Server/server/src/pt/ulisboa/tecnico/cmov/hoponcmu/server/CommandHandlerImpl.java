@@ -71,6 +71,7 @@ public class CommandHandlerImpl implements CommandHandler {
     
     @Override
     public Response handle(RequestPrizesCommand cmd){
+        System.out.println(cmd.getId());
         Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
         PrizesResponse rsp = new PrizesResponse(map);
         return rsp;

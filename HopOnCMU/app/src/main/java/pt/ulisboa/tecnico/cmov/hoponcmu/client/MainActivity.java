@@ -10,17 +10,19 @@ import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ShareResultService;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ReceivesSharesService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.LogoutTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.SimWifiP2pBroadcastReceiver;
 
@@ -31,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private SimWifiP2pManager.Channel mChannel = null;
     private Messenger mService = null;
     private SimWifiP2pBroadcastReceiver mReceiver;
+    private ApplicationContextProvider applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
         tokenID = getIntent().getExtras().getInt("id",-1);
 
         registerBroadcastReceiver();
@@ -78,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
         share_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //TODO Check if user is between bus stops
                 Intent intent = new Intent(MainActivity.this, ShareResultsActivity.class);
                 intent.putExtra("id",tokenID);
                 startActivity(intent);
@@ -101,9 +106,9 @@ public class MainActivity extends AppCompatActivity {
         Intent termite = new Intent(MainActivity.this, SimWifiP2pService.class);
         Intent sharingService = new Intent(MainActivity.this, SimWifiP2pService.class);
 
+        stopService(sharingService);
         unbindService(mConnection);
         stopService(termite);
-        stopService(sharingService);
         unregisterReceiver(mReceiver);
     }
 
@@ -111,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.log_out){
             new LogoutTask(MainActivity.this).execute(tokenID);
-            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
@@ -134,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION);
         filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION);
 
-        mReceiver = new SimWifiP2pBroadcastReceiver();
+        mReceiver = new SimWifiP2pBroadcastReceiver(applicationContext);
 
         registerReceiver(mReceiver, filter);
     }
@@ -144,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         startService(termite);
 		bindService(termite, mConnection, Context.BIND_AUTO_CREATE);
 
-		startService(new Intent(this, ShareResultService.class));
+		startService(new Intent(this, ReceivesSharesService.class));
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -155,8 +161,8 @@ public class MainActivity extends AppCompatActivity {
             mService = new Messenger(service);
             mManager = new SimWifiP2pManager(mService);
             mChannel = mManager.initialize(getApplication(), getMainLooper(), null);
-            ApplicationContextProvider.setChannel(mChannel);
-            ApplicationContextProvider.setManager(mManager);
+            applicationContext.setChannel(mChannel);
+            applicationContext.setManager(mManager);
         }
 
         @Override

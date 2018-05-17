@@ -90,11 +90,6 @@ public class ListResultsActivity extends AppCompatActivity {
 	public class sendMessageTask extends AsyncTask<String, Void, String> {
 
 		@Override
-		protected void onPreExecute() {
-			Toast.makeText(getBaseContext(),"Connecting...",Toast.LENGTH_SHORT).show();
-		}
-
-		@Override
 		protected String doInBackground(String... params) {
 			try {
 				mCliSocket = new SimWifiP2pSocket(params[0],

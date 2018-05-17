@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,8 +30,7 @@ public class PrizesActivity extends AppCompatActivity {
         prize = (TextView) findViewById(R.id.prize);
         Bundle bundle = getIntent().getExtras();
         id = bundle.getInt("id");
-
-        new RequestPrizesTask(PrizesActivity.this).execute(""+id);
+        new RequestPrizesTask(PrizesActivity.this).execute(id);
     }
 
     public void updateInterface(Map<String, Integer> map){

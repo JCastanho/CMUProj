@@ -184,11 +184,10 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void onSend(View view){
-
         getQuestionSend().add(question);
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
         int selectedId = group.getCheckedRadioButtonId();
-        if(selectedId != -1) {
+        if (selectedId != -1) {
 
             RadioButton button = (RadioButton) findViewById(selectedId);
             getAnswersSend().add(button.getText().toString());
@@ -199,7 +198,8 @@ public class QuizActivity extends AppCompatActivity {
         QuizActivity.this.finish();
     }
 
-    public void updateQuestion(String question, ArrayList<String> answers){
+    public void updateQuestion(String question, ArrayList<String> answers) {
+
         setQuestion(question);
         setAnswers(answers);
 
@@ -207,7 +207,7 @@ public class QuizActivity extends AppCompatActivity {
         viewQst.setText(question);
 
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
-        for(int i = 0; i < 4; i++){
+        for (int i = 0; i < 4; i++) {
             ((RadioButton) group.getChildAt(i)).setText(answers.get(i));
         }
     }

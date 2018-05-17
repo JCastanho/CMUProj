@@ -19,15 +19,16 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 
 /**
- * Socket that keeps listening for shared results
+ * Socket that keeps listening to receive shared results
  */
-public class ShareResultService extends Service {
+public class ReceivesSharesService extends Service {
 
     private SimWifiP2pSocketServer mSrvSocket = null;
     private final String TAG = "RESULT_RECEIVER";
     private Boolean alive;
+    private ApplicationContextProvider applicationContext;
 
-    public ShareResultService() {
+    public ReceivesSharesService() {
     }
 
     @Override
@@ -37,16 +38,16 @@ public class ShareResultService extends Service {
 
     @Override
     public void onCreate() {
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
 
-        SimWifiP2pSocketManager.Init(getApplicationContext());
+        SimWifiP2pSocketManager.Init(applicationContext);
 
         alive = true;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Service Started", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "ShareResultService started (" + this.hashCode() + ").");
+        Log.d(TAG, "Receives shares service started (" + this.hashCode() + ").");
 
         new IncommingCommTask().executeOnExecutor(
                 AsyncTask.THREAD_POOL_EXECUTOR);
@@ -58,10 +59,11 @@ public class ShareResultService extends Service {
     public void onDestroy() {
         Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
         alive = false;
+        super.onDestroy();
     }
 
 	/*
-	 * Asynctasks implementing message exchange
+	 * Asynctask implementing the result share
 	 */
 
     public class IncommingCommTask extends AsyncTask<Void, String, Void> {
@@ -80,9 +82,11 @@ public class ShareResultService extends Service {
                 e.printStackTrace();
                 return null;
             }
+
             while (alive) {
                 try {
-                     sock = mSrvSocket.accept();
+                    sock = mSrvSocket.accept();
+
                     try {
                         BufferedReader sockIn = new BufferedReader(
                                 new InputStreamReader(sock.getInputStream()));
@@ -91,6 +95,7 @@ public class ShareResultService extends Service {
                         sock.getOutputStream().write(("\n").getBytes());
                     } catch (IOException e) {
                         Log.d("Error reading socket:", e.getMessage());
+                        //break;
                     }
                 } catch (IOException e) {
                     Log.d("Error socket:", e.getMessage());
@@ -100,7 +105,9 @@ public class ShareResultService extends Service {
             }
 
             try {
-                sock.close();
+                if (sock != null) {
+                    sock.close();
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -110,7 +117,7 @@ public class ShareResultService extends Service {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            ApplicationContextProvider.parseResult(values[0]);
+            applicationContext.parseResult(values[0]);
         }
     }
 }

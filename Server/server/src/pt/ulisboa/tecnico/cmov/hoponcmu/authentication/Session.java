@@ -7,11 +7,8 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -59,6 +56,7 @@ public class Session {
 
         if(verifyCredentials(username, password)){
             if(!isUserLogged(username)) {
+
                 identifier = generateID();
                 login.put(identifier, getUser(username));
             }
@@ -72,10 +70,11 @@ public class Session {
             if(u.getUsername().equals(username))
                 return u;
         }
+
         return null;
     }
 
-    public String getUserById(int id){
+    public String getUsernameById(int id){
         return login.get(id).getUsername();
     }
 
@@ -99,13 +98,21 @@ public class Session {
     }
 
     private Integer generateID(){
-        //Change eventually
-        return login.size();
+        Integer id = login.size();
+        System.out.println(id);
+        return id;
     }
 
     public void logOutUser(Integer token) {
-        login.remove(token);
-        //System.out.println(login.size());
+
+        if(login.containsKey(token)) {
+            login.remove(token);
+            System.out.println("The user logged out successfully");
+        } else {
+            System.out.println("The user logged out was already logged out or had an broken token");
+        }
+
+        System.out.println("Remanining users: " + login.size());
     }
 
     public ArrayList<String> getQuizzAnswers(String monument, int page){
@@ -187,6 +194,7 @@ public class Session {
     }
 
     public Map<String, Integer> getQuizzesPrizes(int id){
+        System.out.println("Username is " + getUsernameById(id) + " id is " + id);
         Map<String, Integer> users = new HashMap<>();
         User user = login.get(id);
 
