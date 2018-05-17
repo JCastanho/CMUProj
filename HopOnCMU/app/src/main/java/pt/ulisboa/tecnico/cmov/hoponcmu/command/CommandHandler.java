@@ -19,4 +19,6 @@ public interface CommandHandler {
 
 	public Response handle(RequestPrizesCommand hc);
 
+	public Response handle(GetAnsweredQuizzesCommand hc);
+
 }

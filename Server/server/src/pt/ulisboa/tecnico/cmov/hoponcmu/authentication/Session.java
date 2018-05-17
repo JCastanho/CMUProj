@@ -229,4 +229,15 @@ public class Session {
         User u = login.get(id);
         u.setTimeForQuizz(timeForQuizz);
     }
+
+    public List<String> getAnsweredQuizzes(int id){
+        Map<String, ArrayList<QuizzAnswers>> map = userAnswers.get(id);
+        List<String> answeredQuizzes = new ArrayList<>();
+        try{
+            answeredQuizzes = new ArrayList<>(map.keySet());
+            return answeredQuizzes;
+        }catch (Exception e){
+            return answeredQuizzes;
+        }
+    }
 }

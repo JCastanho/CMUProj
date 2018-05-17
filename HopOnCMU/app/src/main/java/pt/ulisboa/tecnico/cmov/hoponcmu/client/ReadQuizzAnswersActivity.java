@@ -12,8 +12,8 @@ import android.widget.Toast;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetLocalsTask;
 
 public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
@@ -31,7 +31,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         this.userId = bundle.getInt("id");
 
         final ListView listView = (ListView) findViewById(R.id.list_tours_answers);
-        new GetLocalsTask(ReadQuizzAnswersActivity.this).execute("location");
+        new GetAnsweredQuizzesTask(ReadQuizzAnswersActivity.this, userId).execute();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

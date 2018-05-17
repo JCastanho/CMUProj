@@ -65,7 +65,6 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetCorrectAnswersCommand cmd) {
         int correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
         GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
         return rsp;
     }
@@ -74,6 +73,13 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(RequestPrizesCommand cmd){
         Map<String, Integer> map = s.getQuizzesPrizes(cmd.getId());
         PrizesResponse rsp = new PrizesResponse(map);
+        return rsp;
+    }
+
+    @Override
+    public Response handle(GetAnsweredQuizzesCommand cmd){
+        List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
+        GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
         return rsp;
     }
     //Adicionar aqui handle para outros comandos

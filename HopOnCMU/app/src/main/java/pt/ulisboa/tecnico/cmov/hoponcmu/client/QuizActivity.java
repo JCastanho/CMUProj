@@ -215,6 +215,8 @@ public class QuizActivity extends AppCompatActivity {
                 task.execute(monumento, Integer.toString(q));
 
                 Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
+
+                group.clearCheck();
             }
             else{
                 Toast.makeText(this, "Please select answer", Toast.LENGTH_SHORT).show();
@@ -274,11 +276,13 @@ public class QuizActivity extends AppCompatActivity {
 
             RadioButton button = (RadioButton) findViewById(selectedId);
             getAnswersSend().add(button.getText().toString());
+            task = new SendQuizzAnswersTask(QuizActivity.this, id);
+            task.execute(getMonumento());
+            QuizActivity.this.finish();
         }
-
-        task = new SendQuizzAnswersTask(QuizActivity.this, id);
-        task.execute(getMonumento());
-        QuizActivity.this.finish();
+        else{
+            Toast.makeText(this, "Please select answer", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void updateQuestion(String question, ArrayList<String> answers){

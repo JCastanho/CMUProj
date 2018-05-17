@@ -8,5 +8,6 @@ public interface ResponseHandler {
 	public void handle(SendLocationResponse hr);
 	public void handle(GetCorrectAnswersResponse hr);
 	public void handle(SendQuizzesAnswersResponse hr);
+	public void handle(GetAnsweredQuizzesResponse hr);
 
 }
