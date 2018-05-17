@@ -49,6 +49,14 @@ public class Session {
         }
 
         User nu = new User(username, code);
+        /*if(nu.getUsername().equals("b")){
+            nu.setQuizzAnswser("chiado",4);
+            for(int i: login.keySet()){
+                if(login.get(i)==nu){
+                    saveTime(i,"chiado",5);
+                }
+            }
+        }*/
 
         return users.add(nu);
     }
@@ -215,34 +223,39 @@ public class Session {
             for(String quizz: userAux.getQuizzAnswser().keySet()){
                 counter+=userAux.getQuizzAnswser().get(quizz);
             }
-            System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
+            //System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
             users.put(userAux.getUsername(), counter);
         }
 
         Map<String, Integer> pontos = new HashMap<>();
         for(String i: users.keySet()){
-            int pont=0;
-            System.out.println("User: " + getUser(i).getUsername() + " keySet : " + getUser(i).getQuizzAnswser().keySet());
+            int pont=users.get(i);
+            //System.out.println("User: " + getUser(i).getUsername() + " keySet : " + getUser(i).getQuizzAnswser().keySet());
             if(getUser(i).getQuizzAnswser().keySet().size()>=1){
+                if(getUser(i).getUsername().equals(user.getUsername())){
+                    flag=true;
+                }
                 if(getUser(i).getQuizzAnswser().keySet().size()==4){
                     resFinal=true;
                 }
-                flag=true;
-                System.out.println("entrei");
+                //System.out.println("entrei");
                 pont = (users.get(i)*50) - (getUser(i).allQuizzTimes());
                 if(pont<50){
                     pont=50;
                 }
             }
-            System.out.println("i: " + i + " pont: " + pont);
+            //System.out.println("i: " + i + " pont: " + pont);
             pontos.put(i,pont);
         }
 
-
+        for(String s: pontos.keySet()){
+            System.out.println("User: " + s + " Pontos: " + pontos.get(s));
+        }
+        
         List<Entry<String, Integer>> list = new ArrayList<>(pontos.entrySet());
         list.sort(Entry.comparingByValue());
         Collections.reverse(list);
-
+        
         Map<String, Integer> OrderUsers = new LinkedHashMap<>();
         for (Entry<String, Integer> entry : list) {
             OrderUsers.put(entry.getKey(), entry.getValue());
