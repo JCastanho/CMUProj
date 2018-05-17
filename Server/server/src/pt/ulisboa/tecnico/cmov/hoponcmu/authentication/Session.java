@@ -116,17 +116,24 @@ public class Session {
         System.out.println("Remanining users: " + login.size());
     }
 
-    public ArrayList<String> getQuizzAnswers(String monument, int page){
-        return quizzes.get(monument).get(page).getAnswers();
+    public ArrayList<ArrayList<String>> getQuizzAnswers(String monument){
+        ArrayList<Quizz> quizzArrayList = quizzes.get(monument);
+        ArrayList<ArrayList<String>> answers = new ArrayList<>();
+        for(int i = 0; i < quizzArrayList.size(); i++){
+            answers.add(quizzArrayList.get(i).getAnswers());
+        }
+        return answers;
     }
 
-    public String getQuizzQuestion(String monument, int page){
-        return quizzes.get(monument).get(page).getQuestion();
+    public ArrayList<String> getQuizzQuestion(String monument){
+        ArrayList<Quizz> quizzArrayList = quizzes.get(monument);
+        ArrayList<String> questions = new ArrayList<>();
+        for(int i=0; i<quizzArrayList.size(); i++){
+            questions.add(quizzArrayList.get(i).getQuestion());
+        }
+        return questions;
     }
 
-    public int getQuizzSize(String monument){
-        return quizzes.get(monument).size();
-    }
 
     public void populateQuizzes(){
 

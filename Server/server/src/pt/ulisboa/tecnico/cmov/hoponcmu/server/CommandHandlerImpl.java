@@ -45,11 +45,10 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetQuizzesCommand cmd){
 
-    	String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
-    	ArrayList<String> answers = s.getQuizzAnswers(cmd.getLocation(), cmd.getPage());
-    	int size = s.getQuizzSize(cmd.getLocation());
+    	ArrayList<String> question = s.getQuizzQuestion(cmd.getLocation());
+    	ArrayList<ArrayList<String>> answers = s.getQuizzAnswers(cmd.getLocation());
 
-        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
+        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getLocation());
         return rsp;
     }
 

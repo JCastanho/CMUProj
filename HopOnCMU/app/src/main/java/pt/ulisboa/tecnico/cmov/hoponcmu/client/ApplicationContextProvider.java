@@ -14,6 +14,7 @@ import pt.inesc.termite.wifidirect.SimWifiP2pDeviceList;
 import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.NearbyUser;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 
 public class ApplicationContextProvider extends Application implements
         SimWifiP2pManager.GroupInfoListener{
@@ -24,6 +25,7 @@ public class ApplicationContextProvider extends Application implements
     private HashMap<String,List<String>> sharedResults = new HashMap<>();
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
+    private HashMap<String, List<Question>> quizz = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -42,6 +44,14 @@ public class ApplicationContextProvider extends Application implements
     public ArrayList<NearbyUser> getGroupPeersList(){ return groupPeers; }
 
     public HashMap<String,List<String>> getSharedResults() { return sharedResults; }
+
+    public HashMap<String, List<Question>> getQuizz() {
+        return quizz;
+    }
+
+    public void setQuizz(HashMap<String, List<Question>> quizz) {
+        this.quizz = quizz;
+    }
 
     public Boolean nearBeacon(int monumentPos) {
         Log.d("App Context Info","Monument position: " + monumentPos + " Beacon : " + nearBeacon);

@@ -4,13 +4,12 @@ import java.util.ArrayList;
 
 public class Quizz {
 	private String Question;
-	
+	private ArrayList<String> answers;
 	private ArrayList<String> Wrong;
 	private String Correct;
 	
 	public Quizz(String question, ArrayList<String> wrong, String correct){
 		Question = question;
-		
 		Wrong = wrong;
 		Correct = correct;
 	}

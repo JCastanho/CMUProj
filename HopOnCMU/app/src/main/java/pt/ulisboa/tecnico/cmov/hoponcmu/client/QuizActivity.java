@@ -15,12 +15,15 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -34,6 +37,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private ArrayList<String> questionSend = new ArrayList<String>();
     private ArrayList<String> answersSend = new ArrayList<String>();
+    private HashMap<String, List<Question>> quizz = new HashMap<>();
+    private ApplicationContextProvider applicationContext;
 
     Timer quizzTimer;
     TimerTask quizzTimerTask;
@@ -103,6 +108,9 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
+        quizz = applicationContext.getQuizz();
+
         //ADD TITLE
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
@@ -129,13 +137,13 @@ public class QuizActivity extends AppCompatActivity {
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         //Get Quizzes, see next line
-        setQuestion(bundle.getString("Question"));
+        setQuestion(quizz.get(monumento).get(q).getQuestion());
         viewQst.setText(question);
 
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
 
-        setAnswers(bundle.getStringArrayList("Answers"));
+        setAnswers(quizz.get(monumento).get(q).getAnswers());
 
         RadioButton btn;
         for(int i = 0; i < 4; i++){
@@ -194,8 +202,9 @@ public class QuizActivity extends AppCompatActivity {
                 RadioButton button = (RadioButton) findViewById(selectedId);
                 getAnswersSend().add(button.getText().toString());
 
-                GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-                task.execute(monumento, Integer.toString(q));
+//                GetQuizzTask task = new GetQuizzTask(QuizActivity.this, id);
+//                task.execute(monumento);
+                updateQuestion();
 
                 Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
 
@@ -230,8 +239,9 @@ public class QuizActivity extends AppCompatActivity {
             getQuestionSend().remove(questionSend.size() -1);
             getAnswersSend().remove(answersSend.size() -1);
 
-            GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-            task.execute(monumento, Integer.toString(q));
+//            GetQuizzTask task = new GetQuizzTask(QuizActivity.this, id);
+//            task.execute(monumento);
+            updateQuestion();
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
 
@@ -270,10 +280,10 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void updateQuestion(String question, ArrayList<String> answers) {
+    public void updateQuestion() {
 
-        setQuestion(question);
-        setAnswers(answers);
+        setQuestion(quizz.get(monumento).get(q).getQuestion());
+        setAnswers(quizz.get(monumento).get(q).getAnswers());
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         viewQst.setText(question);

@@ -7,15 +7,13 @@ public class GetQuizzesCommand implements Command {
     private static final long serialVersionUID = -8807331723807741905L;
     private int id;
     private String location;
-    private int page;
 
     public GetQuizzesCommand(int id) {
         this.id=id;
     }
     
-    public GetQuizzesCommand(int id, String location, int page){
+    public GetQuizzesCommand(int id, String location){
         this.location=location;
-        this.page = page;
     }
 	
     @Override
@@ -31,7 +29,4 @@ public class GetQuizzesCommand implements Command {
         return this.location;
     }
 
-    public int getPage() {
-        return this.page;
-    }
 }
