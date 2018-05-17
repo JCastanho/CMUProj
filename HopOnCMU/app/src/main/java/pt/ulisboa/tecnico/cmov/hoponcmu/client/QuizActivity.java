@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import java.util.TimerTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -286,9 +288,15 @@ public class QuizActivity extends AppCompatActivity {
 
     public void updateInterface(Integer id) {
         if( id != -1) {
-            Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Answers sent with success", Toast.LENGTH_SHORT).show();
+        }
+        else if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
+            Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);
+            intent.putExtra("Command", new SendQuizzesAnswersCommand(id, monumento, getQuestionSend(), getAnswersSend(), getTimeForQuizz()));
+
+            startActivity(intent);
         } else {
-            Toast.makeText(this, "Answer failed, try again!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Failed sending the quizz answers", Toast.LENGTH_SHORT).show();
         }
     }
 }

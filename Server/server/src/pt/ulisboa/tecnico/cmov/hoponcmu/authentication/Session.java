@@ -38,7 +38,7 @@ public class Session {
         populateQuizzes();
         createUser("a","a");
         createUser("b","b");
-        verifyUser("b","b");
+        //verifyUser("b","b");
     }
 
     public Boolean createUser(String username, String code){

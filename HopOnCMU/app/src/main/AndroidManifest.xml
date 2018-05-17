@@ -36,8 +36,7 @@
             android:label="@string/action_sign_up" />
         <activity
             android:name=".client.ReadQuizzAnswersActivity"
-            android:label="@string/title_activity_read_quizz_answers"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_read_quizz_answers"/>
         <activity
             android:name=".client.QuizActivity"
             android:label="@string/title_quizz" />
@@ -54,10 +53,10 @@
             android:name=".client.AskNativesActivity"
             android:label="@string/title_asknatives"/>
         <activity
-            android:name=".client.PrizesActivity">
-        </activity>
+            android:name=".client.PrizesActivity"
+            android:label="@string/title_activity_receive_prizes"/>
         <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
-        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ReceivesSharesService" android:enabled="true" />
+        <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.network.ReceivesSharesService" android:enabled="true" />
     </application>
 
 </manifest>
