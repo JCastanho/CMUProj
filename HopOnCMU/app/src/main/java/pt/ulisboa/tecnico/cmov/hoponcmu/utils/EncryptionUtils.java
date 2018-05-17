@@ -16,7 +16,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.security.SecureRandom;
 
-import static pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider.getApplication;
+import static pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider.getContext;
 
 public class EncryptionUtils {
 
@@ -54,7 +54,7 @@ public class EncryptionUtils {
     public PrivateKey getPrivateKey() throws IOException {
 
         PrivateKey privateKey = null;
-        Context context = getApplication().getApplicationContext();
+        Context context = getContext().getApplicationContext();
         InputStream stream = context.getAssets().open(privateKeyPath);
 
         try {
@@ -76,7 +76,7 @@ public class EncryptionUtils {
 
         PublicKey publicKey = null;
 
-        Context context = getApplication().getApplicationContext();
+        Context context = getContext().getApplicationContext();
 
         InputStream stream = context.getAssets().open(publicKeyPath);
         try {

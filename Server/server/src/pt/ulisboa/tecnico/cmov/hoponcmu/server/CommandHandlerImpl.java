@@ -54,10 +54,18 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(LogoutCommand cmd) {
-        Integer token = cmd.getToken();
-
-        s.logOutUser(token);
-
+    	
+    	
+        Integer token;
+		try {
+			if(cmd.securityCheck()) {
+				token = cmd.getToken();
+				s.logOutUser(token);	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
         return null;
     }
 
@@ -106,10 +114,18 @@ public class CommandHandlerImpl implements CommandHandler {
 
     @Override
     public Response handle(GetCorrectAnswersCommand cmd) {
-        int correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-        System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
-        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
-        return rsp;
+        int correctAnswers;
+		try {
+			if(cmd.securityCheck()) {
+				correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+		        System.out.println("Respostas correctas: " + Integer.toString(correctAnswers));
+		        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers);
+		        return rsp;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
     }
     
     @Override

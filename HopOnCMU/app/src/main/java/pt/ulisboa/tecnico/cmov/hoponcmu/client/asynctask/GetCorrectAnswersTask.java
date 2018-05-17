@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
@@ -25,7 +27,13 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
     protected Integer doInBackground(String[] params){
         Socket server = null;
         int reply = -1;
-        GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(id ,params[0]);
+
+        GetCorrectAnswersCommand cmd = null;
+        try {
+            cmd = new GetCorrectAnswersCommand(id ,params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             server = new Socket("10.0.2.2", 9090);
@@ -36,8 +44,9 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, Integer> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
-            reply = response.getCorrect();
-            Log.d("ASDASDASDASDASDASDASD",""+reply);
+
+            if(response.securityCheck())
+                reply = response.getCorrect();
 
             Log.d("Teste" ,"Respostas: " + Integer.toString(reply));
 
