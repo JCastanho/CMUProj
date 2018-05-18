@@ -270,7 +270,7 @@ public class QuizActivity extends AppCompatActivity {
 
             RadioButton button = (RadioButton) findViewById(selectedId);
             getAnswersSend().add(button.getText().toString());
-            task = new SendQuizzAnswersTask(QuizActivity.this, id);
+            task = new SendQuizzAnswersTask(QuizActivity.this, id, (ApplicationContextProvider) getApplicationContext());
             task.execute(getMonumento());
             QuizActivity.this.finish();
         }
@@ -296,7 +296,7 @@ public class QuizActivity extends AppCompatActivity {
     public void updateInterface(Integer id) {
         if( id != -1) {
             Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
-            new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
+            new GetAnsweredQuizzesTask(QuizActivity.this, id, (ApplicationContextProvider) getApplicationContext()).execute();
         }
         else if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
             Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);

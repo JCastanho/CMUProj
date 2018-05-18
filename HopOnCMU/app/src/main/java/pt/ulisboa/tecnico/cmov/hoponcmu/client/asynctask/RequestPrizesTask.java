@@ -11,6 +11,7 @@ import java.security.SignatureException;
 import java.util.HashMap;
 import java.util.Map;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.PrizesActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.RequestPrizesCommand;
@@ -19,9 +20,11 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.PrizesResponse;
 public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
 
     private PrizesActivity activity;
+    private ApplicationContextProvider context;
 
-    public RequestPrizesTask(PrizesActivity activity) {
+    public RequestPrizesTask(PrizesActivity activity, ApplicationContextProvider context) {
         this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -43,8 +46,10 @@ public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             PrizesResponse response = (PrizesResponse) ois.readObject();
-            if(response.securityCheck())
-                reply = response.getRes();
+
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply = response.getRes();
+
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");

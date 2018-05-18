@@ -43,7 +43,7 @@ public class ListLocalsActivity extends AppCompatActivity {
         applicationContext = (ApplicationContextProvider) getApplicationContext();
 
         final ListView listView = (ListView) findViewById(R.id.list_tours);
-        new GetLocalsTask(ListLocalsActivity.this).execute("location");
+        new GetLocalsTask(ListLocalsActivity.this, (ApplicationContextProvider) getApplicationContext()).execute("location");
 
         Bundle bundle = getIntent().getExtras();
         this.userId = bundle.getInt("id");
@@ -70,7 +70,7 @@ public class ListLocalsActivity extends AppCompatActivity {
 
                     // Show a progress spinner, and kick off a background task to
                     // perform the user login attempt.
-                    task = new GetQuizzTask(ListLocalsActivity.this, userId);
+                    task = new GetQuizzTask(ListLocalsActivity.this, userId, (ApplicationContextProvider) getApplicationContext());
                     task.execute(text);
                 }
                 /*} else {

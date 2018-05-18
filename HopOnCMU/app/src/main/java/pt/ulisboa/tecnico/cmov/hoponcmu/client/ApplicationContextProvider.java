@@ -4,10 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pDevice;
 import pt.inesc.termite.wifidirect.SimWifiP2pDeviceList;
@@ -15,6 +19,7 @@ import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.NearbyUser;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
+import pt.ulisboa.tecnico.cmov.hoponcmu.utils.EncryptionUtils;
 
 public class ApplicationContextProvider extends Application implements
         SimWifiP2pManager.GroupInfoListener{
@@ -28,6 +33,11 @@ public class ApplicationContextProvider extends Application implements
     private HashMap<String, List<Integer>> quizzResults = new HashMap<>();
     private HashMap<String, List<Question>> quizz = new HashMap<>();
     private HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
+
+    // Security
+    private EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    private ArrayList<String> nonces = new ArrayList<String>();
+    private Date lastClear = Calendar.getInstance().getTime();
 
     @Override
     public void onCreate() {
@@ -141,5 +151,71 @@ public class ApplicationContextProvider extends Application implements
 
         groupPeers = auxList;
         Log.d("App Context Info", "New list size: " + groupPeers.size());
+    }
+
+
+
+    public String checkNonce(byte[] encryptedNonce){
+        try {
+            String nonce = new String(encryption.decrypt(encryptedNonce),"UTF-8");
+
+            if(nonces.contains(nonce)) {
+                return "NOK";
+            }
+
+            String[] parts = nonce.split("#");
+
+            // Test Freshness
+            Calendar nonceCalendar = Calendar.getInstance();
+            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+            nonceCalendar.setTime(sdf.parse(parts[1]));
+
+            Date nonceDate = nonceCalendar.getTime();
+            Calendar now = Calendar.getInstance();
+            Date dNow = now.getTime();
+
+            Calendar limit = now;
+            limit.add(Calendar.HOUR, -2);
+            Date dLimit = limit.getTime();
+
+            if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
+                nonces.add(nonce);
+                return nonce;
+            };
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "NOK";
+    }
+
+    private void cleanNonces() {
+        try {
+            Calendar now = Calendar.getInstance();
+            Calendar scheduled = now;
+            scheduled.add(Calendar.DATE, -1);
+
+            if(scheduled.before(lastClear)) {
+                for(String nonce : nonces) {
+                    String[] parts = nonce.split("#");
+
+
+                    Calendar nonceCalendar = Calendar.getInstance();
+                    SimpleDateFormat sdf = new SimpleDateFormat();
+                    nonceCalendar.setTime(sdf.parse(parts[1]));
+                    Date nonceDate = nonceCalendar.getTime();
+
+                    Calendar limit = now;
+                    limit.add(Calendar.HOUR, -1);
+
+                    if(limit.after(nonceDate)) {
+                        nonces.remove(nonce);
+                    };
+                }
+
+                lastClear = Calendar.getInstance().getTime();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.SignUpActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.CreateUserCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
@@ -17,9 +18,11 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.SignupResponse;
 public class SignupTask extends AsyncTask<String, Void, Boolean> {
 
     private SignUpActivity activity;
+    private ApplicationContextProvider context;
 
-    public SignupTask(SignUpActivity activity) {
+    public SignupTask(SignUpActivity activity, ApplicationContextProvider context) {
         this.activity = activity;
+        this.context = context;
     }
 
     @Override
@@ -43,7 +46,8 @@ public class SignupTask extends AsyncTask<String, Void, Boolean> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SignupResponse sr = (SignupResponse) ois.readObject();
 
-            reply = sr.securityCheck()? sr.getAuthorization() : false;
+            sr.securityCheck(context.checkNonce(sr.getNonce()));
+            reply = sr.getAuthorization();
 
             oos.close();
             ois.close();

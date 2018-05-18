@@ -17,13 +17,14 @@ public class SignupResponse implements Response {
 	// Security
 	private byte[] nonce;
 	private byte[] signature;
+	private transient boolean verified = false;
 
 	public SignupResponse(String success) throws UnsupportedEncodingException, SignatureException {
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
 		this.success= encryption.encrypt(success.getBytes("UTF-8"));
 
-		String pureNonce = "SignupResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		String pureNonce = "SignupResponse" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + success;
@@ -32,26 +33,35 @@ public class SignupResponse implements Response {
 	}
 
 	public Boolean getAuthorization() throws UnsupportedEncodingException {
-	    EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+		if(verified){
+			EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
-		String pureText = new String(encryption.decrypt(this.success),"UTF-8");
+			String pureText = new String(encryption.decrypt(this.success),"UTF-8");
 
-		return pureText.equals("OK") ? true: false;
+			return pureText.equals("OK") ? true: false;
+		}
+		return false;
+	}
+
+	public byte[] getNonce() {
+		return nonce;
 	}
 
 	private String getSuccess() throws UnsupportedEncodingException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
 		return new String(encryption.decrypt(this.success),"UTF-8");
 	}
 
-	public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+	public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+		if(nonce.equals("NOK")){
+			this.verified = false;
+		}
 
-		String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
 		String replicateSignature = nonce + this.getSuccess();
 
-		return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+		this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
 	}
 }
