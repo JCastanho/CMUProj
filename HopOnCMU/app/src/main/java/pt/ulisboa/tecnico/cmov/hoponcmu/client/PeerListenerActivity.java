@@ -20,7 +20,7 @@ public class PeerListenerActivity extends AppCompatActivity{
 	private ListView listView;
 	private final String TAG = "NEARBY_USERS";
 	private Boolean alive;
-	private ApplicationContextProvider applicationContext;
+	//private ApplicationContextProvider applicationContext;
 	private Boolean mutex;
 	private int userId;
 
@@ -29,7 +29,7 @@ public class PeerListenerActivity extends AppCompatActivity{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sharerslt);
 
-		applicationContext = (ApplicationContextProvider) getApplicationContext();
+		//applicationContext = (ApplicationContextProvider) getApplicationContext();
 		listView = findViewById(R.id.list_users);
 
 		Bundle bundle = getIntent().getExtras();
@@ -48,12 +48,13 @@ public class PeerListenerActivity extends AppCompatActivity{
 	protected void onRestart() {
 		super.onRestart();
 		array.clear();
+		//checkEmptyList();
 	}
 
 	public void setAdapter(Context context) {
-		Log.d("Set Adapter: ", ""+applicationContext.getGroupPeersList().size());
+		Log.d("Set Adapter: ", ""+Singleton.getInstance().getGroupPeersList().size());
 
-		array = applicationContext.getGroupPeersList();
+		array = Singleton.getInstance().getGroupPeersList();
 
 		adapter = new UserAdapter(context,array);
 		listView.setAdapter(adapter);
@@ -86,6 +87,9 @@ public class PeerListenerActivity extends AppCompatActivity{
 	private void checkEmptyList(){
 		if(array.size() == 0)
 			listView.setEmptyView(findViewById(R.id.no_near_users));
+
+		listView.invalidateViews();
+		listView.refreshDrawableState();
 	}
 
 	public class NearbyUsersTask extends AsyncTask<Void, Void, Void> {
@@ -103,7 +107,7 @@ public class PeerListenerActivity extends AppCompatActivity{
 
 				Log.d(TAG, "Working..");
 
-				ArrayList<NearbyUser> updatedUsers = applicationContext.getGroupPeersList();
+				ArrayList<NearbyUser> updatedUsers = Singleton.getInstance().getGroupPeersList();
 
 				if(mutex) {
 					if (!(array.containsAll(updatedUsers) && updatedUsers.containsAll(array))) {
@@ -124,7 +128,7 @@ public class PeerListenerActivity extends AppCompatActivity{
 		@Override
 		protected void onProgressUpdate(Void... params) {
 			adapter.notifyDataSetChanged();
-			checkEmptyList();
+			//checkEmptyList();
 			mutex(true);
 		}
 	}

@@ -22,15 +22,13 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
     private List<String> array;
     private HashMap<String, List<String>> expandableItems;
     private Boolean alive;
-    private ApplicationContextProvider applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_see_shared_results);
 
-        applicationContext = (ApplicationContextProvider) getApplicationContext();
-        SimWifiP2pSocketManager.Init(applicationContext);
+        SimWifiP2pSocketManager.Init(getApplicationContext());
 
         listView = (ExpandableListView) findViewById(R.id.sharedResults_list);
         alive = true;
@@ -48,7 +46,7 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
     }
 
     private void setAdapter(ExpandableListView listView) {
-        HashMap<String, List<String>> results = applicationContext.getSharedResults();
+        HashMap<String, List<String>> results = Singleton.getInstance().getSharedResults();
         List<String> users = new ArrayList<>(results.keySet());
 
         array = new ArrayList<>(users);
@@ -83,7 +81,7 @@ public class SeeSharedResultsActivity extends AppCompatActivity {
 
             while (alive) {
 
-                HashMap<String,List<String>> results = applicationContext.getSharedResults();
+                HashMap<String,List<String>> results = Singleton.getInstance().getSharedResults();
 
                 List<String> resultsValues = mergeNestedLists(results.values());
                 List<String> expandableItemsValues = mergeNestedLists(expandableItems.values());

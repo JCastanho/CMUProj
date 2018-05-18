@@ -8,6 +8,7 @@ import android.widget.Toast;
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.Singleton;
 
 public class SimWifiP2pBroadcastReceiver extends BroadcastReceiver {
 
@@ -44,7 +45,7 @@ public class SimWifiP2pBroadcastReceiver extends BroadcastReceiver {
         	ginfo.print();
     		Toast.makeText(context, "Network membership changed",
     				Toast.LENGTH_SHORT).show();
-            applicationContext.updateGroupPeers();
+            Singleton.getInstance().updateGroupPeers();
 
         } else if (SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION.equals(action)) {
 

@@ -21,5 +21,6 @@
     <string name="serverPort">9090</string>
     <string name="host">10.0.2.2</string>
     <string name="non_native_user_error">-2</string>
+    <string name="no_quizzes_answered">No quizzes were answered</string>
 
 </resources>

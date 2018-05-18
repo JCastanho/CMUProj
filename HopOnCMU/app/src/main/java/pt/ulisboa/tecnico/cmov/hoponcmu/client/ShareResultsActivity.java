@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 public class ShareResultsActivity extends PeerListenerActivity{
 
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

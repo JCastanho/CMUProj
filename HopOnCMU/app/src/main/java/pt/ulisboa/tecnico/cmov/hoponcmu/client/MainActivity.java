@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private SimWifiP2pManager.Channel mChannel = null;
     private Messenger mService = null;
     private SimWifiP2pBroadcastReceiver mReceiver;
-    private ApplicationContextProvider applicationContext;
+    private static Singleton singleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +43,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        applicationContext = (ApplicationContextProvider) getApplicationContext();
         userId = getIntent().getExtras().getInt("id",-1);
+        singleton = Singleton.getInstance();
 
         registerBroadcastReceiver();
         setServices();
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
         filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_NETWORK_MEMBERSHIP_CHANGED_ACTION);
         filter.addAction(SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION);
 
-        mReceiver = new SimWifiP2pBroadcastReceiver(applicationContext);
+        mReceiver = new SimWifiP2pBroadcastReceiver((ApplicationContextProvider) getApplicationContext());
 
         registerReceiver(mReceiver, filter);
     }
@@ -164,8 +164,8 @@ public class MainActivity extends AppCompatActivity {
             mService = new Messenger(service);
             mManager = new SimWifiP2pManager(mService);
             mChannel = mManager.initialize(getApplication(), getMainLooper(), null);
-            applicationContext.setChannel(mChannel);
-            applicationContext.setManager(mManager);
+            singleton.setChannel(mChannel);
+            singleton.setManager(mManager);
         }
 
         @Override
@@ -177,6 +177,6 @@ public class MainActivity extends AppCompatActivity {
     };
 
     public void updateAnsweredQuizz(List<String> o) {
-        applicationContext.setAnsweredQuizzes(o);
+        singleton.setAnsweredQuizzes(o);
     }
 }

@@ -16,6 +16,7 @@ import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketServer;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.Singleton;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
 /**
@@ -126,7 +127,7 @@ public class ReceivesSharesService extends Service {
 
         @Override
         protected void onProgressUpdate(String... values) {
-            applicationContext.parseResult(values[0]);
+            Singleton.getInstance().parseResult(values[0]);
         }
     }
 }

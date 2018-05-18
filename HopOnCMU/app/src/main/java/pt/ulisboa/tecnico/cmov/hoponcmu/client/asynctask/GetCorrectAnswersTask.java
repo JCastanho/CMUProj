@@ -64,6 +64,8 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
             ReadQuizzAnswersActivity lrActivity = (ReadQuizzAnswersActivity) activity;
             lrActivity.correctAnswers(o);
         } else {
+            Log.d("GetCorrectAnswersTask","sending result back to activity");
+
             ListResultsActivity lrActivity = (ListResultsActivity) activity;
             lrActivity.updateInterface(monument, o);
         }
