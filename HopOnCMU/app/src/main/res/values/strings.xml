@@ -17,8 +17,8 @@
     <string name="title_activity_read_quizz_answers">Quizz Results</string>
     <string name="title_activity_receive_prizes">Prizes</string>
 
-    <!--Termite-->
-    <string name="port">10001</string>
+    <string name="termitePort">10001</string>
+    <string name="serverPort">9090</string>
     <string name="host">10.0.2.2</string>
     <string name="non_native_user_error">-2</string>
 

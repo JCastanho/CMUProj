@@ -24,7 +24,7 @@ public class SendMessageTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... params) {
         try {
-            mCliSocket = new SimWifiP2pSocket(params[0], Integer.parseInt(context.getString(R.string.port)));
+            mCliSocket = new SimWifiP2pSocket(params[0], Integer.parseInt(context.getString(R.string.termitePort)));
 
             mCliSocket.getOutputStream().write((params[1] + "\n").getBytes());
             BufferedReader sockIn = new BufferedReader(

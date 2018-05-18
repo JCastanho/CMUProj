@@ -22,13 +22,16 @@ public class ListResultsActivity extends AppCompatActivity {
 	private ArrayList<String> array;
 	private String userAddress;
 	private String username;
+	private ApplicationContextProvider applicationContext;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listrslt);
 
-		SimWifiP2pSocketManager.Init(getApplicationContext());
+		applicationContext = (ApplicationContextProvider) getApplicationContext();
+
+		SimWifiP2pSocketManager.Init(applicationContext);
 
 		Bundle extras = getIntent().getExtras();
 		userAddress = extras.getString("UserAddr");
@@ -42,9 +45,16 @@ public class ListResultsActivity extends AppCompatActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.sendResults){
 			String results = "";
+			ArrayList<String> checkedResults = adapter.getCheckedResults();
+			int lastResultPos = checkedResults.size();
 
-			for(String rslt: adapter.getCheckedResults()){
-				results += rslt + ",";
+			for(int position = 0; position < lastResultPos; position++){
+
+				if(position != position-1){
+					results += checkedResults.get(position) + ",";
+				} else {
+					results += checkedResults.get(position);
+				}
 			}
 
 			new SendMessageTask(ListResultsActivity.this).executeOnExecutor(
@@ -66,12 +76,8 @@ public class ListResultsActivity extends AppCompatActivity {
 
 	private void setAdapter(ListView listView) {
 		array = new ArrayList<>();
-		array.add("100%");
-		array.add("50%");
-		array.add("70%");
 
-		// TODO: Get results in server
-		//new GetCorrectAnswersCommand().execute()
+		//if(Applic GetCorrectAnswersCommand().execute()
 
 		adapter = new ResultAdapter(this,array);
 

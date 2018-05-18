@@ -113,7 +113,6 @@ public class Session {
     }
 
     public void logOutUser(Integer token) {
-
         if(login.containsKey(token)) {
             login.remove(token);
             System.out.println("The user logged out successfully");
