@@ -321,7 +321,7 @@ public class Session {
 			
 			// Test Freshness
 			Calendar nonceCalendar = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat();
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
 			nonceCalendar.setTime(sdf.parse(parts[1]));
 			
 			Date nonceDate = nonceCalendar.getTime();
