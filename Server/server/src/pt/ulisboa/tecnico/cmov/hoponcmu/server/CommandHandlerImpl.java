@@ -75,7 +75,7 @@ public class CommandHandlerImpl implements CommandHandler {
 		try {
 			if(cmd.securityCheck()) {
 				rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
-		        System.out.println(rsp.getLocations().get(0));
+//		        System.out.println(rsp.getLocations().get(0));
 		        return rsp;
 			}
 			

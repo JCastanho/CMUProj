@@ -40,7 +40,7 @@ public class GetQuizzesResponse implements Response {
 			}
 			finalAnswers.add(innerAnswers);
 		}
-		this.questions=finalQuestions;
+		this.answers=finalAnswers;
 
 		String pureNonce = "GetQuizzesResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));

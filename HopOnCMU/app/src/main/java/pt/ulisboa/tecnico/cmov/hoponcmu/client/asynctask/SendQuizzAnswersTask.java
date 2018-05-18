@@ -32,7 +32,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         SendQuizzesAnswersCommand cmd = null;
         try {
             cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getAnswersSend(), activity.getTimeForQuizz());
-            Log.d("TIME TASK: ",""+cmd.getTime());
+//            Log.d("TIME TASK: ",""+cmd.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
