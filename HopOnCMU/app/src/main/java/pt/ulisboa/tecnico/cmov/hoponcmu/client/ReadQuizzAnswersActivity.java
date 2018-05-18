@@ -13,29 +13,25 @@ import android.widget.Toast;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 
 public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
-    private List<Integer> correctAnswers;
-    private ListView listView;
+    //private List<Integer> correctAnswers;
     private int userId = -1;
     private String text;
-    private ApplicationContextProvider applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_read_quizz_answers);
-        applicationContext = (ApplicationContextProvider) getApplicationContext();
 
         Bundle bundle = getIntent().getExtras();
         this.userId = bundle.getInt("id");
 
         listView = (ListView) findViewById(R.id.list_tours_answers);
 
-        updateInterface(applicationContext.getAnsweredQuizzes());
+        updateInterface(Singleton.getInstance().getAnsweredQuizzes());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -44,8 +40,8 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
                 text = (String) listView.getItemAtPosition(position);
 
-                if(applicationContext.checkQuizzResults(text)){
-                    Toast.makeText(ReadQuizzAnswersActivity.this, applicationContext.getQuizzResults().get(text).get(0) + " correct answers in " + applicationContext.getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
+                if(Singleton.getInstance().checkQuizzResults(text)){
+                    Toast.makeText(ReadQuizzAnswersActivity.this, Singleton.getInstance().getQuizzResults().get(text).get(0) + " 22222222 correct answers in " + Singleton.getInstance().getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this);
@@ -57,8 +53,8 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
     public void correctAnswers(List<Integer> answers){
         if (answers != null){
-            applicationContext.addQuizzResults(text,answers);
-            Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
+            Singleton.getInstance().addQuizzResults(text,answers);
+            Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " 111111111 correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(ReadQuizzAnswersActivity.this, "You didn't answer this Quizz", Toast.LENGTH_SHORT).show();

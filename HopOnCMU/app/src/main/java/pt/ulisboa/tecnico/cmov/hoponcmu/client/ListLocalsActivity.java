@@ -30,13 +30,11 @@ public class ListLocalsActivity extends AppCompatActivity {
     private GetQuizzTask task = null;
     private int userId;
     private String currentQuizz;
-    private ApplicationContextProvider applicationContext;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tour_local);
-        applicationContext = (ApplicationContextProvider) getApplicationContext();
 
         final ListView listView = (ListView) findViewById(R.id.list_tours);
         new GetLocalsTask(ListLocalsActivity.this).execute("location");
@@ -49,13 +47,13 @@ public class ListLocalsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 String text = (String) listView.getItemAtPosition(position);
 
-                //if(ApplicationContextProvider.nearBeacon(position+1)) {
+                //if(Singleton.getInstance.nearBeacon(position+1)) {
                 currentQuizz = text;
 
-                if (applicationContext.checkAnsweredQuizz(currentQuizz)) {
+                if (Singleton.getInstance().checkAnsweredQuizz(currentQuizz)) {
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
                 } else {
-                    if (applicationContext.checkDownloadedQuizz(currentQuizz)) {
+                    if (Singleton.getInstance().checkDownloadedQuizz(currentQuizz)) {
                         startQuiz();
                     } else {
 
@@ -75,7 +73,9 @@ public class ListLocalsActivity extends AppCompatActivity {
     }
 
     public void getQuizzes(List<Question> quizz){
-        applicationContext.addQuizz(currentQuizz, quizz);
+        Log.d("List Locals", "quizz received");
+        Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
+        Singleton.getInstance().addQuizz(currentQuizz, quizz);
         startQuiz();
     }
 

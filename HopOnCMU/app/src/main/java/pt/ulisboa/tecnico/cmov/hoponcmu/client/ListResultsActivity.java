@@ -8,19 +8,18 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.ResultAdapter;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SendMessageTask;
-import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 
 public class ListResultsActivity extends AppCompatActivity {
 
@@ -28,9 +27,9 @@ public class ListResultsActivity extends AppCompatActivity {
 	private ArrayList<String> array;
 	private String userAddress;
 	private String username;
-	private ApplicationContextProvider applicationContext;
+	private ListView listView;
+	private TextView message;
 	private int userId;
-	private boolean mutex;
 	private boolean finished;
 
 	@Override
@@ -38,19 +37,31 @@ public class ListResultsActivity extends AppCompatActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listrslt);
 
-		applicationContext = (ApplicationContextProvider) getApplicationContext();
-
-		SimWifiP2pSocketManager.Init(applicationContext);
+		SimWifiP2pSocketManager.Init(getApplicationContext());
 
 		Bundle extras = getIntent().getExtras();
 		userAddress = extras.getString("UserAddr");
 		username = extras.getString("Username");
 		userId = extras.getInt("id");
 
-		ListView lResults = (ListView) findViewById(R.id.list_results);
-		setAdapter(lResults);
+		listView= (ListView) findViewById(R.id.list_results);
+		message = (TextView) findViewById(R.id.no_results);
 
-		mutex = true;
+		finished = true;
+
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				setAdapter();
+			}
+		};
+
+		runnable.run();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 		finished = true;
 	}
 
@@ -70,9 +81,13 @@ public class ListResultsActivity extends AppCompatActivity {
 				}
 			}
 
-			new SendMessageTask(ListResultsActivity.this).executeOnExecutor(
-					AsyncTask.THREAD_POOL_EXECUTOR,
-					userAddress, "1-" + username + ":" + results);
+			if(results.length() != 0) {
+				new SendMessageTask(ListResultsActivity.this).executeOnExecutor(
+						AsyncTask.THREAD_POOL_EXECUTOR,
+						userAddress, "1-" + username + ":" + results);
+			} else {
+				Toast.makeText(ListResultsActivity.this, "No results were shared", Toast.LENGTH_SHORT).show();
+			}
 
 			this.finish();
 		}
@@ -87,39 +102,42 @@ public class ListResultsActivity extends AppCompatActivity {
 		return super.onCreateOptionsMenu(menu);
 	}
 
-	private void setAdapter(ListView listView) {
+	private void setAdapter() {
 		array = new ArrayList<>();
 
-		List<String> answeredQuizzes = applicationContext.getAnsweredQuizzes();
-		HashMap<String, List<Integer>> quizzResults = applicationContext.getQuizzResults();
+		List<String> answeredQuizzes = Singleton.getInstance().getAnsweredQuizzes();
+		HashMap<String, List<Integer>> quizzResults = Singleton.getInstance().getQuizzResults();
 
 		for(String answeredQuizz: answeredQuizzes){
-			Log.d("ListResultsActivity",answeredQuizz);
+			Log.d("ListResultsActivity","answered quizzzz");
+
 			if(quizzResults.containsKey(answeredQuizz)){
-				//mutex(false);
-				array.add(quizzResults.get(answeredQuizz)+ "correct answers for quiz " + answeredQuizz);
-				//mutex(true);
-			/*} else {
+				array.add(quizzResults.get(answeredQuizz).get(0)+ " correct answers for quiz " + answeredQuizz);
+			} else {
 				finished = false;
-				new GetCorrectAnswersTask(ListResultsActivity.this).execute(""+userId,answeredQuizz);*/
+				new GetCorrectAnswersTask(ListResultsActivity.this).execute(""+userId,answeredQuizz);
 			}
 		}
 
-		//if(finished) {
+		if(finished)
+			finishedList();
+	}
+
+	public void finishedList(){
 		adapter = new ResultAdapter(this, array);
 		listView.setAdapter(adapter);
-		//}
+		checkEmptyResultList();
 	}
 
-	public void mutex(Boolean isOpen){
-		mutex = isOpen;
+	public void checkEmptyResultList(){
+		if(array.size() == 0){
+			listView.setEmptyView(message);
+		}
 	}
 
-	public void updateInterface(String monument, List<Integer> o) {
-		//while()
+	public synchronized void updateInterface(String monument, List<Integer> o) {
+		Log.d("ListResultsActivity","updateInterface");
 		array.add(o.get(0) + " correct answers for quiz " + monument);
-		finished = true;
-			//mutex(true);
-		//}
+		finishedList();
 	}
 }

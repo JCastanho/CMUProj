@@ -43,7 +43,6 @@ public class QuizActivity extends AppCompatActivity {
     private ArrayList<String> questionSend = new ArrayList<String>();
     private ArrayList<String> answersSend = new ArrayList<String>();
     private List<Question> quizz = new ArrayList<>();
-    private ApplicationContextProvider applicationContext;
 
     private Timer quizzTimer;
     private TimerTask quizzTimerTask;
@@ -114,8 +113,6 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
-        applicationContext = (ApplicationContextProvider) getApplicationContext();
-
         //ADD TITLE
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
@@ -124,7 +121,7 @@ public class QuizActivity extends AppCompatActivity {
         this.userdId = bundle.getInt("id");
         view.setText(monumento);
 
-        quizz = applicationContext.getQuizz(monumento);
+        quizz = Singleton.getInstance().getQuizz(monumento);
 
         timeForQuizz=0;
         min=0;
@@ -304,17 +301,9 @@ public class QuizActivity extends AppCompatActivity {
         } else if( id != -1) {
             Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
             //new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
-            applicationContext.addAnsweredQuizzes(monumento);
+            Singleton.getInstance().addAnsweredQuizzes(monumento);
         } else {
             Toast.makeText(this, "Failed sending the quizz answers", Toast.LENGTH_SHORT).show();
         }
     }
-
-    /*public void checkQuizz(List<String> quizzes){
-        //HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
-        //answeredQuizzes.put(id,quizzes);
-        for(String monumento: quizzes) {
-            applicationContext.addAnsweredQuizzes(monumento);
-        }
-    }*/
 }
