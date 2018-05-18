@@ -5,8 +5,10 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
@@ -23,16 +25,17 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         this.id = id;
     }
 
-    public SendQuizzAnswersTask(int id) {
-        this.id = id;
-    }
-
     @Override
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
-        SendQuizzesAnswersCommand cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getAnswersSend(), activity.getTimeForQuizz());
-        Log.d("TIME TASK: ",""+cmd.getTime());
+        SendQuizzesAnswersCommand cmd = null;
+        try {
+            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getAnswersSend(), activity.getTimeForQuizz());
+//            Log.d("TIME TASK: ",""+cmd.getTime());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             //If you're not using geny emulator use 10.0.2.2
@@ -43,7 +46,10 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendQuizzesAnswersResponse response = (SendQuizzesAnswersResponse) ois.readObject();
-            reply = response.getId();
+
+            if(response.securityCheck()){
+                reply = response.getId();
+            }
 
             oos.close();
             ois.close();

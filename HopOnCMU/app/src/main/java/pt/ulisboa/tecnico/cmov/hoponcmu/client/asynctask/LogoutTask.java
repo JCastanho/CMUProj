@@ -4,7 +4,9 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LogoutCommand;
@@ -20,7 +22,14 @@ public class LogoutTask extends AsyncTask<Integer, Void, Void> {
     @Override
     protected Void doInBackground(Integer... param) {
         Socket server = null;
-        LogoutCommand cmd = new LogoutCommand(param[0]);
+        LogoutCommand cmd = null;
+        try {
+            cmd = new LogoutCommand(param[0]);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (SignatureException e) {
+            e.printStackTrace();
+        }
 
         try {
             //If you're not using geny emulator use 10.0.2.2

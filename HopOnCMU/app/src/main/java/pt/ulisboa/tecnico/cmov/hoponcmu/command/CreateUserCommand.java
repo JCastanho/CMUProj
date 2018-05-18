@@ -1,16 +1,38 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
+import java.io.UnsupportedEncodingException;
+import java.security.SignatureException;
+import java.util.Calendar;
+import java.util.UUID;
+
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.Response;
+import pt.ulisboa.tecnico.cmov.hoponcmu.utils.EncryptionUtils;
 
 public class CreateUserCommand implements Command {
 
 	private static final long serialVersionUID = -8807331723807741905L;
-	private String username;
-	private String code;
 
-	public CreateUserCommand(String username, String code){
-		this.username=username;
-		this.code=code;
+	// Data
+	private byte[] username;
+	private byte[] code;
+
+	// Security
+	private byte[] nonce;
+	private byte[] signature;
+
+
+	public CreateUserCommand(String username, String code) throws UnsupportedEncodingException, SignatureException {
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+		this.username= encryption.encrypt(username.getBytes("UTF-8"));
+		this.code=encryption.encrypt(code.getBytes("UTF-8"));
+
+		String pureNonce = "CreateUserCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
+
+		String pureSignature = pureNonce + username + code;
+
+		this.signature = encryption.generateSignature(pureSignature.getBytes("UTF-8"));
 	}
 	
 	@Override
@@ -18,9 +40,25 @@ public class CreateUserCommand implements Command {
 		return chi.handle(this);
 	}
 
-	public String getUsername() {
-		return this.username;
+	public String getUsername() throws UnsupportedEncodingException {
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+		return new String(encryption.decrypt(this.username),"UTF-8");
 	}
 
-	public String getCode() { return this.code;	}
+	public String getCode() throws UnsupportedEncodingException {
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+		return new String(encryption.decrypt(this.code),"UTF-8");
+	}
+
+	public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
+		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+		String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+
+		String replicateSignature = nonce + this.getUsername() + this.getCode();
+
+		return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+	}
 }

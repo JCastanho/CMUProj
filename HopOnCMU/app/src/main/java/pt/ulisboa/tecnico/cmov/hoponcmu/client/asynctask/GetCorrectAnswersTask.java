@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,13 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
     protected List<Integer> doInBackground(String[] params){
         Socket server = null;
         List<Integer> reply = new ArrayList<>();
-        GetCorrectAnswersCommand cmd = new GetCorrectAnswersCommand(id ,params[0]);
+
+        GetCorrectAnswersCommand cmd = null;
+        try {
+            cmd = new GetCorrectAnswersCommand(id ,params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             //If you're not using geny emulator use 10.0.2.2
@@ -37,9 +45,12 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
-            reply.add(response.getCorrectAnswers());
-            Log.d("GET TIME: ",""+response.getTime());
-            reply.add(response.getTime());
+            if(response.securityCheck())
+            {
+                reply.add(response.getCorrectAnswers());
+                Log.d("GET TIME: ",""+response.getTime());
+                reply.add(response.getTime());
+            }
 
             oos.close();
             ois.close();

@@ -5,7 +5,10 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
+import java.util.HashMap;
 import java.util.Map;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.PrizesActivity;
@@ -25,7 +28,12 @@ public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
     protected String doInBackground(Integer[] params) {
         Socket server = null;
         String reply = null;
-        RequestPrizesCommand cmd = new RequestPrizesCommand(params[0]);
+        RequestPrizesCommand cmd = null;
+        try {
+            cmd = new RequestPrizesCommand(params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try{
             //If you're not using geny emulator use 10.0.2.2
@@ -35,7 +43,8 @@ public class RequestPrizesTask extends AsyncTask<Integer, Void, String> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             PrizesResponse response = (PrizesResponse) ois.readObject();
-            reply = response.getRes();
+            if(response.securityCheck())
+                reply = response.getRes();
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");

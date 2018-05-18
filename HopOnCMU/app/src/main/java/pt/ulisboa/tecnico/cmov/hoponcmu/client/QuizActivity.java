@@ -13,6 +13,8 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.security.SignatureException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -298,7 +300,11 @@ public class QuizActivity extends AppCompatActivity {
         }
         else if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
             Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);
-            intent.putExtra("Command", new SendQuizzesAnswersCommand(id, monumento, getAnswersSend(), getTimeForQuizz()));
+            try {
+                intent.putExtra("Command", new SendQuizzesAnswersCommand(id, monumento, getAnswersSend(), getTimeForQuizz()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             startActivity(intent);
         } else {

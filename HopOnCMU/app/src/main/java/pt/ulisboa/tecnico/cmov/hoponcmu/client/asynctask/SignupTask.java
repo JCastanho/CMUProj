@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.SignUpActivity;
@@ -24,7 +26,12 @@ public class SignupTask extends AsyncTask<String, Void, Boolean> {
     protected Boolean doInBackground(String[] params) {
         Socket server = null;
         Boolean reply = false;
-        CreateUserCommand cmd = new CreateUserCommand(params[0],params[1]);
+        CreateUserCommand cmd = null;
+        try {
+            cmd = new CreateUserCommand(params[0],params[1]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         try {
             //If you're not using geny emulator use 10.0.2.2
@@ -35,7 +42,8 @@ public class SignupTask extends AsyncTask<String, Void, Boolean> {
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SignupResponse sr = (SignupResponse) ois.readObject();
-            reply = sr.getAuthorization();
+
+            reply = sr.securityCheck()? sr.getAuthorization() : false;
 
             oos.close();
             ois.close();

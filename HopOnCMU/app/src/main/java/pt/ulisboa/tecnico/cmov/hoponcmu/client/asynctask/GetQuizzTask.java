@@ -5,7 +5,9 @@ import android.util.Log;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,7 +44,12 @@ public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Q
         Socket server = null;
         HashMap<String, List<Question>> reply = new HashMap<>();
         List<Question> questionList = new ArrayList<>();
-        GetQuizzesCommand hc = new GetQuizzesCommand(userId,params[0]);
+        GetQuizzesCommand hc = null;
+        try {
+            hc = new GetQuizzesCommand(userId,params[0]);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             //If you're not using geny emulator use 10.0.2.2
             server = new Socket("10.0.2.2", 9090);
@@ -52,12 +59,15 @@ public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Q
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetQuizzesResponse hr = (GetQuizzesResponse) ois.readObject();
-//            reply = new Question(hr.getQuestion(), hr.getAnswers());
-            for(int i = 0; i < hr.getQuestion().size(); i++){
-                questionList.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
-            }
 
-            reply.put(hr.getLocation(), questionList);
+            if(hr.securityCheck())
+            {
+                for(int i = 0; i < hr.getQuestion().size(); i++){
+                    questionList.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
+                }
+
+                reply.put(hr.getLocation(), questionList);
+            }
 
             oos.close();
             ois.close();

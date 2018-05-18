@@ -19,7 +19,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 public class ApplicationContextProvider extends Application implements
         SimWifiP2pManager.GroupInfoListener{
 
-    private Context context;
+    private static Context context;
     private Integer nearBeacon = -1;
     private ArrayList<NearbyUser> groupPeers = new ArrayList<>();
     private HashMap<String,List<String>> sharedResults = new HashMap<>();
@@ -32,7 +32,11 @@ public class ApplicationContextProvider extends Application implements
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this;
+        context = getApplicationContext();
+    }
+
+    public static Context getContext() {
+        return context;
     }
 
     public void setManager(SimWifiP2pManager m) {
