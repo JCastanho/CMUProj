@@ -20,6 +20,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
     //private List<Integer> correctAnswers;
     private int userId = -1;
     private String text;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
