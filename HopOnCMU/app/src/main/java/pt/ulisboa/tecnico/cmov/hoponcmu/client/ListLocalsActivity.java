@@ -16,12 +16,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetLocalsTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 
 public class ListLocalsActivity extends AppCompatActivity {
 
@@ -30,12 +32,15 @@ public class ListLocalsActivity extends AppCompatActivity {
     private int userId;
     private String currentQuizz;
     private List<String> answeredQuizzes;
+    private List<String> donwloadedQuizzes;
+    private ApplicationContextProvider applicationContext;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_tour_local);
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
 
         final ListView listView = (ListView) findViewById(R.id.list_tours);
         new GetLocalsTask(ListLocalsActivity.this).execute("location");
@@ -51,11 +56,10 @@ public class ListLocalsActivity extends AppCompatActivity {
                 //if(ApplicationContextProvider.nearBeacon(position+1)) {
                 currentQuizz = text;
 
-                Log.d("text", text);
-
-                new GetAnsweredQuizzesTask(ListLocalsActivity.this, userId).execute();
-
-                if(check()){
+                if(applicationContext.checkDownloadedQuizz(currentQuizz)){
+                    getQuizzes(applicationContext.getQuizz());
+                }
+                if(checkAnsweredQuizz()){
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -66,8 +70,8 @@ public class ListLocalsActivity extends AppCompatActivity {
 
                     // Show a progress spinner, and kick off a background task to
                     // perform the user login attempt.
-                    task = new GetQuizzTask(ListLocalsActivity.this);
-                    task.execute(text,"0");
+                    task = new GetQuizzTask(ListLocalsActivity.this, userId);
+                    task.execute(text);
                 }
                 /*} else {
                   Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
@@ -77,17 +81,15 @@ public class ListLocalsActivity extends AppCompatActivity {
 
     }
 
-    public void jumpToQuestion(String question, ArrayList<String> answers, int page, int size) {
+    public void getQuizzes(HashMap<String, List<Question>> quizz) {
         Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
+
+        applicationContext.setQuizz(quizz);
 
         Intent intent = new Intent(ListLocalsActivity.this, QuizActivity.class);
 
         Bundle bundle = new Bundle();
         bundle.putString("Title", this.title);
-        bundle.putString("Question", question);
-        bundle.putStringArrayList("Answers", answers);
-        bundle.putInt("Page", page);
-        bundle.putInt("Size", size);
         bundle.putInt("id", userId);
 
 
@@ -101,12 +103,11 @@ public class ListLocalsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    public void checkQuizz(List<String> quizzes){
-        Log.d("currentQuizz", currentQuizz);
-        answeredQuizzes = quizzes;
-    }
 
-    public Boolean check(){
+    public Boolean checkAnsweredQuizz(){
+
+        answeredQuizzes = applicationContext.getAnsweredQuizzes().get(userId);
+
         try{
             for (int i = 0; i < answeredQuizzes.size(); i++){
                 if(answeredQuizzes.get(i).equals(currentQuizz)){
@@ -121,4 +122,5 @@ public class ListLocalsActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }

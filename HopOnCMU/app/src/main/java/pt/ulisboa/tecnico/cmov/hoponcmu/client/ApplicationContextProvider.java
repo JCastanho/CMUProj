@@ -14,6 +14,7 @@ import pt.inesc.termite.wifidirect.SimWifiP2pDeviceList;
 import pt.inesc.termite.wifidirect.SimWifiP2pInfo;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.NearbyUser;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 
 public class ApplicationContextProvider extends Application implements
         SimWifiP2pManager.GroupInfoListener{
@@ -24,6 +25,9 @@ public class ApplicationContextProvider extends Application implements
     private HashMap<String,List<String>> sharedResults = new HashMap<>();
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
+    private HashMap<String, List<Integer>> quizzResults = new HashMap<>();
+    private HashMap<String, List<Question>> quizz = new HashMap<>();
+    private HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
 
     @Override
     public void onCreate() {
@@ -43,9 +47,40 @@ public class ApplicationContextProvider extends Application implements
         mChannel = c;
     }
 
-    public ArrayList<NearbyUser> getGroupPeersList(){ return groupPeers; }
+    public ArrayList<NearbyUser> getGroupPeersList(){
+        Log.d("App Context Info Peers",""+System.identityHashCode(groupPeers));
+        return groupPeers;
+    }
 
     public HashMap<String,List<String>> getSharedResults() { return sharedResults; }
+
+    public HashMap<String, List<Question>> getQuizz() {
+        return quizz;
+    }
+
+    public void setQuizz(HashMap<String, List<Question>> quizz) {
+        this.quizz = quizz;
+    }
+
+    public HashMap<Integer, List<String>> getAnsweredQuizzes() {
+        return answeredQuizzes;
+    }
+
+    public void setAnsweredQuizzes(HashMap<Integer, List<String>> answeredQuizzes) {
+        this.answeredQuizzes = answeredQuizzes;
+    }
+
+    public HashMap<String, List<Integer>> getQuizzResults() {
+        return quizzResults;
+    }
+
+    public void setQuizzResults(String monumento, List<Integer> quizzResults) {
+        this.quizzResults.put(monumento, quizzResults);
+    }
+
+    public Boolean checkQuizzResults(String monumento){
+        return quizzResults.containsKey(monumento);
+    }
 
     public Boolean nearBeacon(int monumentPos) {
         Log.d("App Context Info","Monument position: " + monumentPos + " Beacon : " + nearBeacon);
@@ -58,6 +93,10 @@ public class ApplicationContextProvider extends Application implements
         } else {
             return false;
         }
+    }
+
+    public Boolean checkDownloadedQuizz(String monumento){
+        return quizz.containsKey(monumento);
     }
 
     public void parseResult(String sharedResult) {
@@ -99,6 +138,7 @@ public class ApplicationContextProvider extends Application implements
                 Log.d("App Context Info","Beacon near me: " + deviceName);
             }
         }
+
         groupPeers = auxList;
         Log.d("App Context Info", "New list size: " + groupPeers.size());
     }

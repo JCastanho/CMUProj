@@ -38,7 +38,7 @@ public class Session {
         populateQuizzes();
         createUser("a","a");
         createUser("b","b");
-        verifyUser("b","b");
+        //verifyUser("b","b");
     }
 
     public Boolean createUser(String username, String code){
@@ -49,6 +49,14 @@ public class Session {
         }
 
         User nu = new User(username, code);
+        /*if(nu.getUsername().equals("b")){
+            nu.setQuizzAnswser("chiado",4);
+            for(int i: login.keySet()){
+                if(login.get(i)==nu){
+                    saveTime(i,"chiado",5);
+                }
+            }
+        }*/
 
         return users.add(nu);
     }
@@ -116,17 +124,24 @@ public class Session {
         System.out.println("Remanining users: " + login.size());
     }
 
-    public ArrayList<String> getQuizzAnswers(String monument, int page){
-        return quizzes.get(monument).get(page).getAnswers();
+    public ArrayList<ArrayList<String>> getQuizzAnswers(String monument){
+        ArrayList<Quizz> quizzArrayList = quizzes.get(monument);
+        ArrayList<ArrayList<String>> answers = new ArrayList<>();
+        for(int i = 0; i < quizzArrayList.size(); i++){
+            answers.add(quizzArrayList.get(i).getAnswers());
+        }
+        return answers;
     }
 
-    public String getQuizzQuestion(String monument, int page){
-        return quizzes.get(monument).get(page).getQuestion();
+    public ArrayList<String> getQuizzQuestion(String monument){
+        ArrayList<Quizz> quizzArrayList = quizzes.get(monument);
+        ArrayList<String> questions = new ArrayList<>();
+        for(int i=0; i<quizzArrayList.size(); i++){
+            questions.add(quizzArrayList.get(i).getQuestion());
+        }
+        return questions;
     }
 
-    public int getQuizzSize(String monument){
-        return quizzes.get(monument).size();
-    }
 
     public void populateQuizzes(){
 
@@ -163,9 +178,9 @@ public class Session {
         else return false;
     }
 
-    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
+    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> answers) {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
-                new QuizzAnswers(quizzQuestions, answers)
+                new QuizzAnswers(answers)
         ));
         quizzAnswers.put(quizzTitle, list);
         userAnswers.put(id, quizzAnswers);
@@ -208,34 +223,39 @@ public class Session {
             for(String quizz: userAux.getQuizzAnswser().keySet()){
                 counter+=userAux.getQuizzAnswser().get(quizz);
             }
-            System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
+            //System.out.println("User: " + userAux.getUsername() + " counter: " + counter);
             users.put(userAux.getUsername(), counter);
         }
 
         Map<String, Integer> pontos = new HashMap<>();
         for(String i: users.keySet()){
-            int pont=0;
-            System.out.println("User: " + getUser(i).getUsername() + " keySet : " + getUser(i).getQuizzAnswser().keySet());
+            int pont=users.get(i);
+            //System.out.println("User: " + getUser(i).getUsername() + " keySet : " + getUser(i).getQuizzAnswser().keySet());
             if(getUser(i).getQuizzAnswser().keySet().size()>=1){
+                if(getUser(i).getUsername().equals(user.getUsername())){
+                    flag=true;
+                }
                 if(getUser(i).getQuizzAnswser().keySet().size()==4){
                     resFinal=true;
                 }
-                flag=true;
-                System.out.println("entrei");
+                //System.out.println("entrei");
                 pont = (users.get(i)*50) - (getUser(i).allQuizzTimes());
                 if(pont<50){
                     pont=50;
                 }
             }
-            System.out.println("i: " + i + " pont: " + pont);
+            //System.out.println("i: " + i + " pont: " + pont);
             pontos.put(i,pont);
         }
 
-
+        for(String s: pontos.keySet()){
+            System.out.println("User: " + s + " Pontos: " + pontos.get(s));
+        }
+        
         List<Entry<String, Integer>> list = new ArrayList<>(pontos.entrySet());
         list.sort(Entry.comparingByValue());
         Collections.reverse(list);
-
+        
         Map<String, Integer> OrderUsers = new LinkedHashMap<>();
         for (Entry<String, Integer> entry : list) {
             OrderUsers.put(entry.getKey(), entry.getValue());

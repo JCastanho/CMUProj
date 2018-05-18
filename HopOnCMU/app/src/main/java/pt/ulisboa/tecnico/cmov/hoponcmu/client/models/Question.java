@@ -5,14 +5,11 @@ import java.util.ArrayList;
 public class Question {
     private String Question;
     private ArrayList<String> Answers;
-    private int Page;
-    private int Size;
 
-    public Question(String question, ArrayList<String> answers, int page, int size){
+
+    public Question(String question, ArrayList<String> answers){
         Question = question;
         Answers = answers;
-        Page = page;
-        Size = size;
     }
 
     public String getQuestion() {
@@ -23,11 +20,4 @@ public class Question {
         return Answers;
     }
 
-    public int getPage() {
-        return Page;
-    }
-
-    public int getSize() {
-        return Size;
-    }
 }

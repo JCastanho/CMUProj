@@ -19,7 +19,6 @@ public class SendQuizzesAnswersCommand implements Command {
     // Data
     private byte[] id;
     private byte[] quizzTitle;
-    private ArrayList<byte[]> quizzQuestions;
     private ArrayList<byte[]> quizzAnswers;
     private byte[] time;
 
@@ -27,8 +26,7 @@ public class SendQuizzesAnswersCommand implements Command {
     private byte[] nonce;
     private byte[] signature;
 
-    public SendQuizzesAnswersCommand(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> quizzAnswers,int time) throws UnsupportedEncodingException, SignatureException {
-        ArrayList<byte[]> finalQuizzQuestions = new ArrayList<byte[]>();
+    public SendQuizzesAnswersCommand(int id, String quizzTitle, ArrayList<String> quizzAnswers,int time) throws UnsupportedEncodingException, SignatureException {
         ArrayList<byte[]> finalQuizzAnswers = new ArrayList<byte[]>();
 
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
@@ -37,21 +35,15 @@ public class SendQuizzesAnswersCommand implements Command {
         this.time = encryption.encrypt(Integer.toString(time).getBytes("UTF-8"));
         this.quizzTitle = encryption.encrypt(quizzTitle.getBytes("UTF-8"));
 
-        for (String location : quizzQuestions) {
-            finalQuizzQuestions.add(encryption.encrypt(location.getBytes("UTF-8")));
-        }
-        this.quizzQuestions = finalQuizzQuestions;
-
-
-        for (String location : quizzAnswers) {
-            finalQuizzAnswers.add(encryption.encrypt(location.getBytes("UTF-8")));
+        for (String answer : quizzAnswers) {
+            finalQuizzAnswers.add(encryption.encrypt(answer.getBytes("UTF-8")));
         }
         this.quizzAnswers = finalQuizzAnswers;
 
         String pureNonce = "SendQuizzesAnswersCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
-        String pureSignature = pureNonce + id + quizzTitle + quizzQuestions.toString() + quizzAnswers.toString();
+        String pureSignature = pureNonce + id + quizzTitle + quizzAnswers.toString();
 
         this.signature = encryption.generateSignature(pureSignature.getBytes("UTF-8"));
     }
@@ -80,18 +72,6 @@ public class SendQuizzesAnswersCommand implements Command {
         return new String(encryption.decrypt(this.quizzTitle),"UTF-8");
     }
 
-    public ArrayList<String> getQuizzQuestions() throws UnsupportedEncodingException {
-        ArrayList<String> pureQuestions = new ArrayList<String>();
-
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
-
-        for (byte[] question: this.quizzQuestions) {
-            pureQuestions.add(new String(encryption.decrypt(question),"UTF-8"));
-        }
-
-        return pureQuestions;
-    }
-
     public ArrayList<String> getQuizzAnswers() throws UnsupportedEncodingException {
         ArrayList<String> pureAnswers = new ArrayList<String>();
 
@@ -110,7 +90,7 @@ public class SendQuizzesAnswersCommand implements Command {
 
         String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
 
-        String replicateSignature = nonce + this.getId() + this.getQuizzTitle() + this.getQuizzQuestions().toString() + this.getQuizzAnswers().toString();
+        String replicateSignature = nonce + this.getId() + this.getQuizzTitle() + this.getQuizzAnswers().toString();
 
         return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }

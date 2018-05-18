@@ -1,4 +1,4 @@
-package pt.ulisboa.tecnico.cmov.hoponcmu.client.service;
+package pt.ulisboa.tecnico.cmov.hoponcmu.client.network;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

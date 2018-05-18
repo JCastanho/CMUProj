@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -12,15 +13,22 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.security.SignatureException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetQuizzTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -34,6 +42,8 @@ public class QuizActivity extends AppCompatActivity {
 
     private ArrayList<String> questionSend = new ArrayList<String>();
     private ArrayList<String> answersSend = new ArrayList<String>();
+    private HashMap<String, List<Question>> quizz = new HashMap<>();
+    private ApplicationContextProvider applicationContext;
 
     Timer quizzTimer;
     TimerTask quizzTimerTask;
@@ -103,6 +113,9 @@ public class QuizActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+        applicationContext = (ApplicationContextProvider) getApplicationContext();
+        quizz = applicationContext.getQuizz();
+
         //ADD TITLE
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
@@ -129,13 +142,13 @@ public class QuizActivity extends AppCompatActivity {
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         //Get Quizzes, see next line
-        setQuestion(bundle.getString("Question"));
+        setQuestion(quizz.get(monumento).get(q).getQuestion());
         viewQst.setText(question);
 
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
 
-        setAnswers(bundle.getStringArrayList("Answers"));
+        setAnswers(quizz.get(monumento).get(q).getAnswers());
 
         RadioButton btn;
         for(int i = 0; i < 4; i++){
@@ -184,7 +197,6 @@ public class QuizActivity extends AppCompatActivity {
             Button btnPrev = (Button) findViewById(R.id.btnPrev);
             btnPrev.setEnabled(true);
 
-            getQuestionSend().add(question);
             RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
             int selectedId = group.getCheckedRadioButtonId();
             if(selectedId != -1){
@@ -194,8 +206,7 @@ public class QuizActivity extends AppCompatActivity {
                 RadioButton button = (RadioButton) findViewById(selectedId);
                 getAnswersSend().add(button.getText().toString());
 
-                GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-                task.execute(monumento, Integer.toString(q));
+                updateQuestion();
 
                 Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
 
@@ -227,11 +238,9 @@ public class QuizActivity extends AppCompatActivity {
 
             q -= 1;
 
-            getQuestionSend().remove(questionSend.size() -1);
             getAnswersSend().remove(answersSend.size() -1);
 
-            GetQuizzTask task = new GetQuizzTask(QuizActivity.this);
-            task.execute(monumento, Integer.toString(q));
+            updateQuestion();
 
             Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
 
@@ -270,10 +279,10 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
-    public void updateQuestion(String question, ArrayList<String> answers) {
+    public void updateQuestion() {
 
-        setQuestion(question);
-        setAnswers(answers);
+        setQuestion(quizz.get(monumento).get(q).getQuestion());
+        setAnswers(quizz.get(monumento).get(q).getAnswers());
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         viewQst.setText(question);
@@ -287,8 +296,25 @@ public class QuizActivity extends AppCompatActivity {
     public void updateInterface(Integer id) {
         if( id != -1) {
             Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "Answer failed, try again!", Toast.LENGTH_SHORT).show();
+            new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
         }
+        else if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
+            Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);
+            try {
+                intent.putExtra("Command", new SendQuizzesAnswersCommand(id, monumento, getAnswersSend(), getTimeForQuizz()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            startActivity(intent);
+        } else {
+            Toast.makeText(this, "Failed sending the quizz answers", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void checkQuizz(List<String> quizzes){
+        HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
+        answeredQuizzes.put(id,quizzes);
+        applicationContext.setAnsweredQuizzes(answeredQuizzes);
     }
 }

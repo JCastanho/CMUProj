@@ -11,7 +11,6 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
@@ -39,6 +38,7 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
         }
 
         try{
+            //If you're not using geny emulator use 10.0.2.2
             server = new Socket("10.0.2.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);

@@ -6,6 +6,7 @@ import android.util.Log;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.security.SignatureException;
 
@@ -30,15 +31,16 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         int reply = -1;
         SendQuizzesAnswersCommand cmd = null;
         try {
-            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getQuestionSend(), activity.getAnswersSend(), activity.getTimeForQuizz());
+            cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getAnswersSend(), activity.getTimeForQuizz());
             Log.d("TIME TASK: ",""+cmd.getTime());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         try{
-            //If you're using geny emulator use 10.0.3.2
-            server = new Socket("10.0.2.2", 9090);
+            //If you're not using geny emulator use 10.0.2.2
+            server = new Socket();
+            server.connect( new InetSocketAddress("10.0.2.2", 9090),4000);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
@@ -52,8 +54,12 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
             oos.close();
             ois.close();
             Log.d("Client", "Hello friend!");
-        }
-        catch (Exception e) {
+
+        } catch (java.net.SocketTimeoutException e){
+            //Foreign user
+            //-2 bc when server couldn't save the answers is sends -1
+            reply = R.string.non_native_user_error;
+        } catch (Exception e) {
             Log.d("Client", "Send Quizz Answers failed " + e.getMessage());
             e.printStackTrace();
         } finally {

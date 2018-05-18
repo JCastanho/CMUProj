@@ -89,11 +89,10 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(GetQuizzesCommand cmd){
 		try {
 			if(cmd.securityCheck()) {
-		    	String question = s.getQuizzQuestion(cmd.getLocation(), cmd.getPage());
-		    	ArrayList<String> answers = s.getQuizzAnswers(cmd.getLocation(), cmd.getPage());
-		    	int size = s.getQuizzSize(cmd.getLocation());
+				ArrayList<String> question = s.getQuizzQuestion(cmd.getLocation());
+		    	ArrayList<ArrayList<String>> answers = s.getQuizzAnswers(cmd.getLocation());
 
-		        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getPage(), size);
+		        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getLocation());
 		        return rsp;
 			}
 		} catch (Exception e) {
@@ -107,7 +106,7 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendQuizzesAnswersCommand cmd) {
         try {
         	if(cmd.securityCheck()) {
-        		s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzQuestions(), cmd.getQuizzAnswers());
+                s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzAnswers());
                 s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
                 System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
                 s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());

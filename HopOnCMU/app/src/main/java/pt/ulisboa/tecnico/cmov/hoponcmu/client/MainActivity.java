@@ -10,21 +10,19 @@ import android.os.Messenger;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.ReceivesSharesService;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.ReceivesSharesService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.LogoutTask;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.service.SimWifiP2pBroadcastReceiver;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SimWifiP2pBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
