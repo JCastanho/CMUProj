@@ -24,7 +24,7 @@ public class LogoutCommand implements Command {
 
 		this.token= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
 
-		String pureNonce = "GetCorrectAnswersCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		String pureNonce = "LogoutCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + id;

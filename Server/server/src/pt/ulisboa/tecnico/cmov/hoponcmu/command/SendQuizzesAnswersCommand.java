@@ -26,7 +26,7 @@ public class SendQuizzesAnswersCommand implements Command {
     public SendQuizzesAnswersCommand(int id, String quizzTitle, ArrayList<String> quizzAnswers,int time) throws UnsupportedEncodingException, SignatureException {
         ArrayList<byte[]> finalQuizzAnswers = new ArrayList<byte[]>();
 
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         this.id = encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
         this.time = encryption.encrypt(Integer.toString(time).getBytes("UTF-8"));
@@ -51,20 +51,20 @@ public class SendQuizzesAnswersCommand implements Command {
     }
 
     public int getId() throws UnsupportedEncodingException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
     }
 
 
     public int getTime() throws UnsupportedEncodingException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.time),"UTF-8"));
     }
 
     public String getQuizzTitle() throws UnsupportedEncodingException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return new String(encryption.decrypt(this.quizzTitle),"UTF-8");
     }
@@ -72,7 +72,7 @@ public class SendQuizzesAnswersCommand implements Command {
     public ArrayList<String> getQuizzAnswers() throws UnsupportedEncodingException {
         ArrayList<String> pureAnswers = new ArrayList<String>();
 
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         for (byte[] answer: this.quizzAnswers) {
             pureAnswers.add(new String(encryption.decrypt(answer),"UTF-8"));
@@ -83,7 +83,7 @@ public class SendQuizzesAnswersCommand implements Command {
 
 
     public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-        EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
 

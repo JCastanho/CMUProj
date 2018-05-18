@@ -26,7 +26,7 @@ public class LoginCommand implements Command {
 		this.username= encryption.encrypt(username.getBytes("UTF-8"));
 		this.code=encryption.encrypt(code.getBytes("UTF-8"));
 
-		String pureNonce = "CreateUserCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		String pureNonce = "LoginCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + username + code;

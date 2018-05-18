@@ -42,7 +42,7 @@ public class GetQuizzesResponse implements Response {
 		}
 		this.questions=finalQuestions;
 
-		String pureNonce = "CreateUserCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		String pureNonce = "GetQuizzesResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + questions.toString() + answers.toString() + location;

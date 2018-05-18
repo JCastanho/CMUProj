@@ -23,7 +23,7 @@ public class SignupResponse implements Response {
 
 		this.success= encryption.encrypt(success.getBytes("UTF-8"));
 
-		String pureNonce = "CreateUserCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+		String pureNonce = "SignupResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + success;

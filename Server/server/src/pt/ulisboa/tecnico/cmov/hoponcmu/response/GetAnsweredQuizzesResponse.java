@@ -29,7 +29,7 @@ public class GetAnsweredQuizzesResponse implements Response {
         }
         this.locations=finalLocations;
 
-        String pureNonce = "CreateUserCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "GetAnsweredQuizzesResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + locations.toString();
@@ -38,7 +38,6 @@ public class GetAnsweredQuizzesResponse implements Response {
     }
 
     public List<String> getLocations() throws UnsupportedEncodingException {
-
         ArrayList<String> pureLocations = new ArrayList<String>();
 
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
