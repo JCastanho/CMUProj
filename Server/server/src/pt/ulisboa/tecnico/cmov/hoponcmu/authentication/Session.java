@@ -48,6 +48,7 @@ public class Session {
         quizzAnswers = new HashMap<>();
         userAnswers = new HashMap<>();
     	encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        nonces = new ArrayList<String>();
     	lastClear = Calendar.getInstance().getTime();
         populateQuizzes();
         createUser("a","a");
