@@ -25,6 +25,7 @@ public class ApplicationContextProvider extends Application implements
     private HashMap<String,List<String>> sharedResults = new HashMap<>();
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
+    private HashMap<String, List<Integer>> quizzResults = new HashMap<>();
     private HashMap<String, List<Question>> quizz = new HashMap<>();
     private HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
 
@@ -65,6 +66,18 @@ public class ApplicationContextProvider extends Application implements
         this.answeredQuizzes = answeredQuizzes;
     }
 
+    public HashMap<String, List<Integer>> getQuizzResults() {
+        return quizzResults;
+    }
+
+    public void setQuizzResults(String monumento, List<Integer> quizzResults) {
+        this.quizzResults.put(monumento, quizzResults);
+    }
+
+    public Boolean checkQuizzResults(String monumento){
+        return quizzResults.containsKey(monumento);
+    }
+
     public Boolean nearBeacon(int monumentPos) {
         Log.d("App Context Info","Monument position: " + monumentPos + " Beacon : " + nearBeacon);
         return nearBeacon == monumentPos;
@@ -76,6 +89,10 @@ public class ApplicationContextProvider extends Application implements
         } else {
             return false;
         }
+    }
+
+    public Boolean checkDownloadedQuizz(String monumento){
+        return quizz.containsKey(monumento);
     }
 
     public void parseResult(String sharedResult) {
