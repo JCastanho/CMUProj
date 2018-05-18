@@ -41,7 +41,8 @@ public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>
         this.id = id;
     }
 
-    public GetAnsweredQuizzesTask(ReadQuizzAnswersActivity readQuizzAnswersActivity, int id){
+    public GetAnsweredQuizzesTask(ReadQuizzAnswersActivity readQuizzAnswersActivity, int id, ApplicationContextProvider ctx){
+        this.context = ctx;
         this.readQuizzAnswersActivity = readQuizzAnswersActivity;
         this.id = id;
     }

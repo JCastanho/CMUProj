@@ -313,7 +313,7 @@ public class Session {
 			
 			// Test Freshness
 			Calendar nonceCalendar = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			nonceCalendar.setTime(sdf.parse(parts[1]));
 			
 			Date nonceDate = nonceCalendar.getTime();

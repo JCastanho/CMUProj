@@ -167,16 +167,20 @@ public class ApplicationContextProvider extends Application implements
 
             // Test Freshness
             Calendar nonceCalendar = Calendar.getInstance();
-            SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
             nonceCalendar.setTime(sdf.parse(parts[1]));
 
             Date nonceDate = nonceCalendar.getTime();
             Calendar now = Calendar.getInstance();
-            Date dNow = now.getTime();
 
             Calendar limit = now;
             limit.add(Calendar.HOUR, -2);
             Date dLimit = limit.getTime();
+
+
+            now.add(Calendar.HOUR, 2);
+            now.add(Calendar.MINUTE, 2);
+            Date dNow = now.getTime();
 
             if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
                 nonces.add(nonce);

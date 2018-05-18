@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -29,7 +30,7 @@ public class SendLocationCommand implements Command{
 
         this.location= encryption.encrypt(location.getBytes("UTF-8"));
 
-        String pureNonce = "SendLocationCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
+        String pureNonce = "SendLocationCommand" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + location;

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -32,7 +33,7 @@ public class SendLocationResponse implements Response {
         }
         this.locations= finalLocations;
 
-        String pureNonce = "SendLocationResponse" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
+        String pureNonce = "SendLocationResponse" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + locations.toString();

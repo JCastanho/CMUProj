@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ public class GetAnsweredQuizzesCommand implements Command {
 
         this.id= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
 
-        String pureNonce = "GetAnsweredQuizzesCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
+        String pureNonce = "GetAnsweredQuizzesCommand" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + id;

@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.UUID;
@@ -43,7 +44,7 @@ public class GetQuizzesResponse implements Response {
 		}
 		this.answers=finalAnswers;
 
-		String pureNonce = "GetQuizzesResponse" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
+		String pureNonce = "GetQuizzesResponse" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + questions.toString() + answers.toString() + location;

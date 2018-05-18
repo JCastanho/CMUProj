@@ -36,7 +36,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         this.userId = bundle.getInt("id");
 
         final ListView listView = (ListView) findViewById(R.id.list_tours_answers);
-        new GetAnsweredQuizzesTask(ReadQuizzAnswersActivity.this, userId).execute();
+        new GetAnsweredQuizzesTask(ReadQuizzAnswersActivity.this, userId, (ApplicationContextProvider) getApplicationContext()).execute();
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
