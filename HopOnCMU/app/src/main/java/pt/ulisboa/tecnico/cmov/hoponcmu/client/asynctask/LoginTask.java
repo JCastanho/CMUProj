@@ -10,6 +10,7 @@ import java.net.Socket;
 import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.LoginActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.LoginCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
@@ -17,8 +18,10 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 public class LoginTask extends AsyncTask<String, Void, Integer> {
 
     private LoginActivity activity;
+    private ApplicationContextProvider context;
 
-    public LoginTask(LoginActivity activity) {
+    public LoginTask(LoginActivity activity, ApplicationContextProvider ctx) {
+        this.context = ctx;
         this.activity = activity;
     }
 
@@ -48,8 +51,8 @@ public class LoginTask extends AsyncTask<String, Void, Integer> {
             LoginResponse response = (LoginResponse) ois.readObject();
 
 
-            if(response.securityCheck())
-                reply = response.getID();
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply = response.getID();
 
             oos.close();
             ois.close();

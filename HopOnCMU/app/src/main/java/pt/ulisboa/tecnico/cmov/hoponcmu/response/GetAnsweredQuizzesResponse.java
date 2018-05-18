@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +20,7 @@ public class GetAnsweredQuizzesResponse implements Response {
     // Security
     private byte[] nonce;
     private byte[] signature;
+    private transient boolean verified = false;
 
     public GetAnsweredQuizzesResponse(List<String> locations) throws UnsupportedEncodingException, SignatureException {
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
@@ -29,7 +31,7 @@ public class GetAnsweredQuizzesResponse implements Response {
         }
         this.locations=finalLocations;
 
-        String pureNonce = "GetAnsweredQuizzesResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "GetAnsweredQuizzesResponse" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + locations.toString();
@@ -38,6 +40,21 @@ public class GetAnsweredQuizzesResponse implements Response {
     }
 
     public List<String> getLocations() throws UnsupportedEncodingException {
+        if(this.verified){
+            ArrayList<String> pureLocations = new ArrayList<String>();
+
+            EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
+
+            for (byte[] location: this.locations) {
+                pureLocations.add(new String(encryption.decrypt(location),"UTF-8"));
+            }
+
+            return pureLocations;
+        }
+        return null;
+    }
+
+    private List<String> getInternalLocations() throws UnsupportedEncodingException {
 
         ArrayList<String> pureLocations = new ArrayList<String>();
 
@@ -50,13 +67,20 @@ public class GetAnsweredQuizzesResponse implements Response {
         return pureLocations;
     }
 
-    public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
+    public byte[] getNonce (){
+        return this.nonce;
+    }
+
+
+    public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+        if(nonce.equals("NOK")){
+            this.verified = false;
+        }
+
         EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+        String replicateSignature = nonce + this.getInternalLocations().toString();
 
-        String replicateSignature = nonce + this.getLocations().toString();
-
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }
 }

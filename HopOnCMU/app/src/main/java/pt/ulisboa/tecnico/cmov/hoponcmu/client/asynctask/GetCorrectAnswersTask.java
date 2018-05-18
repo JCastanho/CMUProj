@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListResultsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
@@ -21,9 +22,11 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
 
     private Context activity;
     private String monument;
+    private ApplicationContextProvider context;
 
-    public GetCorrectAnswersTask(Context context) {
+    public GetCorrectAnswersTask(Context context, ApplicationContextProvider appContext) {
         this.activity = context;
+        this.context = appContext;
     }
 
     @Override
@@ -48,12 +51,11 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetCorrectAnswersResponse response = (GetCorrectAnswersResponse) ois.readObject();
-            if(response.securityCheck())
-            {
-                reply.add(response.getCorrectAnswers());
-                Log.d("GET TIME: ",""+response.getTime());
-                reply.add(response.getTime());
-            }
+
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply.add(response.getCorrectAnswers());
+            Log.d("GET TIME: ",""+response.getTime());
+            reply.add(response.getTime());
 
             oos.close();
             ois.close();

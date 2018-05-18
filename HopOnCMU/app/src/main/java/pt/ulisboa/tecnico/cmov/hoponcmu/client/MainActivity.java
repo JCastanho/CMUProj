@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
         registerBroadcastReceiver();
         setServices();
 
-        new GetAnsweredQuizzesTask(MainActivity.this).execute(userId);
+        new GetAnsweredQuizzesTask(MainActivity.this, (ApplicationContextProvider) getApplicationContext()).execute(userId);
 
         Button list_btn = (Button) findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {

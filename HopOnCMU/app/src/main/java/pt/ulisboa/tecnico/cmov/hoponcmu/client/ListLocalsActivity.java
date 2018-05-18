@@ -37,7 +37,7 @@ public class ListLocalsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_tour_local);
 
         final ListView listView = (ListView) findViewById(R.id.list_tours);
-        new GetLocalsTask(ListLocalsActivity.this).execute("location");
+        new GetLocalsTask(ListLocalsActivity.this, (ApplicationContextProvider) getApplicationContext()).execute("location");
 
         Bundle bundle = getIntent().getExtras();
         this.userId = bundle.getInt("id");
@@ -59,11 +59,11 @@ public class ListLocalsActivity extends AppCompatActivity {
 
                         Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
 
-                        Log.d("List Tour info", text);
-
-                        task = new GetQuizzTask(ListLocalsActivity.this, userId);
-                        task.execute(text);
-                    }
+                    // Show a progress spinner, and kick off a background task to
+                    // perform the user login attempt.
+                    task = new GetQuizzTask(ListLocalsActivity.this, userId, (ApplicationContextProvider) getApplicationContext());
+                    task.execute(text);
+                }
                 /*} else {
                   Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
                 }*/

@@ -45,7 +45,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
                     Toast.makeText(ReadQuizzAnswersActivity.this, Singleton.getInstance().getQuizzResults().get(text).get(0) + " 22222222 correct answers in " + Singleton.getInstance().getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this);
+                    GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this, (ApplicationContextProvider) getApplicationContext());
                     task.execute(""+userId,text);
                 }
             }

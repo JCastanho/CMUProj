@@ -115,7 +115,7 @@ public class ListResultsActivity extends AppCompatActivity {
 				array.add(quizzResults.get(answeredQuizz).get(0)+ " correct answers for quiz " + answeredQuizz);
 			} else {
 				finished = false;
-				new GetCorrectAnswersTask(ListResultsActivity.this).execute(""+userId,answeredQuizz);
+				new GetCorrectAnswersTask(ListResultsActivity.this, (ApplicationContextProvider) getApplicationContext()).execute(""+userId,answeredQuizz);
 			}
 		}
 

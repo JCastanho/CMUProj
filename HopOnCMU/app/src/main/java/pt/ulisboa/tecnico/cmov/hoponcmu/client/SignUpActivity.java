@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            signupTask = new SignupTask(SignUpActivity.this);
+            signupTask = new SignupTask(SignUpActivity.this, (ApplicationContextProvider) getApplicationContext());
             signupTask.execute(username, password);
         }
     }

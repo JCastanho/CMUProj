@@ -17,41 +17,95 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Session.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/Session.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="219">
-              <caret line="334" column="15" selection-start-line="334" selection-start-column="15" selection-end-line="334" selection-end-column="15" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#2630#2631#0" expanded="true" />
-                <element signature="e#2680#2681#0" expanded="true" />
-                <element signature="e#4472#4479#0" expanded="true" />
-                <element signature="e#5156#5163#0" expanded="true" />
-                <element signature="e#5817#5824#0" expanded="true" />
-                <element signature="e#6787#6801#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="CommandHandlerImpl.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/server/CommandHandlerImpl.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="27" selection-start-line="27" selection-end-line="27" />
+            <state relative-caret-position="17">
+              <caret line="44" column="78" selection-start-line="44" selection-start-column="78" selection-end-line="44" selection-end-column="78" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LoginCommand.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/LoginCommand.java">
+      <file leaf-file-name="Session.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/Session.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="55" selection-start-line="55" selection-end-line="55" />
+            <state relative-caret-position="117">
+              <caret line="334" column="33" selection-start-line="334" selection-start-column="29" selection-end-line="334" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetQuizzesResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetQuizzesResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="748">
+              <caret line="46" column="125" selection-start-line="46" selection-start-column="125" selection-end-line="46" selection-end-column="125" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="LoginResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/LoginResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="476">
+              <caret line="30" column="120" selection-start-line="30" selection-start-column="120" selection-end-line="30" selection-end-column="120" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PrizesResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/PrizesResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="27" column="121" selection-start-line="27" selection-start-column="121" selection-end-line="27" selection-end-column="121" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SendLocationResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/SendLocationResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="561">
+              <caret line="35" column="127" selection-start-line="35" selection-start-column="127" selection-end-line="35" selection-end-column="127" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SendQuizzesAnswersResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/SendQuizzesAnswersResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="442">
+              <caret line="28" column="133" selection-start-line="28" selection-start-column="133" selection-end-line="28" selection-end-column="133" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="SignupResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/SignupResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="32" column="51" selection-start-line="32" selection-start-column="51" selection-end-line="32" selection-end-column="51" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetCorrectAnswersResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetCorrectAnswersResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="459">
+              <caret line="29" column="132" selection-start-line="29" selection-start-column="132" selection-end-line="29" selection-end-column="132" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="GetQuizzesAnswersResponse.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetQuizzesAnswersResponse.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="34">
+              <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -114,6 +168,58 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
+              <item name="authentication" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
+              <item name="command" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
+              <item name="response" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="server" type="b2602c69:ProjectViewProjectNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
       <pane id="AndroidView">
         <subPane>
           <expand>
@@ -170,51 +276,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
-              <item name="authentication" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
-              <item name="response" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="server" type="b2602c69:ProjectViewProjectNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="hoponcmu" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -350,36 +411,56 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Messages" order="8" weight="0.05807814" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
       <window_info id="Image Layers" order="2" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="4" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.58582675" />
+      <window_info anchor="right" id="Maven Projects" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.3290938" />
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2569546" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24963397" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="3" />
+      <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
-      <window_info id="Captures" order="2" weight="0.25" />
-      <window_info anchor="right" id="Gradle" order="3" />
-      <window_info id="Build Variants" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.3990461" />
       <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.32991454" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="right" id="Palette" order="4" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.58582675" />
+      <window_info id="Build Variants" order="2" side_tool="true" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info id="Captures" order="2" weight="0.25" />
+      <window_info id="Capture Tool" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.24287222" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2569546" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="right" id="Maven Projects" order="4" />
+      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info anchor="right" id="Gradle" order="3" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Messages" order="8" weight="0.05807814" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Debug" order="3" visible="true" weight="0.4" />
     </layout>
     <layout-to-restore>
       <window_info anchor="bottom" id="Build" order="7" visible="true" weight="0.32991454" />
@@ -398,6 +479,7 @@
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.24287222" />
       <window_info anchor="bottom" id="Version Control" order="9" show_stripe_button="false" />
       <window_info anchor="right" id="Maven Projects" order="8" />
       <window_info anchor="bottom" id="Terminal" order="10" />
@@ -410,7 +492,6 @@
       <window_info anchor="right" id="Theme Preview" order="6" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.24287222" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
     </layout-to-restore>
   </component>
@@ -427,19 +508,19 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/LoginCommand.java</url>
-          <line>78</line>
+          <line>79</line>
           <properties />
           <option name="timeStamp" value="1" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/LoginCommand.java</url>
-          <line>52</line>
+          <line>53</line>
           <properties />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/LoginCommand.java</url>
-          <line>43</line>
+          <line>44</line>
           <properties />
           <option name="timeStamp" value="3" />
         </line-breakpoint>
@@ -448,13 +529,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/ResponseHandler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="1" lean-forward="true" selection-start-line="8" selection-start-column="1" selection-end-line="8" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/User.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="142">
@@ -519,12 +593,6 @@
           <caret line="139" column="5" lean-forward="true" selection-start-line="139" selection-start-column="5" selection-end-line="139" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#4472#4479#0" expanded="true" />
-            <element signature="e#5156#5163#0" expanded="true" />
-            <element signature="e#5817#5824#0" expanded="true" />
-            <element signature="e#6787#6801#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -600,12 +668,6 @@
           <caret line="141" column="5" lean-forward="true" selection-start-line="141" selection-start-column="5" selection-end-line="141" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#4472#4479#0" expanded="true" />
-            <element signature="e#5156#5163#0" expanded="true" />
-            <element signature="e#5817#5824#0" expanded="true" />
-            <element signature="e#6787#6801#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -616,12 +678,6 @@
           <caret line="158" column="24" lean-forward="true" selection-start-line="158" selection-start-column="24" selection-end-line="158" selection-end-column="24" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#4472#4479#0" expanded="true" />
-            <element signature="e#5156#5163#0" expanded="true" />
-            <element signature="e#5817#5824#0" expanded="true" />
-            <element signature="e#6787#6801#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -665,8 +721,8 @@
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/Result.java" />
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/LoginResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        <state relative-caret-position="476">
+          <caret line="30" column="120" selection-start-line="30" selection-start-column="120" selection-end-line="30" selection-end-column="120" />
         </state>
       </provider>
     </entry>
@@ -719,11 +775,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/command/GetCorrectAnswersCommand.java" />
-    <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetCorrectAnswersResponse.java" />
+    <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetCorrectAnswersResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="29" column="132" selection-start-line="29" selection-start-column="132" selection-end-line="29" selection-end-column="132" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetQuizzesResponse.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        <state relative-caret-position="748">
+          <caret line="46" column="125" selection-start-line="46" selection-start-column="125" selection-end-line="46" selection-end-column="125" />
         </state>
       </provider>
     </entry>
@@ -739,23 +801,24 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/server/CommandHandlerImpl.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        <state relative-caret-position="17">
+          <caret line="44" column="78" selection-start-line="44" selection-start-column="78" selection-end-line="44" selection-end-column="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/response/GetAnsweredQuizzesResponse.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="33" column="133" selection-start-line="33" selection-start-column="133" selection-end-line="33" selection-end-column="133" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pt/ulisboa/tecnico/cmov/hoponcmu/authentication/Session.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="219">
-          <caret line="334" column="15" selection-start-line="334" selection-start-column="15" selection-end-line="334" selection-end-column="15" />
+        <state relative-caret-position="117">
+          <caret line="334" column="33" selection-start-line="334" selection-start-column="29" selection-end-line="334" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2630#2631#0" expanded="true" />
-            <element signature="e#2680#2681#0" expanded="true" />
-            <element signature="e#4472#4479#0" expanded="true" />
-            <element signature="e#5156#5163#0" expanded="true" />
-            <element signature="e#5817#5824#0" expanded="true" />
-            <element signature="e#6787#6801#0" expanded="true" />
           </folding>
         </state>
       </provider>

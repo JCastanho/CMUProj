@@ -2,6 +2,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.response;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -19,6 +20,7 @@ public class SendLocationResponse implements Response {
     // Security
     private byte[] nonce;
     private byte[] signature;
+    private transient boolean verified = false;
 
     public SendLocationResponse(List<String> locations) throws UnsupportedEncodingException, SignatureException {
         List<byte[]> finalLocations = new ArrayList<byte[]>();
@@ -31,7 +33,7 @@ public class SendLocationResponse implements Response {
         }
         this.locations= finalLocations;
 
-        String pureNonce = "SendLocationResponse" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "SendLocationResponse" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + locations.toString();
@@ -41,6 +43,21 @@ public class SendLocationResponse implements Response {
     }
 
     public List<String> getLocations() throws UnsupportedEncodingException {
+        if(verified){
+            List<String> pureLocations = new ArrayList<String>();
+
+        	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+            for (byte[] location: this.locations) {
+                pureLocations.add(new String(encryption.decrypt(location),"UTF-8"));
+            }
+
+            return pureLocations;
+        }
+        return null;
+    }
+
+    private List<String> getInternalLocations() throws UnsupportedEncodingException {
         List<String> pureLocations = new ArrayList<String>();
 
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
@@ -52,14 +69,19 @@ public class SendLocationResponse implements Response {
         return pureLocations;
     }
 
+    public byte[] getNonce() {
+        return nonce;
+    }
 
-    public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
+    public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+        if(nonce.equals("NOK")){
+            this.verified = false;
+        }
+
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+        String replicateSignature = nonce + this.getInternalLocations().toString();
 
-        String replicateSignature = nonce + this.getLocations().toString();
-
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }
 }

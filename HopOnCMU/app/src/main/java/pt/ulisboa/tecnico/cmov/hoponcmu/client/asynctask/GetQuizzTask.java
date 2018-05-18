@@ -28,15 +28,17 @@ public class GetQuizzTask extends AsyncTask<String, Void, List<Question>> {
     private ListLocalsActivity activity;
     private QuizActivity quizActivity;
     private int userId;
+    private ApplicationContextProvider context;
 
     public GetQuizzTask(QuizActivity activity, int userId){
         this.quizActivity = activity;
         this.userId = userId;
     }
 
-    public GetQuizzTask(ListLocalsActivity activity, int userId) {
+    public GetQuizzTask(ListLocalsActivity activity, int userId, ApplicationContextProvider context) {
         this.activity = activity;
         this.userId = userId;
+        this.context = context;
     }
 
     @Override
@@ -60,10 +62,10 @@ public class GetQuizzTask extends AsyncTask<String, Void, List<Question>> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetQuizzesResponse hr = (GetQuizzesResponse) ois.readObject();
 
-            if(hr.securityCheck()) {
-                for (int i = 0; i < hr.getQuestion().size(); i++) {
-                    reply.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
-                }
+            hr.securityCheck(context.checkNonce(hr.getNonce()));
+
+            for(int i = 0; i < hr.getQuestion().size(); i++){
+                reply.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
             }
 
             oos.close();

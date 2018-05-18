@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.security.SignatureException;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendQuizzesAnswersResponse;
@@ -19,10 +20,12 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
 
     private QuizActivity activity;
     private int id;
+    private ApplicationContextProvider context;
 
-    public SendQuizzAnswersTask(QuizActivity activity, int id) {
+    public SendQuizzAnswersTask(QuizActivity activity, int id, ApplicationContextProvider context) {
         this.activity = activity;
         this.id = id;
+        this.context = context;
     }
 
     @Override
@@ -47,9 +50,8 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendQuizzesAnswersResponse response = (SendQuizzesAnswersResponse) ois.readObject();
 
-            if(response.securityCheck()){
-                reply = response.getId();
-            }
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply = response.getId();
 
             oos.close();
             ois.close();

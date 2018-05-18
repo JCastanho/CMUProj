@@ -10,6 +10,8 @@ import java.net.Socket;
 import java.security.SignatureException;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
@@ -17,9 +19,11 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
 public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
     private ListLocalsActivity activity;
+    private ApplicationContextProvider context;
 
-    public GetLocalsTask(ListLocalsActivity listLocalsActivity) {
+    public GetLocalsTask(ListLocalsActivity listLocalsActivity, ApplicationContextProvider context) {
         this.activity = listLocalsActivity;
+        this.context = context;
     }
 
     @Override
@@ -45,10 +49,9 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendLocationResponse response = (SendLocationResponse) ois.readObject();
 
-            if(response.securityCheck()) {
-                reply = response.getLocations();
-                Log.d("REPLY", reply.get(0));
-            }
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply = response.getLocations();
+            Log.d("REPLY", reply.get(0));
 
             oos.close();
             ois.close();

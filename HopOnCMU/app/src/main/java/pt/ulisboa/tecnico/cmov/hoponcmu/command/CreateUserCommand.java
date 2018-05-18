@@ -2,6 +2,8 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.command;
 
 import java.io.UnsupportedEncodingException;
 import java.security.SignatureException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -22,13 +24,13 @@ public class CreateUserCommand implements Command {
 	private transient boolean verified = false;
 
 
-	public CreateUserCommand(String username, String code) throws UnsupportedEncodingException, SignatureException {
+	public CreateUserCommand(String username, String code) throws UnsupportedEncodingException, SignatureException, ParseException {
 		EncryptionUtils encryption = new EncryptionUtils("serverPublicKey.key", "clientPrivateKey.key");
 
 		this.username= encryption.encrypt(username.getBytes("UTF-8"));
 		this.code=encryption.encrypt(code.getBytes("UTF-8"));
 
-		String pureNonce = "CreateUserCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
+		String pureNonce = "CreateUserCommand" +"#"+ new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()).toString() +"#"+ UUID.randomUUID().toString();
 		this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
 		String pureSignature = pureNonce + username + code;

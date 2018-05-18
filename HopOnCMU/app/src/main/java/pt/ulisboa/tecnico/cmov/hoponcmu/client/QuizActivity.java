@@ -262,7 +262,7 @@ public class QuizActivity extends AppCompatActivity {
 
             RadioButton button = (RadioButton) findViewById(selectedId);
             getAnswersSend().add(button.getText().toString());
-            task = new SendQuizzAnswersTask(QuizActivity.this, userdId);
+            task = new SendQuizzAnswersTask(QuizActivity.this, userdId, (ApplicationContextProvider) getApplicationContext());
             task.execute(getMonumento());
             QuizActivity.this.finish();
         }

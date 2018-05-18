@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,20 +11,25 @@ import java.net.Socket;
 import java.security.SignatureException;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetAnsweredQuizzesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetAnsweredQuizzesResponse;
+import static pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider.getContext;
 
 public class GetAnsweredQuizzesTask extends AsyncTask<Integer, Void, List<String>> {
 
     private MainActivity activity;
+    private ApplicationContextProvider context;
 
-    public GetAnsweredQuizzesTask(MainActivity activity){
+    public GetAnsweredQuizzesTask(MainActivity activity, ApplicationContextProvider ctx) {
         this.activity = activity;
+        this.context = ctx;
     }
+
 
     @Override
     protected List<String> doInBackground(Integer[] params){
@@ -48,8 +54,9 @@ public class GetAnsweredQuizzesTask extends AsyncTask<Integer, Void, List<String
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetAnsweredQuizzesResponse response = (GetAnsweredQuizzesResponse) ois.readObject();
-            if(response.securityCheck())
-                reply = response.getLocations();
+
+            response.securityCheck(context.checkNonce(response.getNonce()));
+            reply = response.getLocations();
 
             oos.close();
             ois.close();
