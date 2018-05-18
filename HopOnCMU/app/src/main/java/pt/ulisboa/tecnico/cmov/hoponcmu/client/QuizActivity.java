@@ -207,8 +207,6 @@ public class QuizActivity extends AppCompatActivity {
 
                 updateQuestion();
 
-                Toast.makeText(this, "Next Question", Toast.LENGTH_SHORT).show();
-
                 group.clearCheck();
             }
             else{
@@ -240,8 +238,6 @@ public class QuizActivity extends AppCompatActivity {
             getAnswersSend().remove(answersSend.size() -1);
 
             updateQuestion();
-
-            Toast.makeText(this, "Previous Question", Toast.LENGTH_SHORT).show();
 
         }
         if (q == 0){

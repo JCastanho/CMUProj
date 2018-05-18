@@ -57,7 +57,6 @@ public class ListLocalsActivity extends AppCompatActivity {
                 } else {
                     if (applicationContext.checkDownloadedQuizz(currentQuizz)) {
                         startQuiz();
-                        Log.d("List Tour info", "Already downloaded");
                     } else {
 
                         Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
@@ -76,8 +75,6 @@ public class ListLocalsActivity extends AppCompatActivity {
     }
 
     public void getQuizzes(List<Question> quizz){
-        Log.d("List Locals", "quizz received");
-        Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
         applicationContext.addQuizz(currentQuizz, quizz);
         startQuiz();
     }

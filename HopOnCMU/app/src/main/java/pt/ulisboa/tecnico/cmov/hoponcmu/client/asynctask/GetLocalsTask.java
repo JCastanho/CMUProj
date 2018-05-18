@@ -35,7 +35,7 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
         try {
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.3.2", 9090);
+            server = new Socket("10.0.2.2", 9090);
 
 //            Log.d("COMMAND",cmd.getLocation());
 
@@ -44,7 +44,7 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendLocationResponse response = (SendLocationResponse) ois.readObject();
-            
+
             if(response.securityCheck()) {
                 reply = response.getLocations();
                 Log.d("REPLY", reply.get(0));

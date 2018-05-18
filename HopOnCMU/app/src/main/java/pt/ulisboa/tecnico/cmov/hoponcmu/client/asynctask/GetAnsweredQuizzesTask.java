@@ -20,7 +20,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetAnsweredQuizzesResponse;
 public class GetAnsweredQuizzesTask extends AsyncTask<Integer, Void, List<String>> {
 
     private MainActivity activity;
-    
+
     public GetAnsweredQuizzesTask(MainActivity activity){
         this.activity = activity;
     }
@@ -41,7 +41,7 @@ public class GetAnsweredQuizzesTask extends AsyncTask<Integer, Void, List<String
 
         try{
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.3.2", 9090);
+            server = new Socket("10.0.2.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);

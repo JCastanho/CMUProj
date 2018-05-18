@@ -33,7 +33,7 @@ public class LogoutTask extends AsyncTask<Integer, Void, Void> {
 
         try {
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.3.2", 9090);
+            server = new Socket("10.0.2.2", 9090);
 
             Log.d("COMMAND", cmd.toString());
 

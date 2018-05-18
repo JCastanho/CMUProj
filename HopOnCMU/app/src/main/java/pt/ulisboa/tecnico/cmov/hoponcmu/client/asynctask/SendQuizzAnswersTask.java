@@ -40,7 +40,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         try{
             //If you're not using geny emulator use 10.0.2.2
             server = new Socket();
-            server.connect( new InetSocketAddress("10.0.3.2", 9090),4000);
+            server.connect( new InetSocketAddress("10.0.2.2", 9090),4000);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
