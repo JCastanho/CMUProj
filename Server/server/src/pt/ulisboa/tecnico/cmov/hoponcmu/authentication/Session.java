@@ -64,20 +64,27 @@ public class Session {
                 }
             }
         }*/
-
+        System.out.println(users.size());
         return users.add(nu);
     }
 
     public int verifyUser(String username, String password){
         int identifier = -1;
 
+        System.out.println(username+password);
+
         if(verifyCredentials(username, password)){
             if(!isUserLogged(username)) {
 
                 identifier = generateID();
                 login.put(identifier, getUser(username));
+            } else {
+                System.out.println("User is logged");
             }
+        } else {
+            System.out.println("Crediantls are not valid");
         }
+
         return identifier;
     }
 
@@ -318,11 +325,15 @@ public class Session {
 			
 			Date nonceDate = nonceCalendar.getTime();
 			Calendar now = Calendar.getInstance();
-			Date dNow = now.getTime();
 
 			Calendar limit = now;
 			limit.add(Calendar.HOUR, -2);
 			Date dLimit = limit.getTime();
+
+
+            now.add(Calendar.HOUR, 2);
+            now.add(Calendar.HOUR, 2);
+            Date dNow = now.getTime();
 
 			if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
 				nonces.add(nonce);
