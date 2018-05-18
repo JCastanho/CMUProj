@@ -18,13 +18,15 @@ public class RequestPrizesCommand implements Command {
     // Security
     private byte[] nonce;
     private byte[] signature;
+    private transient boolean verified = false;
+
 
     public RequestPrizesCommand(int id) throws UnsupportedEncodingException, SignatureException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         this.id= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
 
-        String pureNonce = "RequestPrizesCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "RequestPrizesCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + id;
@@ -38,18 +40,33 @@ public class RequestPrizesCommand implements Command {
     }
 
     public int getId() throws UnsupportedEncodingException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        if(this.verified) {
+            EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+            return Integer.parseInt(new String(encryption.decrypt(this.id), "UTF-8"));
+        }
+        return -1;
+    }
+
+    private int getInternalId() throws UnsupportedEncodingException {
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
     }
 
-    public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+    public byte[] getNonce (){
+        return this.nonce;
+    }
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+    public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+        if(nonce.equals("NOK")){
+            this.verified = false;
+        }
 
-        String replicateSignature = nonce + this.getId();
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        String replicateSignature = nonce + this.getInternalId();
+
+        this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }
 }

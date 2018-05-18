@@ -19,8 +19,10 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(LoginCommand cmd) {
         int identifier = -1;
 		try {
-	        if(cmd.securityCheck())
-	        	identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+        	identifier = s.verifyUser(cmd.getUsername(), cmd.getCode());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -37,9 +39,11 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(CreateUserCommand cmd){
         String rsp = "NOK";
 		try {
-			if(cmd.securityCheck()) {
-				rsp = s.createUser(cmd.getUsername(), cmd.getCode())? "OK": "NOK";	
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			rsp = s.createUser(cmd.getUsername(), cmd.getCode())? "OK": "NOK";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -58,10 +62,12 @@ public class CommandHandlerImpl implements CommandHandler {
     	
         Integer token;
 		try {
-			if(cmd.securityCheck()) {
-				token = cmd.getToken();
-				s.logOutUser(token);	
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			token = cmd.getToken();
+			s.logOutUser(token);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -73,11 +79,11 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(SendLocationCommand cmd){
         SendLocationResponse rsp = null;
 		try {
-			if(cmd.securityCheck()) {
-				rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
-//		        System.out.println(rsp.getLocations().get(0));
-		        return rsp;
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			rsp = new SendLocationResponse(cmd.verifyString(cmd.getLocation()));
+	        return rsp;
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -88,13 +94,15 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetQuizzesCommand cmd){
 		try {
-			if(cmd.securityCheck()) {
-				ArrayList<String> question = s.getQuizzQuestion(cmd.getLocation());
-		    	ArrayList<ArrayList<String>> answers = s.getQuizzAnswers(cmd.getLocation());
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			ArrayList<String> question = s.getQuizzQuestion(cmd.getLocation());
+	    	ArrayList<ArrayList<String>> answers = s.getQuizzAnswers(cmd.getLocation());
 
-		        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getLocation());
-		        return rsp;
-			}
+	        GetQuizzesResponse rsp = new GetQuizzesResponse(question, answers, cmd.getLocation());
+	        return rsp;
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -105,14 +113,16 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(SendQuizzesAnswersCommand cmd) {
         try {
-        	if(cmd.securityCheck()) {
-                s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzAnswers());
-                s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-                System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
-                s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());
-                SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
-                return rsp;
-        	}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+            s.quizzAnswers(cmd.getId() ,cmd.getQuizzTitle(), cmd.getQuizzAnswers());
+            s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+            System.out.println("SAVE: " + cmd.getQuizzTitle() + " " + cmd.getTime());
+            s.saveTime(cmd.getId(), cmd.getQuizzTitle(), cmd.getTime());
+            SendQuizzesAnswersResponse rsp = new SendQuizzesAnswersResponse(cmd.getId());
+            return rsp;
+            
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -124,12 +134,13 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(GetCorrectAnswersCommand cmd) {
         int correctAnswers;
 		try {
-			if(cmd.securityCheck()) {
-				correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
-		        int timeQuizz = s.getTime(cmd.getId(), cmd.getQuizzTitle());
-		        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers, timeQuizz);
-		        return rsp;
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			correctAnswers = s.correctAnswers(cmd.getId() ,cmd.getQuizzTitle());
+	        int timeQuizz = s.getTime(cmd.getId(), cmd.getQuizzTitle());
+	        GetCorrectAnswersResponse rsp = new GetCorrectAnswersResponse(correctAnswers, timeQuizz);
+	        return rsp;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -140,11 +151,12 @@ public class CommandHandlerImpl implements CommandHandler {
     public Response handle(RequestPrizesCommand cmd){
         String res;
 		try {
-			if(cmd.securityCheck()) {
-				res = s.getQuizzesPrizes(cmd.getId());
-		        PrizesResponse rsp = new PrizesResponse(res);
-		        return rsp;
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			res = s.getQuizzesPrizes(cmd.getId());
+	        PrizesResponse rsp = new PrizesResponse(res);
+	        return rsp;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -155,11 +167,13 @@ public class CommandHandlerImpl implements CommandHandler {
     @Override
     public Response handle(GetAnsweredQuizzesCommand cmd){
 		try {
-			if(cmd.securityCheck()) {
-				List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
-				GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
-		        return rsp;
-			}
+			//You must run this before getting the info
+			cmd.securityCheck(s.checkNonce(cmd.getNonce()));
+			
+			List<String> answeredQuizzes = s.getAnsweredQuizzes(cmd.getId());
+			GetAnsweredQuizzesResponse rsp = new GetAnsweredQuizzesResponse(answeredQuizzes);
+	        return rsp;
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

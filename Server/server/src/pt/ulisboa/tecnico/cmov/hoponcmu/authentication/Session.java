@@ -5,14 +5,13 @@
  */
 package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.Map.Entry;
+
+import pt.ulisboa.tecnico.cmov.hoponcmu.utils.EncryptionUtils;
 
 /**
  *
@@ -26,6 +25,11 @@ public class Session {
     private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
     private Map<Integer, Map<String, ArrayList<QuizzAnswers>>> userAnswers;
     private Integer idSequence;
+    
+    // Security
+    private EncryptionUtils encryption;
+    private ArrayList<String> nonces;
+    private Date lastClear;
 
 
     public Session(){
@@ -35,6 +39,9 @@ public class Session {
         quizzes = new HashMap<>();
         quizzAnswers = new HashMap<>();
         userAnswers = new HashMap<>();
+    	encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        nonces = new ArrayList<String>();
+    	lastClear = Calendar.getInstance().getTime();
         populateQuizzes();
         createUser("a","a");
         createUser("b","b");
@@ -292,5 +299,69 @@ public class Session {
         }catch (Exception e){
             return answeredQuizzes;
         }
+    }
+    
+    public String checkNonce(byte[] encryptedNonce){
+    	try {
+			String nonce = new String(encryption.decrypt(encryptedNonce),"UTF-8");
+			
+			if(nonces.contains(nonce)) {
+				return "NOK";
+			}
+			
+			String[] parts = nonce.split("#");
+			
+			// Test Freshness
+			Calendar nonceCalendar = Calendar.getInstance();
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
+			nonceCalendar.setTime(sdf.parse(parts[1]));
+			
+			Date nonceDate = nonceCalendar.getTime();
+			Calendar now = Calendar.getInstance();
+			Date dNow = now.getTime();
+
+			Calendar limit = now;
+			limit.add(Calendar.HOUR, -2);
+			Date dLimit = limit.getTime();
+
+			if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
+				nonces.add(nonce);
+				return nonce;
+			};
+    	} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return "NOK";
+    }
+    
+    private void cleanNonces() {
+		try {
+			Calendar now = Calendar.getInstance();
+			Calendar scheduled = now;
+			scheduled.add(Calendar.DATE, -1);
+			
+			if(scheduled.before(lastClear)) {
+				for(String nonce : nonces) {
+					String[] parts = nonce.split("#");
+					
+					
+					Calendar nonceCalendar = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat();
+						nonceCalendar.setTime(sdf.parse(parts[1]));
+					Date nonceDate = nonceCalendar.getTime();
+					
+					Calendar limit = now;
+					limit.add(Calendar.HOUR, -1);
+					
+					if(limit.after(nonceDate)) {
+						nonces.remove(nonce);
+					};
+		    	}
+				
+		    	lastClear = Calendar.getInstance().getTime();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
     }
 }

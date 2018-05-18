@@ -18,13 +18,14 @@ public class GetAnsweredQuizzesCommand implements Command {
     // Security
     private byte[] nonce;
     private byte[] signature;
+    private transient boolean verified = false;
 
     public GetAnsweredQuizzesCommand(int id) throws UnsupportedEncodingException, SignatureException {
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         this.id= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
 
-        String pureNonce = "GetAnsweredQuizzesCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "GetAnsweredQuizzesCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + id;
@@ -37,22 +38,34 @@ public class GetAnsweredQuizzesCommand implements Command {
         return chi.handle(this);
     }
 
-
-
     public int getId() throws UnsupportedEncodingException {
+        if(this.verified){
+        	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+            return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
+        }
+        return -1;
+    }
+
+    public byte[] getNonce (){
+        return this.nonce;
+    }
+
+    private int getInternalId() throws UnsupportedEncodingException {
     	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
     }
 
+    public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+        if(nonce.equals("NOK")){
+            this.verified = false;
+        }
 
-    public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+        String replicateSignature = nonce + this.getInternalId();
 
-        String replicateSignature = nonce + this.getId();
-
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }
 }
