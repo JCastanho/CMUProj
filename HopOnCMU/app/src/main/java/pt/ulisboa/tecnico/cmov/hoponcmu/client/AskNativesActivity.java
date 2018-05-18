@@ -17,6 +17,7 @@ public class AskNativesActivity extends PeerListenerActivity{
 
 	private SimWifiP2pSocket mCliSocket = null;
 	private SendQuizzesAnswersCommand cmd;
+	private int userId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -24,6 +25,10 @@ public class AskNativesActivity extends PeerListenerActivity{
 
 		super.setAdapter(AskNativesActivity.this);
 		super.findGroupPeers();
+
+		Bundle bundle = getIntent().getExtras();
+		userId = bundle.getInt("id");
+		cmd = (SendQuizzesAnswersCommand) bundle.get("cmd");
 	}
 
 	public void sendResults(String neighborAddr){
@@ -38,9 +43,10 @@ public class AskNativesActivity extends PeerListenerActivity{
 		protected String doInBackground(String... params) {
 			try {
 				mCliSocket = new SimWifiP2pSocket(params[0],
-						Integer.parseInt(getString(R.string.port)));
+						Integer.parseInt(getString(R.string.termitePort)));
 
-				mCliSocket.getOutputStream().write(("2-" + cmd + "\n").getBytes());
+				mCliSocket.getOutputStream().write(("2-").getBytes());
+				//mCliSocket.getOutputStream().write((cmd).getBytes());
 
 				BufferedReader sockIn = new BufferedReader(
 						new InputStreamReader(mCliSocket.getInputStream()));

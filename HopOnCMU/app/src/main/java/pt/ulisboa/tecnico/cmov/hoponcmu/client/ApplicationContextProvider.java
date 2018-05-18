@@ -27,12 +27,13 @@ public class ApplicationContextProvider extends Application implements
     private SimWifiP2pManager.Channel mChannel = null;
     private HashMap<String, List<Integer>> quizzResults = new HashMap<>();
     private HashMap<String, List<Question>> quizz = new HashMap<>();
-    private HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
+    private List<String> answeredQuizzes = new ArrayList<>();
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = this;
+        Log.d("App Context Info","Created again.");
     }
 
     public void setManager(SimWifiP2pManager m) {
@@ -44,39 +45,43 @@ public class ApplicationContextProvider extends Application implements
     }
 
     public ArrayList<NearbyUser> getGroupPeersList(){
-        Log.d("App Context Info Peers",""+System.identityHashCode(groupPeers));
+        //Log.d("App Context Info Peers",""+System.identityHashCode(groupPeers));
         return groupPeers;
     }
 
     public HashMap<String,List<String>> getSharedResults() { return sharedResults; }
 
-    public HashMap<String, List<Question>> getQuizz() {
-        return quizz;
-    }
-
-    public void setQuizz(HashMap<String, List<Question>> quizz) {
-        this.quizz = quizz;
-    }
-
-    public HashMap<Integer, List<String>> getAnsweredQuizzes() {
-        return answeredQuizzes;
-    }
-
-    public void setAnsweredQuizzes(HashMap<Integer, List<String>> answeredQuizzes) {
-        this.answeredQuizzes = answeredQuizzes;
-    }
+    public List<Question> getQuizz(String monumento) { return quizz.get(monumento); }
 
     public HashMap<String, List<Integer>> getQuizzResults() {
         return quizzResults;
     }
 
-    public void setQuizzResults(String monumento, List<Integer> quizzResults) {
-        this.quizzResults.put(monumento, quizzResults);
+    public void addQuizz(String monument, List<Question> quizzz) {
+        Log.d("App Context Info Peers","Size before" +this.quizz.size());
+        this.quizz.put(monument,quizzz);
+        Log.d("App Context Info Peers","Size after: "+this.quizz.size()+quizz.containsKey(monument));
+
     }
 
-    public Boolean checkQuizzResults(String monumento){
-        return quizzResults.containsKey(monumento);
+    public List<String> getAnsweredQuizzes() { return answeredQuizzes; }
+
+    public void setAnsweredQuizzes(List<String > answeredQuizzzes) {
+        this.answeredQuizzes = answeredQuizzzes;
+        Log.d("App Context Info", "Answered Quizzes set");
     }
+
+    public void addAnsweredQuizzes(String answeredQuizz) { this.answeredQuizzes.add(answeredQuizz); }
+
+    public void addQuizzResults(String monumento, List<Integer> quizzResults) { this.quizzResults.put(monumento, quizzResults); }
+
+    public Boolean checkQuizzResults(String monumento){ return quizzResults.containsKey(monumento); }
+
+    public Boolean checkDownloadedQuizz(String monumento){
+        return quizz.containsKey(monumento);
+    }
+
+    public Boolean checkAnsweredQuizz(String monumento){ return answeredQuizzes.contains(monumento); }
 
     public Boolean nearBeacon(int monumentPos) {
         Log.d("App Context Info","Monument position: " + monumentPos + " Beacon : " + nearBeacon);
@@ -91,10 +96,6 @@ public class ApplicationContextProvider extends Application implements
         }
     }
 
-    public Boolean checkDownloadedQuizz(String monumento){
-        return quizz.containsKey(monumento);
-    }
-
     public void parseResult(String sharedResult) {
         String[] parsed = sharedResult.split(":");
         String[] parsedResults = parsed[1].split(",");
@@ -102,14 +103,14 @@ public class ApplicationContextProvider extends Application implements
         List<String> results = new ArrayList<>(Arrays.asList(parsedResults));
 
         if(sharedResults.containsKey(user)) {
-            Log.d("App Context Info","NearbyUser already shared results with me");
+            //Log.d("App Context Info","NearbyUser already shared results with me");
             sharedResults.get(user).addAll(results);
         } else {
-            Log.d("App Context Info",user + "didn't yet share results with me");
+            //Log.d("App Context Info",user + "didn't yet share results with me");
             sharedResults.put(user,results);
         }
 
-        Log.d("App Context Info","Parsing done: " + sharedResults.size());
+        //Log.d("App Context Info","Parsing done: " + sharedResults.size());
     }
 
     public void updateGroupPeers() {
@@ -126,16 +127,17 @@ public class ApplicationContextProvider extends Application implements
             SimWifiP2pDevice device = devices.getByName(deviceName);
 
             //Verify that we're not adding beacons to the list
-            if(!deviceName.matches("M[0-9]+")) {
+            if (!deviceName.matches("M[0-9]+")) {
                 auxList.add(new NearbyUser(deviceName, device.getVirtIp()));
-                Log.d("App Context Info", "Device name added: " + deviceName);
+                //Log.d("App Context Info", "Device name added: " + deviceName);
             } else {
                 nearBeacon = Integer.parseInt(deviceName.split("M")[1]);
-                Log.d("App Context Info","Beacon near me: " + deviceName);
+                //Log.d("App Context Info","Beacon near me: " + deviceName);
             }
         }
 
         groupPeers = auxList;
-        Log.d("App Context Info", "New list size: " + groupPeers.size());
+        Log.d("App Context Info", "Updated list size: " + groupPeers.size());
     }
+
 }

@@ -24,7 +24,7 @@ public class Session {
     private Map<Integer, User> login;
     private Map<String, ArrayList<Quizz>> quizzes;
     private Map<String, ArrayList<QuizzAnswers>> quizzAnswers;
-    private Map<Integer, Map<String, ArrayList<QuizzAnswers>>> userAnswers;
+    private Map<String, Map<String, ArrayList<QuizzAnswers>>> userAnswers;
     private Integer idSequence;
 
 
@@ -182,12 +182,12 @@ public class Session {
                 new QuizzAnswers(answers)
         ));
         quizzAnswers.put(quizzTitle, list);
-        userAnswers.put(id, quizzAnswers);
+        userAnswers.put(getUsernameById(id), quizzAnswers);
     }
 
     public int correctAnswers(int id, String quizzTitle){
 
-        ArrayList<QuizzAnswers> quizzAnswersArrayList = userAnswers.get(id).get(quizzTitle);
+        ArrayList<QuizzAnswers> quizzAnswersArrayList = userAnswers.get(getUsernameById(id)).get(quizzTitle);
         ArrayList<Quizz> quizzArrayList = quizzes.get(quizzTitle);
 
         int counter = 0;
@@ -283,13 +283,14 @@ public class Session {
     }
 
     public List<String> getAnsweredQuizzes(int id){
-        Map<String, ArrayList<QuizzAnswers>> map = userAnswers.get(id);
         List<String> answeredQuizzes = new ArrayList<>();
+
         try{
+            Map<String, ArrayList<QuizzAnswers>> map = userAnswers.get(getUsernameById(id));
             answeredQuizzes = new ArrayList<>(map.keySet());
-            return answeredQuizzes;
-        }catch (Exception e){
-            return answeredQuizzes;
+        } catch (Exception e){
         }
+
+        return answeredQuizzes;
     }
 }

@@ -3,18 +3,24 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.ResultAdapter;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SendMessageTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 
 public class ListResultsActivity extends AppCompatActivity {
 
@@ -23,6 +29,9 @@ public class ListResultsActivity extends AppCompatActivity {
 	private String userAddress;
 	private String username;
 	private ApplicationContextProvider applicationContext;
+	private int userId;
+	private boolean mutex;
+	private boolean finished;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -36,9 +45,13 @@ public class ListResultsActivity extends AppCompatActivity {
 		Bundle extras = getIntent().getExtras();
 		userAddress = extras.getString("UserAddr");
 		username = extras.getString("Username");
+		userId = extras.getInt("id");
 
 		ListView lResults = (ListView) findViewById(R.id.list_results);
 		setAdapter(lResults);
+
+		mutex = true;
+		finished = true;
 	}
 
 	@Override
@@ -77,10 +90,36 @@ public class ListResultsActivity extends AppCompatActivity {
 	private void setAdapter(ListView listView) {
 		array = new ArrayList<>();
 
-		//if(Applic GetCorrectAnswersCommand().execute()
+		List<String> answeredQuizzes = applicationContext.getAnsweredQuizzes();
+		HashMap<String, List<Integer>> quizzResults = applicationContext.getQuizzResults();
 
-		adapter = new ResultAdapter(this,array);
+		for(String answeredQuizz: answeredQuizzes){
+			Log.d("ListResultsActivity",answeredQuizz);
+			if(quizzResults.containsKey(answeredQuizz)){
+				//mutex(false);
+				array.add(quizzResults.get(answeredQuizz)+ "correct answers for quiz " + answeredQuizz);
+				//mutex(true);
+			/*} else {
+				finished = false;
+				new GetCorrectAnswersTask(ListResultsActivity.this).execute(""+userId,answeredQuizz);*/
+			}
+		}
 
+		//if(finished) {
+		adapter = new ResultAdapter(this, array);
 		listView.setAdapter(adapter);
+		//}
+	}
+
+	public void mutex(Boolean isOpen){
+		mutex = isOpen;
+	}
+
+	public void updateInterface(String monument, List<Integer> o) {
+		//while()
+		array.add(o.get(0) + " correct answers for quiz " + monument);
+		finished = true;
+			//mutex(true);
+		//}
 	}
 }

@@ -29,14 +29,12 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         setContentView(R.layout.activity_read_quizz_answers);
         applicationContext = (ApplicationContextProvider) getApplicationContext();
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
-
         Bundle bundle = getIntent().getExtras();
         this.userId = bundle.getInt("id");
 
         final ListView listView = (ListView) findViewById(R.id.list_tours_answers);
-        new GetAnsweredQuizzesTask(ReadQuizzAnswersActivity.this, userId).execute();
+
+        updateInterface(applicationContext.getAnsweredQuizzes());
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -45,14 +43,12 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
                 text = (String) listView.getItemAtPosition(position);
 
-                //Toast.makeText(ReadQuizzAnswersActivity.this, "Getting Quizz answers for: " + text, Toast.LENGTH_SHORT).show();
-
                 if(applicationContext.checkQuizzResults(text)){
                     Toast.makeText(ReadQuizzAnswersActivity.this, applicationContext.getQuizzResults().get(text).get(0) + " 22222222 correct answers in " + applicationContext.getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this, userId);
-                    task.execute(text);
+                    GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this);
+                    task.execute(""+userId,text);
                 }
             }
         });
@@ -60,9 +56,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
 
     public void correctAnswers(List<Integer> answers){
         if (answers != null){
-            this.correctAnswers = answers;
-            applicationContext.setQuizzResults(text,answers);
-
+            applicationContext.addQuizzResults(text,answers);
             Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " 111111111 correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
         }
         else{
@@ -70,9 +64,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
         }
     }
 
-
     public void updateInterface(List<String> sucess){
-
         ListView listView = (ListView) findViewById(R.id.list_tours_answers);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sucess);
         listView.setAdapter(adapter);

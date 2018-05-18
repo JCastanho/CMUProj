@@ -31,7 +31,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 public class QuizActivity extends AppCompatActivity {
 
     private int q = 0;
-    private int id;
+    private int userdId;
 
     private SendQuizzAnswersTask task = null;
     private String monumento;
@@ -40,11 +40,17 @@ public class QuizActivity extends AppCompatActivity {
 
     private ArrayList<String> questionSend = new ArrayList<String>();
     private ArrayList<String> answersSend = new ArrayList<String>();
-    private HashMap<String, List<Question>> quizz = new HashMap<>();
+    private List<Question> quizz = new ArrayList<>();
     private ApplicationContextProvider applicationContext;
 
-    Timer quizzTimer;
-    TimerTask quizzTimerTask;
+    private Timer quizzTimer;
+    private TimerTask quizzTimerTask;
+
+    private Button btnSend;
+    private TextView time;
+    private int min;
+    private int seg;
+    private int timeForQuizz;
 
     //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
@@ -100,11 +106,6 @@ public class QuizActivity extends AppCompatActivity {
     public void setAnswersSend(ArrayList<String> answersSend) {
         this.answersSend = answersSend;
     }
-    private Button btnSend;
-    private TextView time;
-    private int min;
-    private int seg;
-    private int timeForQuizz;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,11 +113,16 @@ public class QuizActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         applicationContext = (ApplicationContextProvider) getApplicationContext();
-        quizz = applicationContext.getQuizz();
 
         //ADD TITLE
         Bundle bundle = getIntent().getExtras();
         TextView view = (TextView) findViewById(R.id.txtTitle);
+
+        setMonumento(bundle.getString("Title"));
+        this.userdId = bundle.getInt("id");
+        view.setText(monumento);
+
+        quizz = applicationContext.getQuizz(monumento);
 
         timeForQuizz=0;
         min=0;
@@ -131,22 +137,15 @@ public class QuizActivity extends AppCompatActivity {
         btnSend = (Button) findViewById(R.id.btnSend);
         btnSend.setEnabled(false);
 
-        this.id = bundle.getInt("id");
-
-
-        setMonumento(bundle.getString("Title"));
-        view.setText(monumento);
-
-
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         //Get Quizzes, see next line
-        setQuestion(quizz.get(monumento).get(q).getQuestion());
+        setQuestion(quizz.get(q).getQuestion());
         viewQst.setText(question);
 
         //ADD RESPONSES
         RadioGroup group = (RadioGroup) findViewById(R.id.rdgResponses);
 
-        setAnswers(quizz.get(monumento).get(q).getAnswers());
+        setAnswers(quizz.get(q).getAnswers());
 
         RadioButton btn;
         for(int i = 0; i < 4; i++){
@@ -268,7 +267,7 @@ public class QuizActivity extends AppCompatActivity {
 
             RadioButton button = (RadioButton) findViewById(selectedId);
             getAnswersSend().add(button.getText().toString());
-            task = new SendQuizzAnswersTask(QuizActivity.this, id);
+            task = new SendQuizzAnswersTask(QuizActivity.this, userdId);
             task.execute(getMonumento());
             QuizActivity.this.finish();
         }
@@ -279,8 +278,8 @@ public class QuizActivity extends AppCompatActivity {
 
     public void updateQuestion() {
 
-        setQuestion(quizz.get(monumento).get(q).getQuestion());
-        setAnswers(quizz.get(monumento).get(q).getAnswers());
+        setQuestion(quizz.get(q).getQuestion());
+        setAnswers(quizz.get(q).getAnswers());
 
         TextView viewQst = (TextView) findViewById(R.id.txtQst);
         viewQst.setText(question);
@@ -292,23 +291,26 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void updateInterface(Integer id) {
-        if( id != -1) {
-            Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
-            new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
-        }
-        else if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
+        if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
+            Log.d("Quiz Activity","-2");
             Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);
             intent.putExtra("Command", new SendQuizzesAnswersCommand(id, monumento, getAnswersSend(), getTimeForQuizz()));
-
+            intent.putExtra("id",userdId);
             startActivity(intent);
+        } else if( id != -1) {
+            Toast.makeText(this, "Answer Sent with success!", Toast.LENGTH_SHORT).show();
+            //new GetAnsweredQuizzesTask(QuizActivity.this, id).execute();
+            applicationContext.addAnsweredQuizzes(monumento);
         } else {
             Toast.makeText(this, "Failed sending the quizz answers", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void checkQuizz(List<String> quizzes){
-        HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
-        answeredQuizzes.put(id,quizzes);
-        applicationContext.setAnsweredQuizzes(answeredQuizzes);
-    }
+    /*public void checkQuizz(List<String> quizzes){
+        //HashMap<Integer, List<String>> answeredQuizzes = new HashMap<>();
+        //answeredQuizzes.put(id,quizzes);
+        for(String monumento: quizzes) {
+            applicationContext.addAnsweredQuizzes(monumento);
+        }
+    }*/
 }

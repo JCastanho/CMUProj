@@ -55,7 +55,7 @@
         <activity
             android:name=".client.PrizesActivity"
             android:label="@string/title_activity_receive_prizes"/>
-        <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService" />
+        <service android:name="pt.inesc.termite.wifidirect.service.SimWifiP2pService"/>
         <service android:name="pt.ulisboa.tecnico.cmov.hoponcmu.client.network.ReceivesSharesService" android:enabled="true" />
     </application>
 

@@ -63,6 +63,7 @@ public class UserAdapter extends ArrayAdapter<NearbyUser> {
 
                         intent.putExtra("Username", neighborName);
                         intent.putExtra("UserAddr", neighborAddress);
+                        intent.putExtra("id",activity.getUserId());
 
                         activity.startActivity(intent);
                     } else {

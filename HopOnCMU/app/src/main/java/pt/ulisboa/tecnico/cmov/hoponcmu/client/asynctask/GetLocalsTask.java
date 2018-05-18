@@ -8,23 +8,16 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
 
-import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
-import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendLocationCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.SendLocationResponse;
 
 public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
     private ListLocalsActivity activity;
-    private ReadQuizzAnswersActivity quizzAnswersActivity;
 
     public GetLocalsTask(ListLocalsActivity listLocalsActivity) {
         this.activity = listLocalsActivity;
-    }
-
-    public GetLocalsTask(ReadQuizzAnswersActivity quizzAnswersActivity){
-        this.quizzAnswersActivity = quizzAnswersActivity;
     }
 
     @Override
@@ -35,7 +28,7 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
 
         try {
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
 
             Log.d("COMMAND",cmd.getLocation());
 
@@ -45,7 +38,6 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             SendLocationResponse response = (SendLocationResponse) ois.readObject();
             reply = response.getLocations();
-
 
             oos.close();
             ois.close();
@@ -68,18 +60,7 @@ public class GetLocalsTask extends AsyncTask<String, Void, List<String>>{
     @Override
     protected void onPostExecute(List<String> o) {
         if(o != null){
-            try {
-                activity.updateInterface(o);
-            }catch (Exception e){
-                Log.d("List Tour", "Invalid Activity");
-            }
-
-            try{
-                quizzAnswersActivity.updateInterface(o);
-            }catch (Exception e){
-                Log.d("Read Quizz Answers", "Invalid Activity");
-            }
+            activity.updateInterface(o);
         }
-
     }
 }

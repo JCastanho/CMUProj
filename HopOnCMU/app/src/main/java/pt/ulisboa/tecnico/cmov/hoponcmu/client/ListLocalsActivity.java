@@ -28,13 +28,9 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.Question;
 public class ListLocalsActivity extends AppCompatActivity {
 
     private GetQuizzTask task = null;
-    private String title = "";
     private int userId;
     private String currentQuizz;
-    private List<String> answeredQuizzes;
-    private List<String> donwloadedQuizzes;
     private ApplicationContextProvider applicationContext;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,42 +52,41 @@ public class ListLocalsActivity extends AppCompatActivity {
                 //if(ApplicationContextProvider.nearBeacon(position+1)) {
                 currentQuizz = text;
 
-                if(applicationContext.checkDownloadedQuizz(currentQuizz)){
-                    getQuizzes(applicationContext.getQuizz());
-                }
-                if(checkAnsweredQuizz()){
+                if (applicationContext.checkAnsweredQuizz(currentQuizz)) {
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
+                } else {
+                    if (applicationContext.checkDownloadedQuizz(currentQuizz)) {
+                        startQuiz();
+                        Log.d("List Tour info", "Already downloaded");
+                    } else {
 
-                    title = text;
-                    Log.d("List Tour info", text);
+                        Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
 
-                    // Show a progress spinner, and kick off a background task to
-                    // perform the user login attempt.
-                    task = new GetQuizzTask(ListLocalsActivity.this, userId);
-                    task.execute(text);
-                }
+                        Log.d("List Tour info", text);
+
+                        task = new GetQuizzTask(ListLocalsActivity.this, userId);
+                        task.execute(text);
+                    }
                 /*} else {
                   Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
                 }*/
+                }
             }
         });
-
     }
 
-    public void getQuizzes(HashMap<String, List<Question>> quizz) {
+    public void getQuizzes(List<Question> quizz){
+        Log.d("List Locals", "quizz received");
         Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
+        applicationContext.addQuizz(currentQuizz, quizz);
+        startQuiz();
+    }
 
-        applicationContext.setQuizz(quizz);
-
+    public void startQuiz(){
         Intent intent = new Intent(ListLocalsActivity.this, QuizActivity.class);
-
         Bundle bundle = new Bundle();
-        bundle.putString("Title", this.title);
+        bundle.putString("Title", this.currentQuizz);
         bundle.putInt("id", userId);
-
 
         intent.putExtras(bundle);
         startActivity(intent);
@@ -102,25 +97,4 @@ public class ListLocalsActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sucess);
         listView.setAdapter(adapter);
     }
-
-
-    public Boolean checkAnsweredQuizz(){
-
-        answeredQuizzes = applicationContext.getAnsweredQuizzes().get(userId);
-
-        try{
-            for (int i = 0; i < answeredQuizzes.size(); i++){
-                if(answeredQuizzes.get(i).equals(currentQuizz)){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-        }catch (Exception e){
-            return false;
-        }
-        return false;
-    }
-
 }
