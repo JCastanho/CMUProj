@@ -177,9 +177,9 @@ public class Session {
         else return false;
     }
 
-    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> quizzQuestions, ArrayList<String> answers) {
+    public void quizzAnswers(int id, String quizzTitle, ArrayList<String> answers) {
         ArrayList<QuizzAnswers> list = new ArrayList<QuizzAnswers>(Arrays.asList(
-                new QuizzAnswers(quizzQuestions, answers)
+                new QuizzAnswers(answers)
         ));
         quizzAnswers.put(quizzTitle, list);
         userAnswers.put(id, quizzAnswers);

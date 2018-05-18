@@ -32,6 +32,7 @@ public class ListLocalsActivity extends AppCompatActivity {
     private int userId;
     private String currentQuizz;
     private List<String> answeredQuizzes;
+    private List<String> donwloadedQuizzes;
     private ApplicationContextProvider applicationContext;
 
 
@@ -55,11 +56,10 @@ public class ListLocalsActivity extends AppCompatActivity {
                 //if(ApplicationContextProvider.nearBeacon(position+1)) {
                 currentQuizz = text;
 
-                Log.d("text", text);
-
-                new GetAnsweredQuizzesTask(ListLocalsActivity.this, userId).execute();
-
-                if(check()){
+                if(applicationContext.checkDownloadedQuizz(currentQuizz)){
+                    getQuizzes(applicationContext.getQuizz());
+                }
+                if(checkAnsweredQuizz()){
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -103,12 +103,11 @@ public class ListLocalsActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
 
-    public void checkQuizz(List<String> quizzes){
-        Log.d("currentQuizz", currentQuizz);
-        answeredQuizzes = quizzes;
-    }
 
-    public Boolean check(){
+    public Boolean checkAnsweredQuizz(){
+
+        answeredQuizzes = applicationContext.getAnsweredQuizzes().get(userId);
+
         try{
             for (int i = 0; i < answeredQuizzes.size(); i++){
                 if(answeredQuizzes.get(i).equals(currentQuizz)){
@@ -123,4 +122,5 @@ public class ListLocalsActivity extends AppCompatActivity {
         }
         return false;
     }
+
 }
