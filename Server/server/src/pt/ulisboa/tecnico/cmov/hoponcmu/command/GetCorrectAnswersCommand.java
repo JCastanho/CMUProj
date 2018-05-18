@@ -20,14 +20,15 @@ public class GetCorrectAnswersCommand implements Command{
     // Security
     private byte[] nonce;
     private byte[] signature;
+    private transient boolean verified = false;
 
     public GetCorrectAnswersCommand(int id ,String quizzTitle) throws UnsupportedEncodingException, SignatureException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         this.id= encryption.encrypt(Integer.toString(id).getBytes("UTF-8"));
         this.quizzTitle=encryption.encrypt(quizzTitle.getBytes("UTF-8"));
 
-        String pureNonce = "GetCorrectAnswersCommand" + Calendar.getInstance().getTime().toString() + UUID.randomUUID().toString();
+        String pureNonce = "GetCorrectAnswersCommand" +"#"+ Calendar.getInstance().getTime().toString() +"#"+ UUID.randomUUID().toString();
         this.nonce = encryption.encrypt(pureNonce.getBytes("UTF-8"));
 
         String pureSignature = pureNonce + id + quizzTitle;
@@ -41,25 +42,48 @@ public class GetCorrectAnswersCommand implements Command{
     }
 
     public String getQuizzTitle() throws UnsupportedEncodingException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+        if(this.verified){
+            EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+            return new String(encryption.decrypt(this.quizzTitle),"UTF-8");
+        }
+        return "NOK";
+    }
+
+    public int getId() throws UnsupportedEncodingException {
+        if(this.verified){
+            EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+
+            return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
+        }
+        return -1;
+    }
+
+    private String getInternalQuizzTitle() throws UnsupportedEncodingException {
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return new String(encryption.decrypt(this.quizzTitle),"UTF-8");
     }
 
-    public int getId() throws UnsupportedEncodingException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+    private int getInternalId() throws UnsupportedEncodingException {
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
         return Integer.parseInt(new String(encryption.decrypt(this.id),"UTF-8"));
     }
 
+    public byte[] getNonce (){
+        return this.nonce;
+    }
 
-    public boolean securityCheck() throws UnsupportedEncodingException, SignatureException {
-    	EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
+    public void securityCheck(String nonce) throws UnsupportedEncodingException, SignatureException {
+        if(nonce.equals("NOK")){
+            this.verified = false;
+        }
 
-        String nonce = new String(encryption.decrypt(this.nonce),"UTF-8");
+        EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        String replicateSignature = nonce + this.getId() + this.getQuizzTitle();
+        String replicateSignature = nonce + this.getInternalId() + this.getInternalQuizzTitle();
 
-        return encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
+        this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }
 }
