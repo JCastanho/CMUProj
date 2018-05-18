@@ -22,6 +22,7 @@ public class PeerListenerActivity extends AppCompatActivity{
 	private Boolean alive;
 	private ApplicationContextProvider applicationContext;
 	private Boolean mutex;
+	private int userId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,8 +32,10 @@ public class PeerListenerActivity extends AppCompatActivity{
 		applicationContext = (ApplicationContextProvider) getApplicationContext();
 		listView = findViewById(R.id.list_users);
 
+		Bundle bundle = getIntent().getExtras();
+		userId = bundle.getInt("id");
+
 		mutex(true);
-		alive = true;
 	}
 
 	@Override
@@ -56,7 +59,11 @@ public class PeerListenerActivity extends AppCompatActivity{
 		listView.setAdapter(adapter);
 
 		checkEmptyList();
+
+		alive = true;
 	}
+
+	public int getUserId(){ return userId; }
 
 	public void findGroupPeers(){
 		new NearbyUsersTask().executeOnExecutor(

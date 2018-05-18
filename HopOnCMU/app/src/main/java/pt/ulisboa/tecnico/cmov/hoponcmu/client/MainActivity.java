@@ -16,17 +16,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.List;
+
 import pt.inesc.termite.wifidirect.SimWifiP2pBroadcast;
 import pt.inesc.termite.wifidirect.SimWifiP2pManager;
 import pt.inesc.termite.wifidirect.service.SimWifiP2pService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.ReceivesSharesService;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.LogoutTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SimWifiP2pBroadcastReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Integer tokenID;
+    private Integer userId;
     private SimWifiP2pManager mManager = null;
     private SimWifiP2pManager.Channel mChannel = null;
     private Messenger mService = null;
@@ -41,17 +44,19 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         applicationContext = (ApplicationContextProvider) getApplicationContext();
-        tokenID = getIntent().getExtras().getInt("id",-1);
+        userId = getIntent().getExtras().getInt("id",-1);
 
         registerBroadcastReceiver();
         setServices();
+
+        new GetAnsweredQuizzesTask(MainActivity.this).execute(userId);
 
         Button list_btn = (Button) findViewById(R.id.list_btn);
         list_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ListLocalsActivity.class);
-                intent.putExtra("id",tokenID);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -61,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ReadQuizzAnswersActivity.class);
-                intent.putExtra("id",tokenID);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -71,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, PrizesActivity.class);
-                intent.putExtra("id",tokenID);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -82,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO Check if user is between bus stops
                 Intent intent = new Intent(MainActivity.this, ShareResultsActivity.class);
-                intent.putExtra("id",tokenID);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -92,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, SeeSharedResultsActivity.class);
-                intent.putExtra("id",tokenID);
+                intent.putExtra("id",userId);
                 startActivity(intent);
             }
         });
@@ -101,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        new LogoutTask(MainActivity.this).execute(userId);
         Intent termite = new Intent(MainActivity.this, SimWifiP2pService.class);
         Intent sharingService = new Intent(MainActivity.this, SimWifiP2pService.class);
 
@@ -113,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.log_out){
-            new LogoutTask(MainActivity.this).execute(tokenID);
+            new LogoutTask(MainActivity.this).execute(userId);
 
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
@@ -170,4 +176,8 @@ public class MainActivity extends AppCompatActivity {
             mChannel = null;
         }
     };
+
+    public void updateAnsweredQuizz(List<String> o) {
+        applicationContext.setAnsweredQuizzes(o);
+    }
 }

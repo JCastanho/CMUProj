@@ -1,5 +1,6 @@
 package pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -11,18 +12,18 @@ import java.security.SignatureException;
 import java.util.ArrayList;
 import java.util.List;
 
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListResultsActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetCorrectAnswersResponse;
 
 public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>> {
 
-    private ReadQuizzAnswersActivity activity;
-    private int id;
+    private Context activity;
+    private String monument;
 
-    public GetCorrectAnswersTask(ReadQuizzAnswersActivity activity, int id) {
-        this.activity = activity;
-        this.id = id;
+    public GetCorrectAnswersTask(Context context) {
+        this.activity = context;
     }
 
     @Override
@@ -32,14 +33,16 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
 
         GetCorrectAnswersCommand cmd = null;
         try {
-            cmd = new GetCorrectAnswersCommand(id ,params[0]);
+            cmd = new GetCorrectAnswersCommand(Integer.parseInt(params[0]),params[1]);
+            monument = params[1];
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+
         try{
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
@@ -69,6 +72,12 @@ public class GetCorrectAnswersTask extends AsyncTask<String, Void, List<Integer>
 
     @Override
     protected void onPostExecute(List<Integer> o){
-        activity.correctAnswers(o);
+        if(activity instanceof ReadQuizzAnswersActivity) {
+            ReadQuizzAnswersActivity lrActivity = (ReadQuizzAnswersActivity) activity;
+            lrActivity.correctAnswers(o);
+        } else {
+            ListResultsActivity lrActivity = (ListResultsActivity) activity;
+            lrActivity.updateInterface(monument, o);
+        }
     }
 }

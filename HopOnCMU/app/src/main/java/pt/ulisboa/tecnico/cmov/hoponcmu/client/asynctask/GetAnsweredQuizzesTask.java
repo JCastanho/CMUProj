@@ -11,49 +11,37 @@ import java.security.SignatureException;
 import java.util.List;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ListLocalsActivity;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.QuizActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ReadQuizzAnswersActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetAnsweredQuizzesCommand;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetAnsweredQuizzesResponse;
 
-public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>> {
+public class GetAnsweredQuizzesTask extends AsyncTask<Integer, Void, List<String>> {
 
-    private ListLocalsActivity listLocalsActivity;
-    private ReadQuizzAnswersActivity readQuizzAnswersActivity;
-    private int id;
-    private QuizActivity quizActivity;
-
-    public GetAnsweredQuizzesTask(ListLocalsActivity listLocalsActivity, int id){
-        this.listLocalsActivity = listLocalsActivity;
-        this.id = id;
-    }
-
-    public GetAnsweredQuizzesTask(QuizActivity quizActivity, int id){
-        this.quizActivity = quizActivity;
-        this.id = id;
-    }
-
-    public GetAnsweredQuizzesTask(ReadQuizzAnswersActivity readQuizzAnswersActivity, int id){
-        this.readQuizzAnswersActivity = readQuizzAnswersActivity;
-        this.id = id;
+    private MainActivity activity;
+    
+    public GetAnsweredQuizzesTask(MainActivity activity){
+        this.activity = activity;
     }
 
     @Override
-    protected List<String> doInBackground(String[] params){
+    protected List<String> doInBackground(Integer[] params){
         Socket server = null;
         List<String> reply = null;
         GetAnsweredQuizzesCommand cmd = null;
         try {
-            cmd = new GetAnsweredQuizzesCommand(id);
+            cmd = new GetAnsweredQuizzesCommand(params[0]);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (SignatureException e) {
             e.printStackTrace();
         }
 
+
         try{
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
@@ -84,17 +72,8 @@ public class GetAnsweredQuizzesTask extends AsyncTask<String, Void, List<String>
     @Override
     protected void onPostExecute(List<String> o){
         if(o != null){
-            try{
-                quizActivity.checkQuizz(o);
-            }catch (Exception e){
-                Log.d("Quizz ", "Invalid Activity!");
-            }
 
-            try{
-                readQuizzAnswersActivity.updateInterface(o);
-            }catch (Exception e){
-                Log.d("Read Quizz Answers", "Invalid Activity!");
-            }
+            activity.updateAnsweredQuizz(o);
         }
     }
 }

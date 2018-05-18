@@ -16,6 +16,7 @@ import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketServer;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
 /**
  * Socket that keeps listening to receive shared results
@@ -75,7 +76,7 @@ public class ReceivesSharesService extends Service {
 
             try {
                 mSrvSocket = new SimWifiP2pSocketServer(
-                        Integer.parseInt(getString(R.string.port)));
+                        Integer.parseInt(getString(R.string.termitePort)));
             } catch (IOException e) {
                 e.printStackTrace();
                 return null;

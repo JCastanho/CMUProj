@@ -3,18 +3,24 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.client;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocket;
 import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketManager;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetAnsweredQuizzesTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.GetCorrectAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.models.ResultAdapter;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.network.SendMessageTask;
+import pt.ulisboa.tecnico.cmov.hoponcmu.command.GetCorrectAnswersCommand;
 
 public class ListResultsActivity extends AppCompatActivity {
 
@@ -22,29 +28,46 @@ public class ListResultsActivity extends AppCompatActivity {
 	private ArrayList<String> array;
 	private String userAddress;
 	private String username;
+	private ApplicationContextProvider applicationContext;
+	private int userId;
+	private boolean mutex;
+	private boolean finished;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_listrslt);
 
-		SimWifiP2pSocketManager.Init(getApplicationContext());
+		applicationContext = (ApplicationContextProvider) getApplicationContext();
+
+		SimWifiP2pSocketManager.Init(applicationContext);
 
 		Bundle extras = getIntent().getExtras();
 		userAddress = extras.getString("UserAddr");
 		username = extras.getString("Username");
+		userId = extras.getInt("id");
 
 		ListView lResults = (ListView) findViewById(R.id.list_results);
 		setAdapter(lResults);
+
+		mutex = true;
+		finished = true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if(item.getItemId() == R.id.sendResults){
 			String results = "";
+			ArrayList<String> checkedResults = adapter.getCheckedResults();
+			int lastResultPos = checkedResults.size();
 
-			for(String rslt: adapter.getCheckedResults()){
-				results += rslt + ",";
+			for(int position = 0; position < lastResultPos; position++){
+
+				if(position != position-1){
+					results += checkedResults.get(position) + ",";
+				} else {
+					results += checkedResults.get(position);
+				}
 			}
 
 			new SendMessageTask(ListResultsActivity.this).executeOnExecutor(
@@ -66,15 +89,37 @@ public class ListResultsActivity extends AppCompatActivity {
 
 	private void setAdapter(ListView listView) {
 		array = new ArrayList<>();
-		array.add("100%");
-		array.add("50%");
-		array.add("70%");
 
-		// TODO: Get results in server
-		//new GetCorrectAnswersCommand().execute()
+		List<String> answeredQuizzes = applicationContext.getAnsweredQuizzes();
+		HashMap<String, List<Integer>> quizzResults = applicationContext.getQuizzResults();
 
-		adapter = new ResultAdapter(this,array);
+		for(String answeredQuizz: answeredQuizzes){
+			Log.d("ListResultsActivity",answeredQuizz);
+			if(quizzResults.containsKey(answeredQuizz)){
+				//mutex(false);
+				array.add(quizzResults.get(answeredQuizz)+ "correct answers for quiz " + answeredQuizz);
+				//mutex(true);
+			/*} else {
+				finished = false;
+				new GetCorrectAnswersTask(ListResultsActivity.this).execute(""+userId,answeredQuizz);*/
+			}
+		}
 
+		//if(finished) {
+		adapter = new ResultAdapter(this, array);
 		listView.setAdapter(adapter);
+		//}
+	}
+
+	public void mutex(Boolean isOpen){
+		mutex = isOpen;
+	}
+
+	public void updateInterface(String monument, List<Integer> o) {
+		//while()
+		array.add(o.get(0) + " correct answers for quiz " + monument);
+		finished = true;
+			//mutex(true);
+		//}
 	}
 }

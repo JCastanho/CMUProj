@@ -23,7 +23,7 @@ import pt.ulisboa.tecnico.cmov.hoponcmu.client.MainActivity;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.GetQuizzesResponse;
 import pt.ulisboa.tecnico.cmov.hoponcmu.response.LoginResponse;
 
-public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Question>>> {
+public class GetQuizzTask extends AsyncTask<String, Void, List<Question>> {
 
     private ListLocalsActivity activity;
     private QuizActivity quizActivity;
@@ -40,19 +40,19 @@ public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Q
     }
 
     @Override
-    protected HashMap<String, List<Question>> doInBackground(String[] params) {
+    protected List<Question> doInBackground(String[] params) {
         Socket server = null;
-        HashMap<String, List<Question>> reply = new HashMap<>();
-        List<Question> questionList = new ArrayList<>();
+        List<Question> reply = new ArrayList<>();
         GetQuizzesCommand hc = null;
         try {
             hc = new GetQuizzesCommand(userId,params[0]);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         try {
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(hc);
@@ -60,13 +60,10 @@ public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Q
             ObjectInputStream ois = new ObjectInputStream(server.getInputStream());
             GetQuizzesResponse hr = (GetQuizzesResponse) ois.readObject();
 
-            if(hr.securityCheck())
-            {
-                for(int i = 0; i < hr.getQuestion().size(); i++){
-                    questionList.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
+            if(hr.securityCheck()) {
+                for (int i = 0; i < hr.getQuestion().size(); i++) {
+                    reply.add(new Question(hr.getQuestion().get(i), hr.getAnswers().get(i)));
                 }
-
-                reply.put(hr.getLocation(), questionList);
             }
 
             oos.close();
@@ -86,7 +83,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, HashMap<String, List<Q
     }
 
     @Override
-    protected void onPostExecute(HashMap<String, List<Question>> o) {
+    protected void onPostExecute(List<Question> o) {
         if (o != null) {
             try{
                 activity.getQuizzes(o);
