@@ -134,7 +134,7 @@ public class SendQuizzesAnswersCommand implements Command {
 
         EncryptionUtils encryption = new EncryptionUtils("clientPublicKey.key", "serverPrivateKey.key");
 
-        String replicateSignature = nonce + this.getInternalId() + this.getInternalQuizzTitle() + this.getInternalQuizzAnswers().toString();
+        String replicateSignature = nonce + this.getInternalId() + this.getInternalQuizzTitle() + this.getInternalQuizzAnswers().toString() + this.getInternalTime();
 
         this.verified = encryption.verifySignature(replicateSignature.getBytes("UTF-8"),signature);
     }

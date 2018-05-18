@@ -8,15 +8,7 @@ package pt.ulisboa.tecnico.cmov.hoponcmu.authentication;
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
 
 import pt.ulisboa.tecnico.cmov.hoponcmu.utils.EncryptionUtils;
@@ -321,16 +313,18 @@ public class Session {
 			
 			// Test Freshness
 			Calendar nonceCalendar = Calendar.getInstance();
-			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM d HH:mm:ss zzz yyyy");
+			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.US);
 			nonceCalendar.setTime(sdf.parse(parts[1]));
 			
 			Date nonceDate = nonceCalendar.getTime();
 			Calendar now = Calendar.getInstance();
-			
+			Date dNow = now.getTime();
+
 			Calendar limit = now;
-			limit.add(Calendar.HOUR, -1);
-			
-			if(limit.before(nonceDate) && now.after(nonceDate)) {
+			limit.add(Calendar.HOUR, -2);
+			Date dLimit = limit.getTime();
+
+			if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
 				nonces.add(nonce);
 				return nonce;
 			};
