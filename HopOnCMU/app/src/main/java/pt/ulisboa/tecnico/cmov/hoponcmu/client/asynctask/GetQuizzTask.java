@@ -54,7 +54,7 @@ public class GetQuizzTask extends AsyncTask<String, Void, List<Question>> {
 
         try {
             //If you're not using geny emulator use 10.0.2.2
-            server = new Socket("10.0.2.2", 9090);
+            server = new Socket("10.0.3.2", 9090);
 
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(hc);

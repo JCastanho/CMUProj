@@ -47,26 +47,27 @@ public class ListLocalsActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
                 String text = (String) listView.getItemAtPosition(position);
 
-                //if(Singleton.getInstance.nearBeacon(position+1)) {
                 currentQuizz = text;
 
                 if (Singleton.getInstance().checkAnsweredQuizz(currentQuizz)) {
                     Toast.makeText(ListLocalsActivity.this, "You already answered this quizz!", Toast.LENGTH_SHORT).show();
                 } else {
                     if (Singleton.getInstance().checkDownloadedQuizz(currentQuizz)) {
-                        startQuiz();
+                        if(Singleton.getInstance().betweenStops()) {
+                            startQuiz();
+                        } else {
+                            Toast.makeText(ListLocalsActivity.this, "You need to be between stops to answer the quizz", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
+                        if(Singleton.getInstance().nearBeacon(position+1)) {
+                            Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
 
-                        Toast.makeText(ListLocalsActivity.this, "Downloading quiz for: " + text, Toast.LENGTH_SHORT).show();
-
-                    // Show a progress spinner, and kick off a background task to
-                    // perform the user login attempt.
-                    task = new GetQuizzTask(ListLocalsActivity.this, userId, (ApplicationContextProvider) getApplicationContext());
-                    task.execute(text);
-                }
-                /*} else {
-                  Toast.makeText(ListLocalsActivity.this, "You are not near " + text, Toast.LENGTH_SHORT).show();
-                }*/
+                            task = new GetQuizzTask(ListLocalsActivity.this, userId, (ApplicationContextProvider) getApplicationContext());
+                            task.execute(text);
+                        } else {
+                            Toast.makeText(ListLocalsActivity.this, "You are not near beacon " + text, Toast.LENGTH_SHORT).show();
+                        }
+                    }
                 }
             }
         });
@@ -76,7 +77,6 @@ public class ListLocalsActivity extends AppCompatActivity {
         Log.d("List Locals", "quizz received");
         Toast.makeText(this, "Quizzes received!", Toast.LENGTH_SHORT).show();
         Singleton.getInstance().addQuizz(currentQuizz, quizz);
-        startQuiz();
     }
 
     public void startQuiz(){

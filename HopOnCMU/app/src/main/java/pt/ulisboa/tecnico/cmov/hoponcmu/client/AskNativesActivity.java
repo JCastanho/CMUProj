@@ -46,7 +46,7 @@ public class AskNativesActivity extends PeerListenerActivity{
 						Integer.parseInt(getString(R.string.termitePort)));
 
 				mCliSocket.getOutputStream().write(("2-").getBytes());
-				//mCliSocket.getOutputStream().write((cmd).getBytes());
+				//mCliSocket.getOutputStream().write((cmd)Bytes());
 
 				BufferedReader sockIn = new BufferedReader(
 						new InputStreamReader(mCliSocket.getInputStream()));
@@ -65,9 +65,9 @@ public class AskNativesActivity extends PeerListenerActivity{
 		@Override
 		protected void onPostExecute(String result) {
 			if (result != null) {
-				Toast.makeText(getBaseContext(),result,Toast.LENGTH_SHORT).show();
+				Toast.makeText(AskNativesActivity.this,result,Toast.LENGTH_SHORT).show();
 			} else {
-				Toast.makeText(getBaseContext(),"Results Sent!",Toast.LENGTH_SHORT).show();
+				Toast.makeText(AskNativesActivity.this,"Results Sent!",Toast.LENGTH_SHORT).show();
 			}
 		}
 	}

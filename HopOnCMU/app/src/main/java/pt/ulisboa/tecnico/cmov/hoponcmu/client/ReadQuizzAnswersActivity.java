@@ -42,7 +42,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
                 text = (String) listView.getItemAtPosition(position);
 
                 if(Singleton.getInstance().checkQuizzResults(text)){
-                    Toast.makeText(ReadQuizzAnswersActivity.this, Singleton.getInstance().getQuizzResults().get(text).get(0) + " 22222222 correct answers in " + Singleton.getInstance().getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ReadQuizzAnswersActivity.this, Singleton.getInstance().getQuizzResults().get(text).get(0) + " correct answers in " + Singleton.getInstance().getQuizzResults().get(text).get(1) + " seconds", Toast.LENGTH_SHORT).show();
                 }
                 else{
                     GetCorrectAnswersTask task = new GetCorrectAnswersTask(ReadQuizzAnswersActivity.this, (ApplicationContextProvider) getApplicationContext());
@@ -55,7 +55,7 @@ public class ReadQuizzAnswersActivity extends AppCompatActivity {
     public void correctAnswers(List<Integer> answers){
         if (answers != null){
             Singleton.getInstance().addQuizzResults(text,answers);
-            Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " 111111111 correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ReadQuizzAnswersActivity.this, answers.get(0) + " correct answers in " + answers.get(1) + " seconds", Toast.LENGTH_SHORT).show();
         }
         else{
             Toast.makeText(ReadQuizzAnswersActivity.this, "You didn't answer this Quizz", Toast.LENGTH_SHORT).show();

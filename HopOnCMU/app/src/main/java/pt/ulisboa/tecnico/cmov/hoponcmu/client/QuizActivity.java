@@ -264,7 +264,6 @@ public class QuizActivity extends AppCompatActivity {
             getAnswersSend().add(button.getText().toString());
             task = new SendQuizzAnswersTask(QuizActivity.this, userdId, (ApplicationContextProvider) getApplicationContext());
             task.execute(getMonumento());
-            QuizActivity.this.finish();
         }
         else{
             Toast.makeText(this, "Please select answer", Toast.LENGTH_SHORT).show();
@@ -286,6 +285,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void updateInterface(Integer id) {
+        Log.d("Quiz Activity",""+id);
         if(id == Integer.parseInt(getString(R.string.non_native_user_error))){
             Log.d("Quiz Activity","-2");
             Intent intent = new Intent(QuizActivity.this, AskNativesActivity.class);
@@ -305,5 +305,7 @@ public class QuizActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Failed sending the quizz answers", Toast.LENGTH_SHORT).show();
         }
+
+        QuizActivity.this.finish();
     }
 }

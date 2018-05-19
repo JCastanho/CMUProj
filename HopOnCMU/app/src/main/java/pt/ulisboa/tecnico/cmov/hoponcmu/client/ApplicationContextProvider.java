@@ -52,8 +52,8 @@ public class ApplicationContextProvider extends Application{
             Date dLimit = limit.getTime();
 
 
+            now.add(Calendar.HOUR, 4);
             now.add(Calendar.HOUR, 2);
-            now.add(Calendar.MINUTE, 2);
             Date dNow = now.getTime();
 
             if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {
@@ -64,36 +64,5 @@ public class ApplicationContextProvider extends Application{
             e.printStackTrace();
         }
         return "NOK";
-    }
-
-    private void cleanNonces() {
-        try {
-            Calendar now = Calendar.getInstance();
-            Calendar scheduled = now;
-            scheduled.add(Calendar.DATE, -1);
-
-            if(scheduled.before(lastClear)) {
-                for(String nonce : nonces) {
-                    String[] parts = nonce.split("#");
-
-
-                    Calendar nonceCalendar = Calendar.getInstance();
-                    SimpleDateFormat sdf = new SimpleDateFormat();
-                    nonceCalendar.setTime(sdf.parse(parts[1]));
-                    Date nonceDate = nonceCalendar.getTime();
-
-                    Calendar limit = now;
-                    limit.add(Calendar.HOUR, -1);
-
-                    if(limit.after(nonceDate)) {
-                        nonces.remove(nonce);
-                    };
-                }
-
-                lastClear = Calendar.getInstance().getTime();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 }

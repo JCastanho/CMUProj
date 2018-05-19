@@ -327,12 +327,11 @@ public class Session {
 			Calendar now = Calendar.getInstance();
 
 			Calendar limit = now;
-			limit.add(Calendar.HOUR, -2);
+			limit.add(Calendar.HOUR, -6);
 			Date dLimit = limit.getTime();
 
 
-            now.add(Calendar.HOUR, 2);
-            now.add(Calendar.HOUR, 2);
+            now.add(Calendar.HOUR, 6);
             Date dNow = now.getTime();
 
 			if(dLimit.before(nonceDate) && dNow.after(nonceDate)) {

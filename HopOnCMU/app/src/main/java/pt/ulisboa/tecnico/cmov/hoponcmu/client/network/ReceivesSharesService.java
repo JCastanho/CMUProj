@@ -17,6 +17,7 @@ import pt.inesc.termite.wifidirect.sockets.SimWifiP2pSocketServer;
 import pt.ulisboa.tecnico.cmov.hoponcmu.R;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.ApplicationContextProvider;
 import pt.ulisboa.tecnico.cmov.hoponcmu.client.Singleton;
+import pt.ulisboa.tecnico.cmov.hoponcmu.client.asynctask.SendQuizzAnswersTask;
 import pt.ulisboa.tecnico.cmov.hoponcmu.command.SendQuizzesAnswersCommand;
 
 /**
@@ -95,8 +96,7 @@ public class ReceivesSharesService extends Service {
                         String[] code = st.split("-");
 
                         if(code[0].equals("2")){
-                          //  new SendQuizzAnswersTask(code[]).execute();
-
+                            //new SendQuizzAnswersTask(cmd).execute("");
                         } else {
                             publishProgress(code[1]);
                         }

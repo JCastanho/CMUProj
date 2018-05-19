@@ -43,8 +43,8 @@ public class SimWifiP2pBroadcastReceiver extends BroadcastReceiver {
         	SimWifiP2pInfo ginfo = (SimWifiP2pInfo) intent.getSerializableExtra(
         			SimWifiP2pBroadcast.EXTRA_GROUP_INFO);
         	ginfo.print();
-    		Toast.makeText(context, "Network membership changed",
-    				Toast.LENGTH_SHORT).show();
+    		/*Toast.makeText(context, "Network membership changed",
+    				Toast.LENGTH_SHORT).show();*/
             Singleton.getInstance().updateGroupPeers();
 
         } else if (SimWifiP2pBroadcast.WIFI_P2P_GROUP_OWNERSHIP_CHANGED_ACTION.equals(action)) {

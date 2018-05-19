@@ -21,6 +21,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
     private QuizActivity activity;
     private int id;
     private ApplicationContextProvider context;
+    //private SendQuizzesAnswersCommand cmd;
 
     public SendQuizzAnswersTask(QuizActivity activity, int id, ApplicationContextProvider context) {
         this.activity = activity;
@@ -28,12 +29,17 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         this.context = context;
     }
 
+    /*public SendQuizzAnswersTask(SendQuizzesAnswersCommand cmd){
+        this.cmd = cmd;
+    }*/
+
     @Override
     protected Integer doInBackground(String[] params) {
         Socket server = null;
         int reply = -1;
         SendQuizzesAnswersCommand cmd = null;
         try {
+            //if(cmd != null)
             cmd = new SendQuizzesAnswersCommand(id, params[0], activity.getAnswersSend(), activity.getTimeForQuizz());
 //            Log.d("TIME TASK: ",""+cmd.getTime());
         } catch (Exception e) {
@@ -43,7 +49,7 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         try{
             //If you're not using geny emulator use 10.0.2.2
             server = new Socket();
-            server.connect( new InetSocketAddress("10.0.2.2", 9090),4000);
+            server.connect( new InetSocketAddress("10.0.3.2", 9090),4000);
             ObjectOutputStream oos = new ObjectOutputStream(server.getOutputStream());
             oos.writeObject(cmd);
 
@@ -60,8 +66,8 @@ public class SendQuizzAnswersTask extends AsyncTask<String, Void, Integer> {
         } catch (java.net.SocketTimeoutException e){
             //Foreign user
             //-2 bc when server couldn't save the answers is sends -1
-            reply = R.string.non_native_user_error;
-            Log.d("Client", "-2 " + e.getMessage());
+            reply = -2;
+            Log.d("Client", -2 + e.getMessage());
         } catch (Exception e) {
             Log.d("Client", "Send Quizz Answers failed " + e.getMessage());
             e.printStackTrace();
